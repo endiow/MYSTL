@@ -1,0 +1,56 @@
+[
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/googletest/googlemock",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/gmock.dir/includes_CXX.rsp -g -std=c++17 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gmock.dir\\src\\gmock-all.cc.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\googletest\\googlemock\\src\\gmock-all.cc",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googlemock/src/gmock-all.cc",
+  "output": "googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/googletest/googlemock",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/gmock_main.dir/includes_CXX.rsp -g -std=c++17 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gmock_main.dir\\src\\gmock_main.cc.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\googletest\\googlemock\\src\\gmock_main.cc",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googlemock/src/gmock_main.cc",
+  "output": "googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/googletest/googletest",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/gtest.dir/includes_CXX.rsp -g -std=c++17 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gtest.dir\\src\\gtest-all.cc.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\googletest\\googletest\\src\\gtest-all.cc",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/src/gtest-all.cc",
+  "output": "googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/googletest/googletest",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/gtest_main.dir/includes_CXX.rsp -g -std=c++17 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=0 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles\\gtest_main.dir\\src\\gtest_main.cc.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\googletest\\googletest\\src\\gtest_main.cc",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/src/gtest_main.cc",
+  "output": "googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\vector_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\vector_test.cpp",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/vector_test.cpp",
+  "output": "test/CMakeFiles/mystl_test.dir/vector_test.cpp.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\algorithm_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\algorithm_test.cpp",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/algorithm_test.cpp",
+  "output": "test/CMakeFiles/mystl_test.dir/algorithm_test.cpp.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\iterator_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\iterator_test.cpp",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/iterator_test.cpp",
+  "output": "test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\allocator_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\allocator_test.cpp",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/allocator_test.cpp",
+  "output": "test/CMakeFiles/mystl_test.dir/allocator_test.cpp.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\algorithm_base_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\algorithm_base_test.cpp",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/algorithm_base_test.cpp",
+  "output": "test/CMakeFiles/mystl_test.dir/algorithm_base_test.cpp.obj"
+}
+]

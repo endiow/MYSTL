@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test/mystl_test[1]_tests.cmake")
+  include("C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test/mystl_test[1]_tests.cmake")
+else()
+  add_test(mystl_test_NOT_BUILT mystl_test_NOT_BUILT)
+endif()

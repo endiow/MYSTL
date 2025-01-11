@@ -1,0 +1,3 @@
+C:\software\CMake\ccmake\bin\cmake.exe -E rm -f CMakeFiles\mystl_test.dir/objects.a
+C:\software\msys2\MSYS\ucrt64\bin\ar.exe qc CMakeFiles\mystl_test.dir/objects.a @CMakeFiles\mystl_test.dir\objects1.rsp
+C:\software\msys2\MSYS\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\mystl_test.dir/objects.a -Wl,--no-whole-archive -o ..\bin\mystl_test.exe -Wl,--out-implib,..\lib\libmystl_test.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\mystl_test.dir\linkLibs.rsp
