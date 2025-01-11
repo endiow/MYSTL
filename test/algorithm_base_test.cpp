@@ -2,12 +2,14 @@
 #include "mystl/algorithm_base.hpp"
 #include <vector>
 
-TEST(AlgorithmBaseTest, MinMax) {
+TEST(AlgorithmBaseTest, MinMax) 
+{
     EXPECT_EQ(mystl::min(3, 5), 3);
     EXPECT_EQ(mystl::max(3, 5), 5);
 }
 
-TEST(AlgorithmBaseTest, Equal) {
+TEST(AlgorithmBaseTest, Equal) 
+{
     std::vector<int> v1 = {1, 2, 3};
     std::vector<int> v2 = {1, 2, 3};
     std::vector<int> v3 = {1, 2, 4};
@@ -16,7 +18,8 @@ TEST(AlgorithmBaseTest, Equal) {
     EXPECT_FALSE(mystl::equal(v1.begin(), v1.end(), v3.begin()));
 }
 
-TEST(AlgorithmBaseTest, Mismatch) {
+TEST(AlgorithmBaseTest, Mismatch) 
+{
     std::vector<int> v1 = {1, 2, 3};
     std::vector<int> v2 = {1, 2, 4};
     
@@ -25,7 +28,8 @@ TEST(AlgorithmBaseTest, Mismatch) {
     EXPECT_EQ(*result.second, 4);
 }
 
-TEST(AlgorithmBaseTest, LexicographicalCompare) {
+TEST(AlgorithmBaseTest, LexicographicalCompare) 
+{
     std::vector<int> v1 = {1, 2, 3};
     std::vector<int> v2 = {1, 2, 4};
     std::vector<int> v3 = {1, 2};
@@ -35,7 +39,8 @@ TEST(AlgorithmBaseTest, LexicographicalCompare) {
     EXPECT_TRUE(mystl::lexicographical_compare(v3.begin(), v3.end(), v1.begin(), v1.end()));
 }
 
-TEST(AlgorithmBaseTest, Copy) {
+TEST(AlgorithmBaseTest, Copy) 
+{
     std::vector<int> src = {1, 2, 3};
     std::vector<int> dst(3);
     
@@ -43,7 +48,8 @@ TEST(AlgorithmBaseTest, Copy) {
     EXPECT_TRUE(mystl::equal(src.begin(), src.end(), dst.begin()));
 }
 
-TEST(AlgorithmBaseTest, CopyBackward) {
+TEST(AlgorithmBaseTest, CopyBackward) 
+{
     std::vector<int> src = {1, 2, 3};
     std::vector<int> dst(3);
     
@@ -51,7 +57,8 @@ TEST(AlgorithmBaseTest, CopyBackward) {
     EXPECT_TRUE(mystl::equal(src.begin(), src.end(), dst.begin()));
 }
 
-TEST(AlgorithmBaseTest, CopyIf) {
+TEST(AlgorithmBaseTest, CopyIf) 
+{
     std::vector<int> src = {1, 2, 3, 4, 5};
     std::vector<int> dst;
     
@@ -62,7 +69,8 @@ TEST(AlgorithmBaseTest, CopyIf) {
     EXPECT_EQ(dst[1], 4);
 }
 
-TEST(AlgorithmBaseTest, Move) {
+TEST(AlgorithmBaseTest, Move) 
+{
     std::vector<std::unique_ptr<int>> src;
     src.push_back(std::make_unique<int>(1));
     src.push_back(std::make_unique<int>(2));
@@ -75,7 +83,8 @@ TEST(AlgorithmBaseTest, Move) {
     EXPECT_EQ(src[1], nullptr);
 }
 
-TEST(AlgorithmBaseTest, Fill) {
+TEST(AlgorithmBaseTest, Fill) 
+{
     std::vector<int> v(3);
     mystl::fill(v.begin(), v.end(), 42);
     EXPECT_EQ(v[0], 42);
@@ -83,7 +92,8 @@ TEST(AlgorithmBaseTest, Fill) {
     EXPECT_EQ(v[2], 42);
 }
 
-TEST(AlgorithmBaseTest, FillN) {
+TEST(AlgorithmBaseTest, FillN) 
+{
     std::vector<int> v(3);
     mystl::fill_n(v.begin(), 2, 42);
     EXPECT_EQ(v[0], 42);
@@ -91,7 +101,8 @@ TEST(AlgorithmBaseTest, FillN) {
     EXPECT_EQ(v[2], 0);
 }
 
-TEST(AlgorithmBaseTest, IterSwap) {
+TEST(AlgorithmBaseTest, IterSwap) 
+{
     int a = 1, b = 2;
     mystl::iter_swap(&a, &b);
     EXPECT_EQ(a, 2);

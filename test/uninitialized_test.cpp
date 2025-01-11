@@ -4,7 +4,8 @@
 #include <vector>
 
 // 用于测试的简单类
-class TestClass {
+class TestClass 
+{
 public:
     static int constructor_count;
     static int destructor_count;
@@ -16,7 +17,8 @@ public:
     
     int value() const { return value_; }
     
-    static void reset_counters() {
+    static void reset_counters() 
+    {
         constructor_count = 0;
         destructor_count = 0;
     }
@@ -28,7 +30,8 @@ private:
 int TestClass::constructor_count = 0;
 int TestClass::destructor_count = 0;
 
-TEST(UninitializedTest, UninitializedFill) {
+TEST(UninitializedTest, UninitializedFill) 
+{
     TestClass::reset_counters();
     
     alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
@@ -47,7 +50,8 @@ TEST(UninitializedTest, UninitializedFill) {
     EXPECT_EQ(TestClass::destructor_count, 3);
 }
 
-TEST(UninitializedTest, UninitializedFillN) {
+TEST(UninitializedTest, UninitializedFillN) 
+{
     TestClass::reset_counters();
     
     alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
@@ -65,7 +69,8 @@ TEST(UninitializedTest, UninitializedFillN) {
     EXPECT_EQ(TestClass::destructor_count, 3);
 }
 
-TEST(UninitializedTest, UninitializedCopy) {
+TEST(UninitializedTest, UninitializedCopy) 
+{
     TestClass::reset_counters();
     
     std::vector<TestClass> src;
@@ -87,7 +92,8 @@ TEST(UninitializedTest, UninitializedCopy) {
     EXPECT_EQ(TestClass::destructor_count, 3);
 }
 
-TEST(UninitializedTest, UninitializedMove) {
+TEST(UninitializedTest, UninitializedMove) 
+{
     TestClass::reset_counters();
     
     std::vector<TestClass> src;
@@ -109,7 +115,8 @@ TEST(UninitializedTest, UninitializedMove) {
     EXPECT_EQ(TestClass::destructor_count, 3);
 }
 
-TEST(UninitializedTest, Destroy) {
+TEST(UninitializedTest, Destroy) 
+{
     TestClass::reset_counters();
     
     alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
@@ -125,7 +132,8 @@ TEST(UninitializedTest, Destroy) {
     EXPECT_EQ(TestClass::destructor_count, 3);
 }
 
-TEST(UninitializedTest, DestroyAt) {
+TEST(UninitializedTest, DestroyAt) 
+{
     TestClass::reset_counters();
     
     alignas(TestClass) unsigned char buffer[sizeof(TestClass)];

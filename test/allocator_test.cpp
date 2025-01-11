@@ -2,7 +2,8 @@
 #include "mystl/allocator.hpp"
 
 // 测试基本分配和释放
-TEST(AllocatorTest, BasicAllocation) {
+TEST(AllocatorTest, BasicAllocation) 
+{
     mystl::allocator<int> alloc;
     
     // 分配单个对象
@@ -17,7 +18,8 @@ TEST(AllocatorTest, BasicAllocation) {
 }
 
 // 测试构造和析构
-TEST(AllocatorTest, ConstructDestroy) {
+TEST(AllocatorTest, ConstructDestroy) 
+{
     mystl::allocator<std::string> alloc;
     
     // 分配内存
@@ -35,7 +37,8 @@ TEST(AllocatorTest, ConstructDestroy) {
 }
 
 // 测试复杂类型
-class ComplexType {
+class ComplexType 
+{
 public:
     static int constructor_count;
     static int destructor_count;
@@ -43,7 +46,8 @@ public:
     ComplexType() { ++constructor_count; }
     ~ComplexType() { ++destructor_count; }
     
-    static void reset_counters() {
+    static void reset_counters() 
+    {
         constructor_count = 0;
         destructor_count = 0;
     }
@@ -52,20 +56,23 @@ public:
 int ComplexType::constructor_count = 0;
 int ComplexType::destructor_count = 0;
 
-TEST(AllocatorTest, ComplexTypeAllocation) {
+TEST(AllocatorTest, ComplexTypeAllocation) 
+{
     ComplexType::reset_counters();
     mystl::allocator<ComplexType> alloc;
     
     // 分配并构造对象数组
     ComplexType* arr = alloc.allocate(3);
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i) 
+    {
         alloc.construct(arr + i);
     }
     
     EXPECT_EQ(ComplexType::constructor_count, 3);
     
     // 析构并释放对象数组
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i) 
+    {
         alloc.destroy(arr + i);
     }
     alloc.deallocate(arr, 3);
@@ -74,11 +81,13 @@ TEST(AllocatorTest, ComplexTypeAllocation) {
 }
 
 // 测试异常情况
-TEST(AllocatorTest, ExceptionCases) {
+TEST(AllocatorTest, ExceptionCases) 
+{
     mystl::allocator<int> alloc;
     
     // 测试分配大小为0的内存
-    EXPECT_NO_THROW({
+    EXPECT_NO_THROW(
+    {
         int* p = alloc.allocate(0);
         alloc.deallocate(p, 0);
     });
@@ -88,7 +97,8 @@ TEST(AllocatorTest, ExceptionCases) {
 }
 
 // 测试不同类型的分配器
-TEST(AllocatorTest, DifferentTypes) {
+TEST(AllocatorTest, DifferentTypes) 
+{
     mystl::allocator<int> int_alloc;
     mystl::allocator<double> double_alloc;
     mystl::allocator<char> char_alloc;
