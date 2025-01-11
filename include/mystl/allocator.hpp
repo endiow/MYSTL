@@ -15,7 +15,7 @@ namespace mystl
     };
 
     // 内存池实现：为特定类型T提供内存分配和管理
-    template<class T, std::size_t BlockSize = 4096>
+    template<class T, size_t BlockSize = 4096>
     class MemoryPool 
     {
     private:
@@ -27,25 +27,25 @@ namespace mystl
         };
 
         // 常量定义
-        static constexpr std::size_t NUM_FREE_LISTS = 16;  // 空闲列表数量，管理不同大小的内存块
-        static constexpr std::size_t ALIGN = alignof(std::max_align_t);  // 内存对齐要求
-        static constexpr std::size_t BLOCK_SIZE = BlockSize;  // 每次分配的大块内存大小
-        static constexpr std::size_t MAX_BYTES = 256;  // 小对象的阈值，超过此大小直接使用malloc
+        static constexpr size_t NUM_FREE_LISTS = 16;  // 空闲列表数量，管理不同大小的内存块
+        static constexpr size_t ALIGN = alignof(max_align_t);  // 内存对齐要求
+        static constexpr size_t BLOCK_SIZE = BlockSize;  // 每次分配的大块内存大小
+        static constexpr size_t MAX_BYTES = 256;  // 小对象的阈值，超过此大小直接使用malloc
 
         // 成员变量
         MemoryBlock* free_lists[NUM_FREE_LISTS]{};  // 空闲列表数组，每个列表管理特定大小的块
         MemoryChunk* chunks{nullptr};  // 已分配的大块内存链表
         char* memory_chunk{nullptr};   // 当前正在使用的内存块指针
-        std::size_t chunk_size{0};          // 当前内存块剩余大小
+        size_t chunk_size{0};          // 当前内存块剩余大小
 
         // 工具函数：计算对齐后的大小
-        static std::size_t align_up(std::size_t n) noexcept 
+        static size_t align_up(size_t n) noexcept 
         {
             return (n + ALIGN - 1) & ~(ALIGN - 1);  // 向上取整到ALIGN的倍数
         }
 
         // 工具函数：计算合适的空闲列表索引
-        static std::size_t free_list_index(std::size_t bytes) noexcept 
+        static size_t free_list_index(size_t bytes) noexcept 
         {
             return (bytes + sizeof(MemoryBlock) - 1) / sizeof(MemoryBlock) - 1;
         }
@@ -91,12 +91,12 @@ namespace mystl
         {
             if (n == 0) return nullptr;
             
-            std::size_t bytes = align_up(n * sizeof(T));
+            size_t bytes = align_up(n * sizeof(T));
 
             // 小对象从空闲列表分配
             if (bytes <= MAX_BYTES) 
             {
-                std::size_t index = free_list_index(bytes);
+                size_t index = free_list_index(bytes);
                 // 如果空闲列表有可用块，直接使用
                 if (free_lists[index]) 
                 {
@@ -137,11 +137,11 @@ namespace mystl
         {
             if (!p) return;
             
-            std::size_t bytes = align_up(n * sizeof(T));
+            size_t bytes = align_up(n * sizeof(T));
             if (bytes <= MAX_BYTES) 
             {
                 // 小对象放回对应的空闲列表
-                std::size_t index = free_list_index(bytes);
+                size_t index = free_list_index(bytes);
                 auto block = reinterpret_cast<MemoryBlock*>(p);
                 block->next = free_lists[index];
                 free_lists[index] = block;
@@ -157,7 +157,7 @@ namespace mystl
         template<typename... Args>
         void construct(T* p, Args&&... args) 
         {
-            if (p) ::new(static_cast<void*>(p)) T(std::forward<Args>(args)...);
+            if (p) ::new(static_cast<void*>(p)) T(mystl::forward<Args>(args)...);
         }
 
         // 析构对象但不释放内存
@@ -181,8 +181,8 @@ namespace mystl
         using const_pointer = const T*;
         using reference = T&;
         using const_reference = const T&;
-        using size_type = std::size_t;
-        using difference_type = std::ptrdiff_t;
+        using size_type = size_t;
+        using difference_type = ptrdiff_t;
 
         // 允许分配器在不同类型间转换
         template<typename U>
@@ -197,7 +197,7 @@ namespace mystl
         pointer allocate(size_type n) 
         {
             if (n > max_size()) 
-                throw std::length_error("allocator<T>::allocate() - Integer overflow.");
+                throw length_error("allocator<T>::allocate() - Integer overflow.");
             return pool.allocate(n);
         }
 

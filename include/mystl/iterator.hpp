@@ -13,7 +13,7 @@ namespace mystl
     struct random_access_iterator_tag : public bidirectional_iterator_tag {};  // 随机访问迭代器
 
     // 迭代器基类
-    template<class Category, class T, class Distance = mystl::ptrdiff_t, class Pointer = T*, class Reference = T&>
+    template<class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
     struct iterator 
     {
         using iterator_category = Category;  // 迭代器类别
@@ -30,17 +30,17 @@ namespace mystl
     private:
         // 检查是否有迭代器类型
         template<class U> 
-        static auto check_iter(int) -> decltype(typename U::iterator_category(), std::true_type());
+        static auto check_iter(int) -> decltype(typename U::iterator_category(), true_type());
         
         // 检查是否是指针
         template<class U>
-        static auto check_ptr(int) -> typename std::enable_if<std::is_pointer<U>::value, std::true_type>::type;
+        static auto check_ptr(int) -> typename enable_if<is_pointer<U>::value, true_type>::type;
         
         // 默认情况
         template<class U> 
-        static std::false_type check_iter(...);
+        static false_type check_iter(...);
         template<class U> 
-        static std::false_type check_ptr(...);
+        static false_type check_ptr(...);
 
     public:
         static constexpr bool value = decltype(check_iter<T>(0))::value || decltype(check_ptr<T>(0))::value;
@@ -68,7 +68,7 @@ namespace mystl
     struct iterator_traits<T*> 
     {
         using iterator_category = random_access_iterator_tag;
-        using value_type = std::remove_cv_t<T>;
+        using value_type = remove_cv_t<T>;
         using difference_type = ptrdiff_t;
         using pointer = T*;
         using reference = T&;
@@ -78,7 +78,7 @@ namespace mystl
     struct iterator_traits<const T*> 
     {
         using iterator_category = random_access_iterator_tag;
-        using value_type = std::remove_cv_t<T>;
+        using value_type = remove_cv_t<T>;
         using difference_type = ptrdiff_t;
         using pointer = const T*;
         using reference = const T&;
@@ -91,35 +91,35 @@ namespace mystl
     template<class Iterator>
     // has_iterator_type<Iterator>::value返回true时，才使用Iterator的类型
     //即验证迭代器是否是输入迭代器前提，必须是迭代器
-    struct is_input_iterator<Iterator, typename std::enable_if<has_iterator_type<Iterator>::value>::type> 
+    struct is_input_iterator<Iterator, typename enable_if<has_iterator_type<Iterator>::value>::type> 
         : bool_constant<is_convertible<typename iterator_traits<Iterator>::iterator_category, input_iterator_tag>::value> {};
 
     template<class Iterator, class = void>
     struct is_output_iterator : false_type {};
 
     template<class Iterator>
-    struct is_output_iterator<Iterator, typename std::enable_if<has_iterator_type<Iterator>::value>::type> 
+    struct is_output_iterator<Iterator, typename enable_if<has_iterator_type<Iterator>::value>::type> 
         : bool_constant<is_convertible<typename iterator_traits<Iterator>::iterator_category, output_iterator_tag>::value> {};
 
     template<class Iterator, class = void>
     struct is_forward_iterator : false_type {};
 
     template<class Iterator>
-    struct is_forward_iterator<Iterator, typename std::enable_if<has_iterator_type<Iterator>::value>::type> 
+    struct is_forward_iterator<Iterator, typename enable_if<has_iterator_type<Iterator>::value>::type> 
         : bool_constant<is_convertible<typename iterator_traits<Iterator>::iterator_category, forward_iterator_tag>::value> {};
 
     template<class Iterator, class = void>
     struct is_bidirectional_iterator : false_type {};
 
     template<class Iterator>
-    struct is_bidirectional_iterator<Iterator, typename std::enable_if<has_iterator_type<Iterator>::value>::type> 
+    struct is_bidirectional_iterator<Iterator, typename enable_if<has_iterator_type<Iterator>::value>::type> 
         : bool_constant<is_convertible<typename iterator_traits<Iterator>::iterator_category, bidirectional_iterator_tag>::value> {};
 
     template<class Iterator, class = void>
     struct is_random_access_iterator : false_type {};
 
     template<class Iterator>
-    struct is_random_access_iterator<Iterator, typename std::enable_if<has_iterator_type<Iterator>::value>::type> 
+    struct is_random_access_iterator<Iterator, typename enable_if<has_iterator_type<Iterator>::value>::type> 
         : bool_constant<is_convertible<typename iterator_traits<Iterator>::iterator_category, random_access_iterator_tag>::value> {};
 
     // 变量模板
@@ -367,14 +367,14 @@ namespace mystl
     // 对迭代器类型，使用其 base() 函数
     template<class Iter>
     typename iterator_traits<Iter>::pointer
-    iterator_base(Iter iter, typename std::enable_if<!std::is_pointer<Iter>::value>::type* = 0) 
+    iterator_base(Iter iter, typename enable_if<!is_pointer<Iter>::value>::type* = 0) 
     {
         return iter.base();
     }
 
     // 对指针类型，直接返回指针本身
     template<class T>
-    T* iterator_base(T* ptr, typename std::enable_if<std::is_pointer<T*>::value>::type* = 0) 
+    T* iterator_base(T* ptr, typename enable_if<is_pointer<T*>::value>::type* = 0) 
     {
         return ptr;
     }

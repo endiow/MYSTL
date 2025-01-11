@@ -273,8 +273,8 @@ namespace mystl
         //------------------------------------------------------------------------------
         using value_type = T;
         using allocator_type = Alloc;
-        using size_type = mystl::size_t;
-        using difference_type = mystl::ptrdiff_t;
+        using size_type = size_t;
+        using difference_type = ptrdiff_t;
         using reference = value_type&;
         using const_reference = const value_type&;
         using pointer = T*;
@@ -324,7 +324,7 @@ namespace mystl
         }
 
         // 迭代器范围构造
-        template<class InputIt, typename = typename std::enable_if<!std::is_integral<InputIt>::value>::type>
+        template<class InputIt, typename = typename enable_if<!is_integral<InputIt>::value>::type>
         vector(InputIt first, InputIt last) 
         {
             const auto n = mystl::distance(first, last);
@@ -414,7 +414,7 @@ namespace mystl
         }
 
         // assign 操作：用新内容替换原内容
-        template<class InputIt, typename = typename std::enable_if<!std::is_integral<InputIt>::value>::type>
+        template<class InputIt, typename = typename enable_if<!is_integral<InputIt>::value>::type>
         void assign(InputIt first, InputIt last) 
         {
             size_type new_size = mystl::distance(first, last);
@@ -522,7 +522,7 @@ namespace mystl
         {
             if (pos >= size_)
             {
-                throw mystl::out_of_range("vector::at");
+                throw out_of_range("vector::at");
             }
             return data_[pos];
         }
@@ -531,7 +531,7 @@ namespace mystl
         {
             if (pos >= size_)
             {
-                throw mystl::out_of_range("vector::at");
+                throw out_of_range("vector::at");
             }
             return data_[pos];
         }
@@ -1046,7 +1046,7 @@ namespace mystl
         }
 
         // 在指定位置插入范围内的元素
-        template<class InputIt, typename = typename std::enable_if<!std::is_integral<InputIt>::value>::type>
+        template<class InputIt, typename = typename enable_if<!is_integral<InputIt>::value>::type>
         iterator insert(const_iterator pos, InputIt first, InputIt last) 
         {
             size_type offset = pos - cbegin();
@@ -1055,7 +1055,7 @@ namespace mystl
             // 检查是否是自引用
             bool is_self = false;
             const auto* ptr = data();
-            if constexpr (std::is_same_v<typename std::iterator_traits<InputIt>::iterator_category, random_access_iterator_tag>)
+            if constexpr (is_same_v<typename mystl::iterator_traits<InputIt>::iterator_category, random_access_iterator_tag>)
             {
                 const auto* first_ptr = &(*first);
                 const auto* last_ptr = &(*(last - 1));
