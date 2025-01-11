@@ -2,6 +2,7 @@
 
 #include "expectdef.hpp"
 #include "type_traits.hpp"
+#include "util.hpp"
 
 namespace mystl 
 {
@@ -229,7 +230,10 @@ namespace mystl
 
     
 
+    /*****************************************************************************************/
+    // reverse_iterator
     // 反向迭代器
+    /*****************************************************************************************/
     template<typename Iterator>
     class reverse_iterator 
     {
@@ -377,5 +381,54 @@ namespace mystl
     T* iterator_base(T* ptr, typename enable_if<is_pointer<T*>::value>::type* = 0) 
     {
         return ptr;
+    }
+
+
+
+    /*****************************************************************************************/
+    // back_insert_iterator
+    // 用于在容器末尾插入元素的迭代器适配器
+    /*****************************************************************************************/
+    template<class Container>
+    class back_insert_iterator 
+    {
+    protected:
+        Container* container;  // 底层容器指针
+
+    public:
+        using iterator_category = output_iterator_tag;
+        using value_type = void;
+        using difference_type = void;
+        using pointer = void;
+        using reference = void;
+        using container_type = Container;
+
+        // 构造函数
+        explicit back_insert_iterator(Container& x) : container(&x) {}
+
+        // 赋值操作：调用容器的push_back
+        back_insert_iterator& operator=(const typename Container::value_type& value) 
+        {
+            container->push_back(value);
+            return *this;
+        }
+
+        back_insert_iterator& operator=(typename Container::value_type&& value) 
+        {
+            container->push_back(mystl::move(value));
+            return *this;
+        }
+
+        // 这些操作不做任何事，只返回自身引用
+        back_insert_iterator& operator*() { return *this; }
+        back_insert_iterator& operator++() { return *this; }
+        back_insert_iterator operator++(int) { return *this; }
+    };
+
+    // 辅助函数，用于创建back_insert_iterator
+    template<class Container>
+    back_insert_iterator<Container> back_inserter(Container& x) 
+    {
+        return back_insert_iterator<Container>(x);
     }
 } // namespace mystl 

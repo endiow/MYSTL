@@ -1,130 +1,78 @@
 # 基本算法
 
+
+
 ## 比较算法
 
-- min 	
+### `min`
+返回两个值中的较小值
+- `min(const T& a, const T& b)`
+- `min(const T& a, const T& b, Compare comp)`
 
-- max	
+### `max`
+返回两个值中的较大值
+- `max(const T& a, const T& b)`
+- `max(const T& a, const T& b, Compare comp)`
 
-- equal（返回两区间是否相等）
+### `equal`
+判断两个区间是否相等
+- `equal(InputIt1 first1, InputIt1 last1, InputIt2 first2)`
+- `equal(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate pred)`
 
-- mismatch（返回一对迭代器，指向第一处不同）
+### `mismatch`
+返回两个区间第一个不匹配的位置
+- `mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2)`
+- `mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate pred)`
 
-- lexicographical_compare（字典序比较）
-
-  
-
-## 操作内存
-
-- copy
-
-- copy_backward（从后往前复制）
-
-- copy_if（满足条件的元素才复制）   
-
-- copy_n（复制n个元素）
-
-- move
-
-- move_backward（从后往前移动）
-
-- fill（填充区间值为value）
-
-- fill_n
-
-  
-
-### 优化：
-
-#### **iterator_base 统一处理迭代器和指针**
-
-为了同时支持迭代器和原生指针，提供了 iterator_base 函数：
-
-```cpp
-// 对迭代器类型，使用其 base() 函数
-template<class Iter>
-typename iterator_traits<Iter>::pointer
-iterator_base(Iter iter) {
-    return iter.base();
-}
-
-// 对指针类型，直接返回指针本身
-template<class T>
-T* iterator_base(T* ptr) {
-    return ptr;
-}
-```
-
-使用 SFINAE 技术在编译期选择正确的版本。
+### `lexicographical_compare`
+按字典序比较两个区间
+- `lexicographical_compare(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2)`
+- `lexicographical_compare(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2, Compare comp)`
 
 
 
-#### **one_byte类型（一字节）优化fill/fill_n**     	
+## 复制和移动算法
 
-`one_byte_type即char、signed char、unsigned char` 
+### `copy`
+将区间 [first, last) 的元素复制到以 result 开始的位置
+- `copy(InputIt first, InputIt last, OutputIt result)`
 
-1. 为 char、signed char、unsigned char 提供特化
+### `copy_backward`
+从后往前复制元素
+- `copy_backward(BidirIt1 first, BidirIt1 last, BidirIt2 result)`
 
-2. 使用 memset 优化单字节类型的操作
-3. 其他类型使用普通的赋值操作
-4. 保持了类型安全
+### `copy_if`
+仅复制满足条件的元素
+- `copy_if(InputIt first, InputIt last, OutputIt result, UnaryPredicate pred)`
 
-可以直接memset填充。
+### `copy_n`
+复制指定数量的元素
+- `copy_n(InputIt first, Size count, OutputIt result)`
 
-`stl标准库实现：`
+### `move`
+将区间元素移动到新位置
+- `move(InputIt first, InputIt last, OutputIt result)`
 
-1. `直接对原生指针类型进行特化`
-2. `使用 inline 函数而不是 enable_if`
-3. `特化版本直接使用原生指针`
-4. `一般版本使用迭代器`
-
-我的实现更通用，同时支持迭代器和指针。
-
-
-
-#### **trivially_copy_assignable优化copy/copy_n**
-
-trivially_copy_assignable 是一个类型特征（type trait），用于判断一个类型是否可以通过简单的内存复制来完成赋值操作。
-
-`一个类型满足 trivially_copy_assignable 需要：`
-
-1. `有一个平凡的拷贝赋值运算符`
-2. `不能有虚函数`
-3. `不能有虚基类`
-4. `所有非静态成员也必须是 trivially_copy_assignable`
-
-可以直接用memmove赋值。
-
-`为什么用memmove而不是memcpy？`
-- memcpy：源和目标区域不能重叠
-- memmove：正确处理重叠区域
-- 在不重叠时，编译器通常会优化 memmove 为 memcpy
+### `move_backward`
+从后往前移动元素
+- `move_backward(BidirIt1 first, BidirIt1 last, BidirIt2 result)`
 
 
 
-#### **trivially_move_assignable优化move/move_n**
+## 填充算法
 
-trivially_move_assignable，判断类型是否可以通过简单的内存移动来完成移动赋值。
+### `fill`
+将区间内所有元素设为指定值
+- `fill(ForwardIt first, ForwardIt last, const T& value)`
 
-可以直接用memmove赋值。
-
-
-
-#### **is_trivially_move_assignable和is_trivially_copy_assignable区别**
-
-```c++
-class Example {
-public:
-    // 平凡拷贝赋值运算符
-    Example& operator=(const Example&) = default;  // 满足 is_trivially_copy_assignable
-
-    // 平凡移动赋值运算符
-    Example& operator=(Example&&) = default;       // 满足 is_trivially_move_assignable
-};
-```
+### `fill_n`
+将从指定位置开始的 n 个元素设为指定值
+- `fill_n(OutputIt first, Size count, const T& value)`
 
 
 
 ## 其他算法
 
-iter_swap（交换迭代器）
+### `iter_swap`
+交换两个迭代器所指向的元素
+- `iter_swap(ForwardIt1 a, ForwardIt2 b)`

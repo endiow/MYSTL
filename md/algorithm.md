@@ -54,18 +54,37 @@ STL算法库的实现，提供一系列常用算法。
 
 ## 排序算法
 
-### 排序
-- `sort(first, last)`: 对序列排序
-- `stable_sort(first, last)`: 稳定排序
-- `partial_sort(first, middle, last)`: 部分排序
-- `nth_element(first, nth, last)`: 将第n大元素放到正确位置
+### 稳定排序
+- `insertion_sort(first, last)`: 插入排序
+- `merge_sort(first, last)`: 归并排序
+- `bubble_sort(first, last)`: 冒泡排序
 
-### 堆操作
 
-- `make_heap(first, last)`: 创建最大堆
-- `push_heap(first, last)`: 将尾元素插入堆
-- `pop_heap(first, last)`: 将最大元素移到末尾
-- `sort_heap(first, last)`: 堆排序
+
+### 不稳定排序
+
+- `quick_sort(first, last)`: 快速排序
+- `heap_sort(first, last)`: 堆排序
+- `selection_sort(first, last)`: 选择排序
+- `shell_sort(first, last)`: 希尔排序
+- `introsort(first, last)`: 内省排序（快排、堆排和插入排序的混合）
+
+
+
+### 通用排序
+
+- `sort(first, last)`: 排序，内部使用内省排序实现
+
+
+
+### 排序检查
+
+- `is_sorted(first, last)`: 检查序列是否已排序
+- `is_sorted_until(first, last)`: 找到最长的已排序前缀
+
+
+
+所有排序算法都提供使用自定义比较器的重载版本：`algorithm(first, last, comp)`
 
 
 
@@ -110,25 +129,3 @@ STL算法库的实现，提供一系列常用算法。
 - `inner_product(first1, last1, first2, init)`: 计算内积
 - `partial_sum(first, last, d_first)`: 计算部分和
 - `adjacent_difference(first, last, d_first)`: 计算相邻差
-
-
-
-## 实现要求
-
-### 迭代器要求
-- 指定每个算法所需的最小迭代器类别
-- 注意迭代器失效情况
-
-### 异常安全
-- 提供基本异常安全保证
-- 对于修改序列的算法，需要保证在异常发生时不会产生内存泄漏
-
-### 性能考虑
-- 对于特定类型提供优化版本（如POD类型）
-- 合理使用内存移动而不是拷贝
-- 注意算法的时间复杂度
-
-### 通用性
-- 提供谓词版本
-- 考虑自定义比较器
-- 保持与STL的一致性 

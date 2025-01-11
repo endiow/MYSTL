@@ -129,6 +129,7 @@ namespace mystl
         return first1 == last1 && first2 != last2;
     }
 
+    // 针对 unsigned char 的特化版本
     inline bool lexicographical_compare(const unsigned char* first1,
                                         const unsigned char* last1,
                                         const unsigned char* first2,
@@ -155,6 +156,7 @@ namespace mystl
         const auto n = last - first;
         if (n != 0)
         {
+            //memmove函数参数要求原生指针
             std::memmove(iterator_base(result), iterator_base(first), n * sizeof(*iterator_base(first)));
             return result + n;
         }
@@ -176,8 +178,19 @@ namespace mystl
     template<class InputIt, class OutputIt>
     OutputIt copy(InputIt first, InputIt last, OutputIt result)
     {
+        using input_category = typename iterator_traits<InputIt>::iterator_category;
+        using output_category = typename iterator_traits<OutputIt>::iterator_category;
         using value_type = typename iterator_traits<InputIt>::value_type;
-        return copy_dispatch(first, last, result, is_trivially_copy_assignable<value_type>());
+        
+        // 只有当输入和输出都是随机访问迭代器，且类型可平凡复制时才使用 memmove
+        //使用memmove不使用memcpy，因为memcpy无法处理重叠的内存区域、
+        //符合is_trivially_copy_assignable_v的类型都符合is_trivially_move_assignable_v
+        constexpr bool can_use_memmove = 
+            is_same_v<input_category, random_access_iterator_tag> &&
+            is_same_v<output_category, random_access_iterator_tag> &&
+            is_trivially_copy_assignable_v<value_type>;
+        
+        return copy_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
     /*****************************************************************************************/
@@ -209,8 +222,16 @@ namespace mystl
     template<class BidirIt1, class BidirIt2>
     BidirIt2 copy_backward(BidirIt1 first, BidirIt1 last, BidirIt2 result)
     {
+        using input_category = typename iterator_traits<BidirIt1>::iterator_category;
+        using output_category = typename iterator_traits<BidirIt2>::iterator_category;
         using value_type = typename iterator_traits<BidirIt1>::value_type;
-        return copy_backward_dispatch(first, last, result, is_trivially_copy_assignable<value_type>());
+        
+        constexpr bool can_use_memmove = 
+            is_same_v<input_category, random_access_iterator_tag> &&
+            is_same_v<output_category, random_access_iterator_tag> &&
+            is_trivially_copy_assignable_v<value_type>;
+        
+        return copy_backward_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
     /*****************************************************************************************/
@@ -260,8 +281,16 @@ namespace mystl
     template<class InputIt, class Size, class OutputIt>
     OutputIt copy_n(InputIt first, Size count, OutputIt result)
     {
+        using input_category = typename iterator_traits<InputIt>::iterator_category;
+        using output_category = typename iterator_traits<OutputIt>::iterator_category;
         using value_type = typename iterator_traits<InputIt>::value_type;
-        return copy_n_dispatch(first, count, result, is_trivially_copy_assignable<value_type>());
+        
+        constexpr bool can_use_memmove = 
+            is_same_v<input_category, random_access_iterator_tag> &&
+            is_same_v<output_category, random_access_iterator_tag> &&
+            is_trivially_copy_assignable_v<value_type>;
+        
+        return copy_n_dispatch(first, count, result, bool_constant<can_use_memmove>{});
     }
 
     /*****************************************************************************************/
@@ -295,8 +324,16 @@ namespace mystl
     template<class InputIt, class OutputIt>
     OutputIt move(InputIt first, InputIt last, OutputIt result)
     {
+        using input_category = typename iterator_traits<InputIt>::iterator_category;
+        using output_category = typename iterator_traits<OutputIt>::iterator_category;
         using value_type = typename iterator_traits<InputIt>::value_type;
-        return move_dispatch(first, last, result, is_trivially_move_assignable<value_type>());
+        
+        constexpr bool can_use_memmove = 
+            is_same_v<input_category, random_access_iterator_tag> &&
+            is_same_v<output_category, random_access_iterator_tag> &&
+            is_trivially_move_assignable_v<value_type>;
+        
+        return move_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
     /*****************************************************************************************/
@@ -328,8 +365,16 @@ namespace mystl
     template<class BidirIt1, class BidirIt2>
     BidirIt2 move_backward(BidirIt1 first, BidirIt1 last, BidirIt2 result)
     {
+        using input_category = typename iterator_traits<BidirIt1>::iterator_category;
+        using output_category = typename iterator_traits<BidirIt2>::iterator_category;
         using value_type = typename iterator_traits<BidirIt1>::value_type;
-        return move_backward_dispatch(first, last, result, is_trivially_move_assignable<value_type>());
+        
+        constexpr bool can_use_memmove = 
+            is_same_v<input_category, random_access_iterator_tag> &&
+            is_same_v<output_category, random_access_iterator_tag> &&
+            is_trivially_move_assignable_v<value_type>;
+        
+        return move_backward_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
     /*****************************************************************************************/
