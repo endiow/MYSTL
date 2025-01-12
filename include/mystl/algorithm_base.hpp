@@ -153,6 +153,55 @@ namespace mystl
 
 
     /*****************************************************************************************/
+    // all_of
+    // 检查区间内是否所有元素都满足一元谓词
+    /*****************************************************************************************/
+    template<class InputIt, class UnaryPredicate>
+    bool all_of(InputIt first, InputIt last, UnaryPredicate pred)
+    {
+        for (; first != last; ++first)
+        {
+            if (!pred(*first))
+                return false;
+        }
+        return true;
+    }
+
+
+    /*****************************************************************************************/
+    // any_of
+    // 检查区间内是否存在元素满足一元谓词
+    /*****************************************************************************************/
+    template<class InputIt, class UnaryPredicate>
+    bool any_of(InputIt first, InputIt last, UnaryPredicate pred)
+    {
+        for (; first != last; ++first)
+        {
+            if (pred(*first))
+                return true;
+        }
+        return false;
+    }
+
+
+    /*****************************************************************************************/
+    // none_of
+    // 检查区间内是否没有元素满足一元谓词
+    /*****************************************************************************************/
+    template<class InputIt, class UnaryPredicate>
+    bool none_of(InputIt first, InputIt last, UnaryPredicate pred)
+    {
+        for (; first != last; ++first)
+        {
+            if (pred(*first))
+                return false;
+        }
+        return true;
+    }
+
+
+
+    /*****************************************************************************************/
     // copy
     // 把 [first, last)区间内的元素拷贝到 [result, result + (last - first))内
     /*****************************************************************************************/
@@ -456,4 +505,6 @@ namespace mystl
     {
         mystl::swap(*a, *b);
     }
+
+    
 } // namespace mystl 

@@ -1001,3 +1001,57 @@ TEST(AlgorithmTest, BinarySearch)
     EXPECT_EQ(*p5.first, 1);
     EXPECT_EQ(p5.second, single.end());
 }
+
+// 测试划分算法
+TEST(AlgorithmTest, Partition) 
+{
+    // 测试基本类型
+    mystl::vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+    // 测试 partition
+    auto is_even = [](int n) { return n % 2 == 0; };
+    auto it1 = mystl::partition(v.begin(), v.end(), is_even);
+    EXPECT_TRUE(mystl::all_of(v.begin(), it1, is_even));  // 前半部分都是偶数
+    EXPECT_TRUE(mystl::none_of(it1, v.end(), is_even));   // 后半部分没有偶数
+
+    // 测试 stable_partition
+    mystl::vector<int> v2{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    auto it2 = mystl::stable_partition(v2.begin(), v2.end(), is_even);
+    EXPECT_TRUE(mystl::all_of(v2.begin(), it2, is_even));  // 前半部分都是偶数
+    EXPECT_TRUE(mystl::none_of(it2, v2.end(), is_even));   // 后半部分没有偶数
+    EXPECT_EQ(v2, (mystl::vector<int>{2, 4, 6, 8, 10, 1, 3, 5, 7, 9}));  // 保持相对顺序
+
+    // 测试 partition_copy
+    mystl::vector<int> v3{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    mystl::vector<int> evens, odds;
+    mystl::partition_copy(v3.begin(), v3.end(), mystl::back_inserter(evens), mystl::back_inserter(odds), is_even);
+    EXPECT_EQ(evens, (mystl::vector<int>{2, 4, 6, 8, 10}));
+    EXPECT_EQ(odds, (mystl::vector<int>{1, 3, 5, 7, 9}));
+
+    // 测试自定义类型
+    struct Person 
+    {
+        std::string name;
+        int age;
+    };
+
+    mystl::vector<Person> people
+    {
+        {"Alice", 30}, {"Bob", 20}, {"Charlie", 25}, {"David", 35}
+    };
+
+    auto is_adult = [](const Person& p) { return p.age >= 30; };
+    auto it3 = mystl::partition(people.begin(), people.end(), is_adult);
+    EXPECT_TRUE(mystl::all_of(people.begin(), it3, is_adult));  // 前半部分都是成年人
+    EXPECT_TRUE(mystl::none_of(it3, people.end(), is_adult));   // 后半部分没有成年人
+
+    // 测试空序列
+    mystl::vector<int> empty;
+    auto it4 = mystl::partition(empty.begin(), empty.end(), is_even);
+    EXPECT_EQ(it4, empty.end());
+
+    // 测试单个元素
+    mystl::vector<int> single{1};
+    auto it5 = mystl::partition(single.begin(), single.end(), is_even);
+    EXPECT_EQ(it5, single.begin());
+}

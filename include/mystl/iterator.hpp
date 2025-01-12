@@ -139,6 +139,8 @@ namespace mystl
     template<class Iterator>
     inline constexpr bool is_random_access_iterator_v = is_random_access_iterator<Iterator>::value;
 
+
+
     // 获取迭代器类别
     template<class Iter>
     inline typename iterator_traits<Iter>::iterator_category
@@ -196,6 +198,8 @@ namespace mystl
         return distance_dispatch(first, last, category());
     }
 
+
+
     // 移动迭代器
     // 输入迭代器只能通过++操作来移动
     template<typename InputIterator, typename Distance>
@@ -226,6 +230,22 @@ namespace mystl
     {
         using category = typename iterator_traits<InputIterator>::iterator_category;
         advance_dispatch(i, n, category());
+    }
+
+
+    template<class InputIt>
+    InputIt next(InputIt it, typename iterator_traits<InputIt>::difference_type n = 1)
+    {
+        mystl::advance(it, n);
+        return it;
+    }
+
+
+    template<class BidirIt>
+    BidirIt prev(BidirIt it, typename iterator_traits<BidirIt>::difference_type n = 1)
+    {
+        mystl::advance(it, -n);
+        return it;
     }
 
     

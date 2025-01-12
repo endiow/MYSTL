@@ -1320,4 +1320,105 @@ namespace mystl
         return equal_range(first, last, value, mystl::less<typename iterator_traits<ForwardIt>::value_type>());
     }
 
+
+
+    /*****************************************************************************************/
+    // 划分算法
+    /*****************************************************************************************/
+
+    /*****************************************************************************************/
+    // partition
+    // 对区间内的元素重新排列，使得符合谓词的元素在前，不符合谓词的元素在后，返回分界点
+    /*****************************************************************************************/
+    template<class BidirIt, class UnaryPredicate>
+    BidirIt partition(BidirIt first, BidirIt last, UnaryPredicate pred)
+    {
+        while (first != last)
+        {
+            while (first != last && pred(*first))  // 找到第一个不符合谓词的元素
+                ++first;
+            if (first == last) break;
+            
+            --last;
+            while (first != last && !pred(*last))  // 找到最后一个符合谓词的元素
+                --last;
+            if (first == last) break;
+            
+            mystl::iter_swap(first, last);  // 交换位置
+            ++first;
+        }
+        return first;
+    }
+
+
+    /*****************************************************************************************/
+    // stable_partition
+    // 对区间内的元素重新排列，使得符合谓词的元素在前，不符合谓词的元素在后，且相对位置不变
+    /*****************************************************************************************/
+    template<class BidirIt, class UnaryPredicate>
+    BidirIt stable_partition(BidirIt first, BidirIt last, UnaryPredicate pred)
+    {
+        if (first == last) return first;
+        
+        // 分配临时缓冲区
+        using value_type = typename iterator_traits<BidirIt>::value_type;
+        auto buffer = new value_type[last - first];
+        auto buffer_ptr = buffer;
+
+        // 先复制满足谓词的元素
+        for (auto it = first; it != last; ++it)
+        {
+            if (pred(*it))
+            {
+                *buffer_ptr = mystl::move(*it);
+                ++buffer_ptr;
+            }
+        }
+
+        auto ret = first + (buffer_ptr - buffer);  // 记录分界点
+
+        // 再复制不满足谓词的元素
+        for (auto it = first; it != last; ++it)
+        {
+            if (!pred(*it))
+            {
+                *buffer_ptr = mystl::move(*it);
+                ++buffer_ptr;
+            }
+        }
+
+        // 将元素移回原序列
+        mystl::move(buffer, buffer + (last - first), first);
+        
+        delete[] buffer;
+        return ret;
+    }
+
+
+    /*****************************************************************************************/
+    // partition_copy
+    // 将区间内满足谓词的元素拷贝到 d_first_true，不满足谓词的元素拷贝到 d_first_false
+    /*****************************************************************************************/
+    template<class InputIt, class OutputIt1, class OutputIt2, class UnaryPredicate>
+    mystl::pair<OutputIt1, OutputIt2>
+    partition_copy(InputIt first, InputIt last,
+                   OutputIt1 d_first_true, OutputIt2 d_first_false,
+                   UnaryPredicate pred)
+    {
+        for (; first != last; ++first)
+        {
+            if (pred(*first))
+            {
+                *d_first_true = *first;
+                ++d_first_true;
+            }
+            else
+            {
+                *d_first_false = *first;
+                ++d_first_false;
+            }
+        }
+        return mystl::pair<OutputIt1, OutputIt2>(d_first_true, d_first_false);
+    }
+
 } // namespace mystl 

@@ -1,20 +1,102 @@
 #include <gtest/gtest.h>
 #include "mystl/allocator.hpp"
+#include "mystl/vector.hpp"
 
-// 测试基本分配和释放
-TEST(AllocatorTest, BasicAllocation) 
+// 测试基本类型的分配和释放
+TEST(AllocatorTest, BasicTypes) 
 {
     mystl::allocator<int> alloc;
     
     // 分配单个对象
-    int* p = alloc.allocate(1);
-    EXPECT_NE(p, nullptr);
-    alloc.deallocate(p, 1);
+    int* p1 = alloc.allocate(1);
+    EXPECT_NE(p1, nullptr);
+    alloc.construct(p1, 42);
+    EXPECT_EQ(*p1, 42);
+    alloc.destroy(p1);
+    alloc.deallocate(p1, 1);
+
+    // 分配数组
+    int* p2 = alloc.allocate(5);
+    EXPECT_NE(p2, nullptr);
+    for (int i = 0; i < 5; ++i) 
+    {
+        alloc.construct(p2 + i, i);
+    }
+    for (int i = 0; i < 5; ++i) 
+    {
+        EXPECT_EQ(p2[i], i);
+    }
+    for (int i = 0; i < 5; ++i) 
+    {
+        alloc.destroy(p2 + i);
+    }
+    alloc.deallocate(p2, 5);
+
+    // 测试不同基本类型
+    mystl::allocator<char> char_alloc;
+    char* pc = char_alloc.allocate(1);
+    char_alloc.construct(pc, 'A');
+    EXPECT_EQ(*pc, 'A');
+    char_alloc.destroy(pc);
+    char_alloc.deallocate(pc, 1);
+
+    mystl::allocator<double> double_alloc;
+    double* pd = double_alloc.allocate(1);
+    double_alloc.construct(pd, 3.14);
+    EXPECT_DOUBLE_EQ(*pd, 3.14);
+    double_alloc.destroy(pd);
+    double_alloc.deallocate(pd, 1);
+}
+
+// 测试自定义类型
+TEST(AllocatorTest, CustomTypes) 
+{
+    struct TestStruct 
+    {
+        int x;
+        double y;
+        std::string s;
+        
+        TestStruct() : x(0), y(0.0), s("") {}
+        TestStruct(int x_, double y_, std::string s_) 
+            : x(x_), y(y_), s(s_) {}
+        
+        bool operator==(const TestStruct& other) const 
+        {
+            return x == other.x && y == other.y && s == other.s;
+        }
+    };
+
+    mystl::allocator<TestStruct> alloc;
     
-    // 分配多个对象
-    int* arr = alloc.allocate(5);
-    EXPECT_NE(arr, nullptr);
-    alloc.deallocate(arr, 5);
+    // 分配并构造单个对象
+    TestStruct* p1 = alloc.allocate(1);
+    EXPECT_NE(p1, nullptr);
+    alloc.construct(p1, 42, 3.14, "test");
+    EXPECT_EQ(p1->x, 42);
+    EXPECT_DOUBLE_EQ(p1->y, 3.14);
+    EXPECT_EQ(p1->s, "test");
+    alloc.destroy(p1);
+    alloc.deallocate(p1, 1);
+
+    // 分配并构造数组
+    TestStruct* p2 = alloc.allocate(3);
+    EXPECT_NE(p2, nullptr);
+    for (int i = 0; i < 3; ++i) 
+    {
+        alloc.construct(p2 + i, i, i * 1.1, "test" + std::to_string(i));
+    }
+    for (int i = 0; i < 3; ++i) 
+    {
+        EXPECT_EQ(p2[i].x, i);
+        EXPECT_DOUBLE_EQ(p2[i].y, i * 1.1);
+        EXPECT_EQ(p2[i].s, "test" + std::to_string(i));
+    }
+    for (int i = 0; i < 3; ++i) 
+    {
+        alloc.destroy(p2 + i);
+    }
+    alloc.deallocate(p2, 3);
 }
 
 // 测试构造和析构
@@ -92,8 +174,27 @@ TEST(AllocatorTest, ExceptionCases)
         alloc.deallocate(p, 0);
     });
     
-    // 测试分配非常大的内存（可能失败）
-    //EXPECT_ANY_THROW(alloc.allocate(size_t(-1) / sizeof(int)));
+    // 测试分配较大但合理的内存大小
+    constexpr size_t large_size = 1024 * 1024 * 1024;  // 1GB
+    EXPECT_NO_THROW(
+    {
+        try 
+        {
+            int* p = alloc.allocate(large_size);
+            alloc.deallocate(p, large_size);
+        }
+        catch (const std::bad_alloc&) 
+        {
+            // 如果内存不足，捕获异常是正常的
+            throw;
+        }
+    });
+
+    // 测试分配负数大小（应该在编译时就报错）
+    // int* p = alloc.allocate(-1);  // 这行应该编译失败
+
+    // 测试释放nullptr
+    EXPECT_NO_THROW(alloc.deallocate(nullptr, 0));
 }
 
 // 测试不同类型的分配器

@@ -682,4 +682,78 @@ TEST(VectorTest, AssignExceptionSafety)
             EXPECT_EQ(vec[1].value, 2);
         }
     }
+}
+
+// 测试迭代器失效
+TEST(VectorTest, IteratorInvalidation) 
+{
+    // 测试扩容导致的迭代器失效
+    {
+        mystl::vector<int> vec{1, 2, 3};
+        auto it = vec.begin() + 1;
+        auto old_capacity = vec.capacity();
+        
+        // 通过push_back触发扩容
+        while (vec.capacity() == old_capacity) 
+        {
+            vec.push_back(4);
+        }
+        
+        // 此时迭代器已失效，不应该使用
+        EXPECT_NE(vec.data(), &(*it) - 1);  // 检查底层数组是否已经改变
+    }
+    
+    // 测试删除元素导致的迭代器失效
+    {
+        mystl::vector<int> vec{1, 2, 3, 4, 5};
+        auto it2 = vec.begin() + 2;
+        auto it3 = vec.begin() + 3;
+        
+        // 删除一个元素后，其后的迭代器都应该失效
+        vec.erase(vec.begin() + 1);
+        
+        // 原来指向的元素已经移动
+        EXPECT_EQ(*it2, 4);
+        EXPECT_EQ(*it3, 5);
+    }
+    
+    // 测试插入元素导致的迭代器失效
+    {
+        mystl::vector<int> vec{1, 2, 3};
+        auto it = vec.begin() + 1;
+        
+        // 在不触发扩容的情况下插入元素
+        if (vec.capacity() > vec.size()) 
+        {
+            vec.insert(vec.begin(), 0);
+            // 此时it指向的位置应该后移一位
+            EXPECT_EQ(*it, 1);
+        }
+    }
+}
+
+// 测试内存对齐
+TEST(VectorTest, Alignment) 
+{
+    // 测试基本类型的对齐
+    {
+        mystl::vector<double> vec(5);
+        EXPECT_EQ(reinterpret_cast<std::uintptr_t>(vec.data()) % alignof(double), 0);
+    }
+    
+    // 测试自然对齐的类型
+    {
+        struct NaturalAligned 
+        {
+            int x;
+            double y;
+        };
+        
+        mystl::vector<NaturalAligned> vec(5);
+        EXPECT_EQ(reinterpret_cast<std::uintptr_t>(vec.data()) % alignof(NaturalAligned), 0);
+        
+        // 测试扩容后的对齐
+        vec.push_back(NaturalAligned());
+        EXPECT_EQ(reinterpret_cast<std::uintptr_t>(vec.data()) % alignof(NaturalAligned), 0);
+    }
 } 

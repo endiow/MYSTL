@@ -1,8 +1,10 @@
-# 基本算法
+# Algorithm Base
+
+基础算法库的实现，提供一系列常用的基础算法。
 
 
 
-## 比较算法
+## 判断算法
 
 ### `min`
 返回两个值中的较小值
@@ -28,6 +30,18 @@
 按字典序比较两个区间
 - `lexicographical_compare(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2)`
 - `lexicographical_compare(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2, Compare comp)`
+
+### `all_of`
+检查区间内是否所有元素都满足谓词
+- `all_of(InputIt first, InputIt last, UnaryPredicate pred)`
+
+### `any_of`
+检查区间内是否存在元素满足谓词
+- `any_of(InputIt first, InputIt last, UnaryPredicate pred)`
+
+### `none_of`
+检查区间内是否没有元素满足谓词
+- `none_of(InputIt first, InputIt last, UnaryPredicate pred)`
 
 
 

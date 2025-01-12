@@ -99,11 +99,13 @@ STL算法库的实现，提供一系列常用算法。
 
 
 
-## 划分操作
+## 划分算法
 
-- `partition(first, last, pred)`: 按谓词划分序列
-- `stable_partition(first, last, pred)`: 稳定划分
-- `partition_copy(first, last, d_true, d_false, pred)`: 划分并复制
+- `partition(first, last, pred)`: 将区间内满足谓词的元素放到前面，不满足的放到后面
+- `stable_partition(first, last, pred)`: 稳定的划分，保持相对位置不变
+- `partition_copy(first, last, d_first_true, d_first_false, pred)`: 将满足谓词的元素复制到一个序列，不满足的复制到另一个序列
+
+所有划分算法都返回一个迭代器，指向不满足谓词的第一个元素（分界点）。
 
 
 

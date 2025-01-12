@@ -3,10 +3,15 @@
 
 test/CMakeFiles/mystl_test.dir/algorithm_base_test.cpp.obj: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/algorithm_base_test.cpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/algorithm_base.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/allocator.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/construct.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/expectdef.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/vector.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-assertion-result.h \
   C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-death-test.h \
   C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-matchers.h \
@@ -534,10 +539,16 @@ test/CMakeFiles/mystl_test.dir/algorithm_test.cpp.obj: C:/Users/IMikoto/Document
   C:/software/msys2/MSYS/ucrt64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h
 
 test/CMakeFiles/mystl_test.dir/allocator_test.cpp.obj: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/allocator_test.cpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/algorithm_base.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/allocator.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/construct.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/expectdef.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/vector.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-assertion-result.h \
   C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-death-test.h \
   C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-matchers.h \
@@ -678,6 +689,7 @@ test/CMakeFiles/mystl_test.dir/allocator_test.cpp.obj: C:/Users/IMikoto/Document
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstdint \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstdio \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstdlib \
+  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstring \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/ctime \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cwchar \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cwctype \
@@ -863,6 +875,7 @@ test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj: C:/Users/IMikoto/Documents
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/invoke.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/ios_base.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/istream.tcc \
+  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/list.tcc \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/locale_classes.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/locale_classes.tcc \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/locale_conv.h \
@@ -902,6 +915,7 @@ test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj: C:/Users/IMikoto/Documents
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_iterator.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_iterator_base_funcs.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_iterator_base_types.h \
+  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_list.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_map.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_multimap.h \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_multiset.h \
@@ -960,6 +974,7 @@ test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj: C:/Users/IMikoto/Documents
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/istream \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/iterator \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/limits \
+  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/list \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/locale \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/map \
   C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/memory \
@@ -1311,31 +1326,53 @@ C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/
 
 C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/algorithm_base_test.cpp:
 
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/exception_defines.h:
+C:/software/msys2/MSYS/ucrt64/include/pthread_time.h:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/internal/gtest-port.h:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/algorithm_base.hpp:
+
+C:/software/msys2/MSYS/ucrt64/include/sec_api/sys/timeb_s.h:
+
+C:/software/msys2/MSYS/ucrt64/include/pthread.h:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/allocator.hpp:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/memory_resource.h:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/construct.hpp:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/expectdef.hpp:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-assertion-result.h:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cwctype:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/std_mutex.h:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/memory:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/basic_ios.tcc:
+
+C:/software/msys2/MSYS/ucrt64/include/malloc.h:
+
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/vector.hpp:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/internal/custom/gtest-port.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cerrno:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-death-test.h:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/internal/gtest-port.h:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/algorithm_base.hpp:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/std_mutex.h:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/expectdef.hpp:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/exception.h:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-assertion-result.h:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-matchers.h:
 
@@ -1354,10 +1391,6 @@ C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/ext/type_traits.h:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-param-test.h:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstdint:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/erase_if.h:
 
 C:/software/msys2/MSYS/ucrt64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h:
 
@@ -1392,14 +1425,6 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/os_defi
 C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/internal/gtest-param-util.h:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/internal/gtest-port-arch.h:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/beta_function.tcc:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/ext/concurrence.h:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/uses_allocator.h:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/exception_ptr.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/charconv.h:
 
@@ -1469,10 +1494,6 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/atomic_base.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/basic_ios.h:
 
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/memory:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/basic_ios.tcc:
-
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/basic_string.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/cpp_type_traits.h:
@@ -1488,6 +1509,22 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/cxxabi_init_exception.h:
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/locale_facets_nonio.tcc:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/enable_special_members.h:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstdint:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/erase_if.h:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/exception.h:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/exception_defines.h:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/beta_function.tcc:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/ext/concurrence.h:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/uses_allocator.h:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/exception_ptr.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/predefined_ops.h:
 
@@ -1528,10 +1565,6 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/locale_facets_nonio.h:
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tuple:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/localefwd.h:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/construct.hpp:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/memory_resource.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/move.h:
 
@@ -1574,6 +1607,8 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cxxabi.h:
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_iterator_base_types.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/shared_ptr.h:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_list.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/string:
 
@@ -1674,10 +1709,6 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstdlib:
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstring:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/ctime:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp:
-
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cwctype:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/debug/assertions.h:
 
@@ -1785,25 +1816,11 @@ C:/software/msys2/MSYS/ucrt64/include/io.h:
 
 C:/software/msys2/MSYS/ucrt64/include/limits.h:
 
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/vector.hpp:
-
-C:/software/msys2/MSYS/ucrt64/include/malloc.h:
-
 C:/software/msys2/MSYS/ucrt64/include/process.h:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/allocator.hpp:
-
-C:/software/msys2/MSYS/ucrt64/include/sec_api/sys/timeb_s.h:
-
-C:/software/msys2/MSYS/ucrt64/include/pthread.h:
 
 C:/software/msys2/MSYS/ucrt64/include/pthread_compat.h:
 
 C:/software/msys2/MSYS/ucrt64/include/pthread_signal.h:
-
-C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp:
-
-C:/software/msys2/MSYS/ucrt64/include/pthread_time.h:
 
 C:/software/msys2/MSYS/ucrt64/include/pthread_unistd.h:
 
@@ -1864,5 +1881,9 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/poly_laguerre.tcc:
 C:/software/msys2/MSYS/ucrt64/include/math.h:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/iterator_test.cpp:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/list.tcc:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/list:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/vector_test.cpp:

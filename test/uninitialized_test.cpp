@@ -1,147 +1,297 @@
 #include <gtest/gtest.h>
 #include "mystl/uninitialized.hpp"
-#include <memory>
-#include <vector>
+#include "mystl/allocator.hpp"
+#include <string>
 
-// 用于测试的简单类
-class TestClass 
+// 测试基本类型的未初始化操作
+TEST(UninitializedTest, BasicTypes) 
 {
-public:
-    static int constructor_count;
-    static int destructor_count;
+    mystl::allocator<int> alloc;
     
-    TestClass() : value_(0) { ++constructor_count; }
-    explicit TestClass(int v) : value_(v) { ++constructor_count; }
-    TestClass(const TestClass& other) : value_(other.value_) { ++constructor_count; }
-    ~TestClass() { ++destructor_count; }
+    // 测试 uninitialized_fill
+    {
+        int* space = alloc.allocate(5);
+        mystl::uninitialized_fill(space, space + 5, 42);
+        
+        for (int i = 0; i < 5; ++i) 
+        {
+            EXPECT_EQ(space[i], 42);
+        }
+        
+        mystl::destroy(space, space + 5);
+        alloc.deallocate(space, 5);
+    }
     
-    int value() const { return value_; }
+    // 测试 uninitialized_fill_n
+    {
+        int* space = alloc.allocate(5);
+        mystl::uninitialized_fill_n(space, 3, 42);  // 只填充前3个
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            EXPECT_EQ(space[i], 42);
+        }
+        
+        mystl::destroy(space, space + 3);
+        alloc.deallocate(space, 5);
+    }
     
-    static void reset_counters() 
+    // 测试 uninitialized_copy
+    {
+        int arr[] = {1, 2, 3, 4, 5};
+        int* space = alloc.allocate(5);
+        
+        mystl::uninitialized_copy(arr, arr + 5, space);
+        
+        for (int i = 0; i < 5; ++i) 
+        {
+            EXPECT_EQ(space[i], arr[i]);
+        }
+        
+        mystl::destroy(space, space + 5);
+        alloc.deallocate(space, 5);
+    }
+    
+    // 测试 uninitialized_copy_n
+    {
+        int arr[] = {1, 2, 3, 4, 5};
+        int* space = alloc.allocate(3);
+        
+        mystl::uninitialized_copy_n(arr, 3, space);  // 只复制前3个
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            EXPECT_EQ(space[i], arr[i]);
+        }
+        
+        mystl::destroy(space, space + 3);
+        alloc.deallocate(space, 3);
+    }
+    
+    // 测试 uninitialized_move
+    {
+        int arr[] = {1, 2, 3, 4, 5};
+        int* space = alloc.allocate(5);
+        
+        mystl::uninitialized_move(arr, arr + 5, space);
+        
+        for (int i = 0; i < 5; ++i) 
+        {
+            EXPECT_EQ(space[i], arr[i]);
+        }
+        
+        mystl::destroy(space, space + 5);
+        alloc.deallocate(space, 5);
+    }
+    
+    // 测试 uninitialized_move_n
+    {
+        int arr[] = {1, 2, 3, 4, 5};
+        int* space = alloc.allocate(3);
+        
+        mystl::uninitialized_move_n(arr, 3, space);  // 只移动前3个
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            EXPECT_EQ(space[i], arr[i]);
+        }
+        
+        mystl::destroy(space, space + 3);
+        alloc.deallocate(space, 3);
+    }
+}
+
+// 全局计数器
+int constructor_count = 0;
+int destructor_count = 0;
+int copy_count = 0;
+int move_count = 0;
+
+// 测试自定义类型
+TEST(UninitializedTest, CustomTypes) 
+{
+    struct Counter 
+    {
+        int value;
+        
+        Counter(int v = 0) : value(v) { ++constructor_count; }
+        ~Counter() { ++destructor_count; }
+        Counter(const Counter& other) : value(other.value) { ++copy_count; }
+        Counter(Counter&& other) noexcept : value(other.value) { ++move_count; }
+    };
+
+    mystl::allocator<Counter> alloc;
+    
+    // 测试 uninitialized_fill
     {
         constructor_count = 0;
         destructor_count = 0;
+        copy_count = 0;
+        move_count = 0;
+
+        Counter* space = alloc.allocate(3);
+        mystl::uninitialized_fill(space, space + 3, Counter(42));
+        
+        EXPECT_EQ(constructor_count, 1);  // 一个临时对象
+        EXPECT_EQ(copy_count, 3);         // 三次拷贝
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            EXPECT_EQ(space[i].value, 42);
+        }
+        
+        mystl::destroy(space, space + 3);
+        EXPECT_EQ(destructor_count, 4);  // 3个对象 + 1个临时对象
+        alloc.deallocate(space, 3);
     }
     
-private:
-    int value_;
-};
+    // 测试 uninitialized_move
+    {
+        constructor_count = 0;
+        destructor_count = 0;
+        copy_count = 0;
+        move_count = 0;
 
-int TestClass::constructor_count = 0;
-int TestClass::destructor_count = 0;
-
-TEST(UninitializedTest, UninitializedFill) 
-{
-    TestClass::reset_counters();
-    
-    alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
-    TestClass* start = reinterpret_cast<TestClass*>(buffer);
-    TestClass* end = start + 3;
-    
-    TestClass value(42);
-    mystl::uninitialized_fill(start, end, value);
-    
-    EXPECT_EQ(TestClass::constructor_count, 4);  // 1 for value, 3 for fill
-    EXPECT_EQ(start[0].value(), 42);
-    EXPECT_EQ(start[1].value(), 42);
-    EXPECT_EQ(start[2].value(), 42);
-    
-    mystl::destroy(start, end);
-    EXPECT_EQ(TestClass::destructor_count, 3);
+        Counter arr[] = {Counter(1), Counter(2), Counter(3)};
+        Counter* space = alloc.allocate(3);
+        
+        mystl::uninitialized_move(arr, arr + 3, space);
+        
+        EXPECT_EQ(move_count, 3);  // 三次移动
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            EXPECT_EQ(space[i].value, i + 1);
+        }
+        
+        mystl::destroy(space, space + 3);
+        alloc.deallocate(space, 3);
+    }
 }
 
-TEST(UninitializedTest, UninitializedFillN) 
+// 全局计数器
+int throw_copy_count = 0;
+int throw_destructor_count = 0;
+
+// 测试异常安全性
+TEST(UninitializedTest, ExceptionSafety) 
 {
-    TestClass::reset_counters();
+    struct ThrowOnCopy 
+    {
+        ThrowOnCopy() = default;
+        ThrowOnCopy(const ThrowOnCopy&) 
+        {
+            if (++throw_copy_count == 3) 
+            {
+                throw std::runtime_error("Copy constructor threw");
+            }
+        }
+        ~ThrowOnCopy() { ++throw_destructor_count; }
+    };
     
-    alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
-    TestClass* start = reinterpret_cast<TestClass*>(buffer);
+    mystl::allocator<ThrowOnCopy> alloc;
+    ThrowOnCopy arr[5];
     
-    TestClass value(42);
-    mystl::uninitialized_fill_n(start, 3, value);
-    
-    EXPECT_EQ(TestClass::constructor_count, 4);  // 1 for value, 3 for fill_n
-    EXPECT_EQ(start[0].value(), 42);
-    EXPECT_EQ(start[1].value(), 42);
-    EXPECT_EQ(start[2].value(), 42);
-    
-    mystl::destroy(start, start + 3);
-    EXPECT_EQ(TestClass::destructor_count, 3);
+    // 测试异常时的资源清理
+    {
+        throw_copy_count = 0;
+        throw_destructor_count = 0;
+
+        ThrowOnCopy* space = alloc.allocate(5);
+        
+        EXPECT_THROW(
+        {
+            mystl::uninitialized_copy(arr, arr + 5, space);
+        }, std::runtime_error);
+        
+        // 验证已构造的对象被正确析构
+        EXPECT_EQ(throw_destructor_count, throw_copy_count);
+        
+        alloc.deallocate(space, 5);
+    }
 }
 
-TEST(UninitializedTest, UninitializedCopy) 
+// 测试边界情况
+TEST(UninitializedTest, EdgeCases) 
 {
-    TestClass::reset_counters();
+    mystl::allocator<int> alloc;
     
-    std::vector<TestClass> src;
-    src.emplace_back(1);
-    src.emplace_back(2);
-    src.emplace_back(3);
+    // 测试空范围
+    {
+        int* space = alloc.allocate(1);
+        
+        // 空范围的操作应该是安全的
+        mystl::uninitialized_fill(space, space, 42);
+        mystl::uninitialized_copy(space, space, space);
+        mystl::uninitialized_move(space, space, space);
+        
+        alloc.deallocate(space, 1);
+    }
     
-    alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
-    TestClass* start = reinterpret_cast<TestClass*>(buffer);
-    
-    mystl::uninitialized_copy(src.begin(), src.end(), start);
-    
-    EXPECT_EQ(TestClass::constructor_count, 6);  // 3 for src, 3 for copy
-    EXPECT_EQ(start[0].value(), 1);
-    EXPECT_EQ(start[1].value(), 2);
-    EXPECT_EQ(start[2].value(), 3);
-    
-    mystl::destroy(start, start + 3);
-    EXPECT_EQ(TestClass::destructor_count, 3);
+    // 测试单个元素
+    {
+        int* space = alloc.allocate(1);
+        
+        mystl::uninitialized_fill_n(space, 1, 42);
+        EXPECT_EQ(*space, 42);
+        
+        mystl::destroy(space, space + 1);
+        alloc.deallocate(space, 1);
+    }
 }
 
-TEST(UninitializedTest, UninitializedMove) 
+// 测试平凡类型的优化
+TEST(UninitializedTest, TrivialTypeOptimization) 
 {
-    TestClass::reset_counters();
-    
-    std::vector<TestClass> src;
-    src.emplace_back(1);
-    src.emplace_back(2);
-    src.emplace_back(3);
-    
-    alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
-    TestClass* start = reinterpret_cast<TestClass*>(buffer);
-    
-    mystl::uninitialized_move(src.begin(), src.end(), start);
-    
-    EXPECT_EQ(TestClass::constructor_count, 6);  // 3 for src, 3 for move
-    EXPECT_EQ(start[0].value(), 1);
-    EXPECT_EQ(start[1].value(), 2);
-    EXPECT_EQ(start[2].value(), 3);
-    
-    mystl::destroy(start, start + 3);
-    EXPECT_EQ(TestClass::destructor_count, 3);
-}
+    // 测试平凡拷贝赋值类型
+    {
+        struct TrivialCopyAssignable 
+        {
+            int x;
+            double y;
+            // 默认的拷贝赋值运算符是平凡的
+        };
+        static_assert(std::is_trivially_copy_assignable_v<TrivialCopyAssignable>);
 
-TEST(UninitializedTest, Destroy) 
-{
-    TestClass::reset_counters();
-    
-    alignas(TestClass) unsigned char buffer[sizeof(TestClass) * 3];
-    TestClass* start = reinterpret_cast<TestClass*>(buffer);
-    
-    new (start) TestClass(1);
-    new (start + 1) TestClass(2);
-    new (start + 2) TestClass(3);
-    
-    EXPECT_EQ(TestClass::constructor_count, 3);
-    
-    mystl::destroy(start, start + 3);
-    EXPECT_EQ(TestClass::destructor_count, 3);
-}
+        mystl::allocator<TrivialCopyAssignable> alloc;
+        TrivialCopyAssignable* space = alloc.allocate(3);
+        TrivialCopyAssignable arr[3] = {{1, 1.0}, {2, 2.0}, {3, 3.0}};
 
-TEST(UninitializedTest, DestroyAt) 
-{
-    TestClass::reset_counters();
-    
-    alignas(TestClass) unsigned char buffer[sizeof(TestClass)];
-    TestClass* ptr = reinterpret_cast<TestClass*>(buffer);
-    
-    new (ptr) TestClass(42);
-    EXPECT_EQ(TestClass::constructor_count, 1);
-    
-    mystl::destroy_at(ptr);
-    EXPECT_EQ(TestClass::destructor_count, 1);
+        mystl::uninitialized_copy(arr, arr + 3, space);
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            EXPECT_EQ(space[i].x, arr[i].x);
+            EXPECT_EQ(space[i].y, arr[i].y);
+        }
+
+        mystl::destroy(space, space + 3);
+        alloc.deallocate(space, 3);
+    }
+
+    // 测试平凡移动赋值类型
+    {
+        struct TrivialMoveAssignable 
+        {
+            int x;
+            double y;
+            // 默认的移动赋值运算符是平凡的
+        };
+        static_assert(std::is_trivially_move_assignable_v<TrivialMoveAssignable>);
+
+        mystl::allocator<TrivialMoveAssignable> alloc;
+        TrivialMoveAssignable* space = alloc.allocate(3);
+        TrivialMoveAssignable arr[3] = {{1, 1.0}, {2, 2.0}, {3, 3.0}};
+
+        mystl::uninitialized_move(arr, arr + 3, space);
+        
+        for (int i = 0; i < 3; ++i) 
+        {
+            EXPECT_EQ(space[i].x, arr[i].x);
+            EXPECT_EQ(space[i].y, arr[i].y);
+        }
+
+        mystl::destroy(space, space + 3);
+        alloc.deallocate(space, 3);
+    }
 } 
