@@ -88,12 +88,14 @@ STL算法库的实现，提供一系列常用算法。
 
 
 
-## 二分查找
+## 二分查找算法
 
-- `lower_bound(first, last, value)`: 查找第一个不小于value的位置
-- `upper_bound(first, last, value)`: 查找第一个大于value的位置
-- `binary_search(first, last, value)`: 二分查找value是否存在
-- `equal_range(first, last, value)`: 查找value的范围
+- `lower_bound(first, last, value)`: 查找第一个不小于value的元素位置
+- `upper_bound(first, last, value)`: 查找第一个大于value的元素位置
+- `binary_search(first, last, value)`: 查找value是否存在
+- `equal_range(first, last, value)`: 返回等于value的元素区间
+
+所有二分查找算法都要求序列已经按升序排序，并提供使用自定义比较器的重载版本。
 
 
 

@@ -1204,4 +1204,120 @@ namespace mystl
         return last;
     }
 
+
+
+    /*****************************************************************************************/
+    // 二分查找算法
+    /*****************************************************************************************/
+
+    /*****************************************************************************************/
+    // lower_bound
+    // 在已排序的 [first, last) 中查找第一个大于等于 value 的元素位置
+    /*****************************************************************************************/
+    template<class ForwardIt, class T, class Compare>
+    ForwardIt lower_bound(ForwardIt first, ForwardIt last, const T& value, Compare comp)
+    {
+        auto len = mystl::distance(first, last);
+        
+        while (len > 0)
+        {
+            auto half = len / 2;
+            auto middle = first;
+            mystl::advance(middle, half);
+            
+            if (comp(*middle, value))    // 如果中间值小于value，则value在中间值的右边
+            {
+                first = middle;
+                ++first;
+                len = len - half - 1;
+            }
+            else
+            {
+                len = half;
+            }
+        }
+        return first;
+    }
+
+    template<class ForwardIt, class T>
+    ForwardIt lower_bound(ForwardIt first, ForwardIt last, const T& value)
+    {
+        return lower_bound(first, last, value, mystl::less<typename iterator_traits<ForwardIt>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // upper_bound
+    // 在已排序的 [first, last) 中查找第一个大于 value 的元素位置
+    /*****************************************************************************************/
+    template<class ForwardIt, class T, class Compare>
+    ForwardIt upper_bound(ForwardIt first, ForwardIt last, const T& value, Compare comp)
+    {
+        auto len = mystl::distance(first, last);
+        
+        while (len > 0)
+        {
+            auto half = len / 2;
+            auto middle = first;
+            mystl::advance(middle, half);
+            
+            if (!comp(value, *middle))
+            {
+                first = middle;
+                ++first;
+                len = len - half - 1;
+            }
+            else
+            {
+                len = half;
+            }
+        }
+        return first;
+    }
+
+    template<class ForwardIt, class T>
+    ForwardIt upper_bound(ForwardIt first, ForwardIt last, const T& value)
+    {
+        return upper_bound(first, last, value, mystl::less<typename iterator_traits<ForwardIt>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // binary_search
+    // 在已排序的 [first, last) 中查找等于 value 的元素，存在返回 true，否则返回 false
+    /*****************************************************************************************/
+    template<class ForwardIt, class T, class Compare>
+    bool binary_search(ForwardIt first, ForwardIt last, const T& value, Compare comp)
+    {
+        first = mystl::lower_bound(first, last, value, comp);
+        return (first != last && !comp(value, *first));
+    }
+
+    template<class ForwardIt, class T>
+    bool binary_search(ForwardIt first, ForwardIt last, const T& value)
+    {
+        return binary_search(first, last, value, mystl::less<typename iterator_traits<ForwardIt>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // equal_range
+    // 在已排序的 [first, last) 中查找等于 value 的元素所在区间，返回一对迭代器指向区间首尾
+    /*****************************************************************************************/
+    template<class ForwardIt, class T, class Compare>
+    mystl::pair<ForwardIt, ForwardIt>
+    equal_range(ForwardIt first, ForwardIt last, const T& value, Compare comp)
+    {
+        return mystl::pair<ForwardIt, ForwardIt>(
+            mystl::lower_bound(first, last, value, comp), 
+            mystl::upper_bound(first, last, value, comp));
+    }
+
+    template<class ForwardIt, class T>
+    mystl::pair<ForwardIt, ForwardIt> 
+    equal_range(ForwardIt first, ForwardIt last, const T& value)
+    {
+        return equal_range(first, last, value, mystl::less<typename iterator_traits<ForwardIt>::value_type>());
+    }
+
 } // namespace mystl 

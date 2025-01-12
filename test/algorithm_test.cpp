@@ -911,3 +911,93 @@ TEST(AlgorithmTest, IsSorted)
     };
     EXPECT_TRUE(mystl::is_sorted(equal_age_people.begin(), equal_age_people.end()));
 }
+
+// 测试二分查找算法
+TEST(AlgorithmTest, BinarySearch) 
+{
+    // 测试基本类型
+    mystl::vector<int> v{1, 2, 2, 2, 3, 4, 5};
+
+    // 测试 lower_bound
+    auto it1 = mystl::lower_bound(v.begin(), v.end(), 2);
+    EXPECT_EQ(*it1, 2);
+    EXPECT_EQ(mystl::distance(v.begin(), it1), 1);  // 第一个大于等于2的位置
+
+    auto it2 = mystl::lower_bound(v.begin(), v.end(), 6);
+    EXPECT_EQ(it2, v.end());  // 找不到大于等于6的元素
+
+    // 测试 upper_bound
+    auto it3 = mystl::upper_bound(v.begin(), v.end(), 2);
+    EXPECT_EQ(*it3, 3);
+    EXPECT_EQ(mystl::distance(v.begin(), it3), 4);  // 第一个大于2的位置
+
+    auto it4 = mystl::upper_bound(v.begin(), v.end(), 6);
+    EXPECT_EQ(it4, v.end());  // 找不到大于6的元素
+
+    // 测试 binary_search
+    EXPECT_TRUE(mystl::binary_search(v.begin(), v.end(), 3));
+    EXPECT_FALSE(mystl::binary_search(v.begin(), v.end(), 6));
+
+    // 测试 equal_range
+    auto p1 = mystl::equal_range(v.begin(), v.end(), 2);
+    EXPECT_EQ(mystl::distance(v.begin(), p1.first), 1);   // 第一个2的位置
+    EXPECT_EQ(mystl::distance(v.begin(), p1.second), 4);  // 最后一个2的下一个位置
+    EXPECT_EQ(mystl::distance(p1.first, p1.second), 3);   // 2的个数
+
+    auto p2 = mystl::equal_range(v.begin(), v.end(), 6);
+    EXPECT_EQ(p2.first, v.end());
+    EXPECT_EQ(p2.second, v.end());
+
+    // 测试自定义类型
+    struct Person 
+    {
+        std::string name;
+        int age;
+        bool operator<(const Person& other) const { return age < other.age; }
+    };
+
+    mystl::vector<Person> people{
+        {"Alice", 20}, {"Bob", 25}, {"Charlie", 25}, {"David", 30}
+    };
+
+    // 测试 lower_bound
+    auto it5 = mystl::lower_bound(people.begin(), people.end(), Person{"", 25});
+    EXPECT_EQ(it5->name, "Bob");  // 第一个年龄大于等于25的人
+
+    // 测试 upper_bound
+    auto it6 = mystl::upper_bound(people.begin(), people.end(), Person{"", 25});
+    EXPECT_EQ(it6->name, "David");  // 第一个年龄大于25的人
+
+    // 测试 binary_search
+    EXPECT_TRUE(mystl::binary_search(people.begin(), people.end(), Person{"", 25}));
+    EXPECT_FALSE(mystl::binary_search(people.begin(), people.end(), Person{"", 26}));
+
+    // 测试 equal_range
+    auto p3 = mystl::equal_range(people.begin(), people.end(), Person{"", 25});
+    EXPECT_EQ(p3.first->name, "Bob");      // 第一个年龄为25的人
+    EXPECT_EQ(p3.second->name, "David");    // 第一个年龄大于25的人
+    EXPECT_EQ(mystl::distance(p3.first, p3.second), 2);  // 年龄为25的人数
+
+    // 测试自定义比较器
+    auto comp = [](const Person& a, const Person& b) { return a.age < b.age; };
+    auto it7 = mystl::lower_bound(people.begin(), people.end(), Person{"", 25}, comp);
+    EXPECT_EQ(it7->name, "Bob");
+
+    // 测试空序列
+    mystl::vector<int> empty;
+    EXPECT_EQ(mystl::lower_bound(empty.begin(), empty.end(), 1), empty.end());
+    EXPECT_EQ(mystl::upper_bound(empty.begin(), empty.end(), 1), empty.end());
+    EXPECT_FALSE(mystl::binary_search(empty.begin(), empty.end(), 1));
+    auto p4 = mystl::equal_range(empty.begin(), empty.end(), 1);
+    EXPECT_EQ(p4.first, empty.end());
+    EXPECT_EQ(p4.second, empty.end());
+
+    // 测试单个元素
+    mystl::vector<int> single{1};
+    EXPECT_EQ(*mystl::lower_bound(single.begin(), single.end(), 1), 1);
+    EXPECT_EQ(mystl::upper_bound(single.begin(), single.end(), 1), single.end());
+    EXPECT_TRUE(mystl::binary_search(single.begin(), single.end(), 1));
+    auto p5 = mystl::equal_range(single.begin(), single.end(), 1);
+    EXPECT_EQ(*p5.first, 1);
+    EXPECT_EQ(p5.second, single.end());
+}

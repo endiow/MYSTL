@@ -22,6 +22,7 @@ namespace mystl
     {
         return comp(b, a) ? b : a;
     }
+    
 
     /*****************************************************************************************/
     // max
@@ -38,6 +39,8 @@ namespace mystl
     {
         return comp(a, b) ? b : a;
     }
+
+
 
     /*****************************************************************************************/
     // equal
@@ -69,6 +72,8 @@ namespace mystl
         return true;
     }
 
+
+
     /*****************************************************************************************/
     // mismatch
     // 平行比较两个序列，找到第一处失配的元素，返回一对迭代器，分别指向两个序列中失配的元素
@@ -95,6 +100,8 @@ namespace mystl
         }
         return mystl::pair<InputIt1, InputIt2>(first1, first2);
     }
+
+
 
     /*****************************************************************************************/
     // lexicographical_compare
@@ -145,7 +152,6 @@ namespace mystl
 
 
 
-
     /*****************************************************************************************/
     // copy
     // 把 [first, last)区间内的元素拷贝到 [result, result + (last - first))内
@@ -193,6 +199,7 @@ namespace mystl
         return copy_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
+
     /*****************************************************************************************/
     // copy_backward
     // 将 [first, last)区间内的元素拷贝到 [result - (last - first), result)内
@@ -234,6 +241,7 @@ namespace mystl
         return copy_backward_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
+
     /*****************************************************************************************/
     // copy_if
     // 把[first, last)内满足一元操作 pred 的元素拷贝到以 result 为起始的位置上
@@ -252,6 +260,7 @@ namespace mystl
         }
         return result;
     }
+
 
     /*****************************************************************************************/
     // copy_n
@@ -292,6 +301,8 @@ namespace mystl
         
         return copy_n_dispatch(first, count, result, bool_constant<can_use_memmove>{});
     }
+
+
 
     /*****************************************************************************************/
     // move
@@ -336,6 +347,7 @@ namespace mystl
         return move_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
+
     /*****************************************************************************************/
     // move_backward
     // 将 [first, last)区间内的元素移动到 [result - (last - first), result)内
@@ -377,6 +389,8 @@ namespace mystl
         return move_backward_dispatch(first, last, result, bool_constant<can_use_memmove>{});
     }
 
+
+
     /*****************************************************************************************/
     // fill
     // 为 [first, last)区间内的所有元素填充新值
@@ -400,6 +414,7 @@ namespace mystl
             *first = value;
         }
     }
+
 
     /*****************************************************************************************/
     // fill_n
@@ -432,7 +447,6 @@ namespace mystl
 
 
 
-
     /*****************************************************************************************/
     // iter_swap
     // 将两个迭代器所指对象对调
@@ -442,62 +456,4 @@ namespace mystl
     {
         mystl::swap(*a, *b);
     }
-
-    
-
-    // 二分查找基础操作
-    template<class ForwardIt, class T>
-    ForwardIt lower_bound(ForwardIt first, ForwardIt last, const T& value) 
-    {
-        ForwardIt it;
-        typename iterator_traits<ForwardIt>::difference_type count, step;
-        count = mystl::distance(first, last);
-        
-        while (count > 0) 
-        {
-            it = first;
-            step = count / 2;
-            mystl::advance(it, step);
-            
-            if (*it < value) 
-            {
-                first = ++it;
-                count -= step + 1;
-            }
-            else 
-            {
-                count = step;
-            }
-        }
-        return first;
-    }
-
-    template<class ForwardIt, class T>
-    ForwardIt upper_bound(ForwardIt first, ForwardIt last, const T& value) 
-    {
-        ForwardIt it;
-        typename iterator_traits<ForwardIt>::difference_type count, step;
-        count = mystl::distance(first, last);
-        
-        while (count > 0) 
-        {
-            it = first;
-            step = count / 2;
-            mystl::advance(it, step);
-            
-            if (!(value < *it)) 
-            {
-                first = ++it;
-                count -= step + 1;
-            }
-            else 
-            {
-                count = step;
-            }
-        }
-        return first;
-    }
-
-    
-
 } // namespace mystl 
