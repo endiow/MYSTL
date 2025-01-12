@@ -1055,3 +1055,357 @@ TEST(AlgorithmTest, Partition)
     auto it5 = mystl::partition(single.begin(), single.end(), is_even);
     EXPECT_EQ(it5, single.begin());
 }
+
+// 测试排列组合算法
+TEST(AlgorithmTest, Permutation) 
+{
+    // 测试 next_permutation
+    {
+        mystl::vector<int> v{1, 2, 3};
+        std::vector<mystl::vector<int>> permutations;
+        
+        do 
+        {
+            permutations.push_back(v);
+        } while (mystl::next_permutation(v.begin(), v.end()));
+        
+        // 验证所有可能的排列
+        EXPECT_EQ(permutations.size(), 6);  // 3! = 6
+        EXPECT_EQ(permutations[0], (mystl::vector<int>{1, 2, 3}));
+        EXPECT_EQ(permutations[1], (mystl::vector<int>{1, 3, 2}));
+        EXPECT_EQ(permutations[2], (mystl::vector<int>{2, 1, 3}));
+        EXPECT_EQ(permutations[3], (mystl::vector<int>{2, 3, 1}));
+        EXPECT_EQ(permutations[4], (mystl::vector<int>{3, 1, 2}));
+        EXPECT_EQ(permutations[5], (mystl::vector<int>{3, 2, 1}));
+    }
+    
+    // 测试 prev_permutation
+    {
+        mystl::vector<int> v{3, 2, 1};
+        std::vector<mystl::vector<int>> permutations;
+        
+        do 
+        {
+            permutations.push_back(v);
+        } while (mystl::prev_permutation(v.begin(), v.end()));
+        
+        // 验证所有可能的排列（逆序）
+        EXPECT_EQ(permutations.size(), 6);  // 3! = 6
+        EXPECT_EQ(permutations[0], (mystl::vector<int>{3, 2, 1}));
+        EXPECT_EQ(permutations[1], (mystl::vector<int>{3, 1, 2}));
+        EXPECT_EQ(permutations[2], (mystl::vector<int>{2, 3, 1}));
+        EXPECT_EQ(permutations[3], (mystl::vector<int>{2, 1, 3}));
+        EXPECT_EQ(permutations[4], (mystl::vector<int>{1, 3, 2}));
+        EXPECT_EQ(permutations[5], (mystl::vector<int>{1, 2, 3}));
+    }
+    
+    // 测试自定义比较器
+    {
+        mystl::vector<int> v{3, 2, 1};  // 从大到小开始
+        std::vector<mystl::vector<int>> permutations;
+        
+        do 
+        {
+            permutations.push_back(v);
+        } while (mystl::next_permutation(v.begin(), v.end(), mystl::greater<int>()));
+        
+        // 验证使用 greater 比较器的排列（从大到小开始）
+        EXPECT_EQ(permutations.size(), 6);
+        EXPECT_EQ(permutations[0], (mystl::vector<int>{3, 2, 1}));
+        EXPECT_EQ(permutations[1], (mystl::vector<int>{3, 1, 2}));
+        EXPECT_EQ(permutations[2], (mystl::vector<int>{2, 3, 1}));
+        EXPECT_EQ(permutations[3], (mystl::vector<int>{2, 1, 3}));
+        EXPECT_EQ(permutations[4], (mystl::vector<int>{1, 3, 2}));
+        EXPECT_EQ(permutations[5], (mystl::vector<int>{1, 2, 3}));
+    }
+    
+    // 测试边界情况
+    {
+        // 空序列
+        mystl::vector<int> empty;
+        EXPECT_FALSE(mystl::next_permutation(empty.begin(), empty.end()));
+        EXPECT_FALSE(mystl::prev_permutation(empty.begin(), empty.end()));
+        
+        // 单个元素
+        mystl::vector<int> single{1};
+        EXPECT_FALSE(mystl::next_permutation(single.begin(), single.end()));
+        EXPECT_FALSE(mystl::prev_permutation(single.begin(), single.end()));
+        
+        // 相等元素
+        mystl::vector<int> equal{1, 1, 1};
+        EXPECT_FALSE(mystl::next_permutation(equal.begin(), equal.end()));
+        EXPECT_FALSE(mystl::prev_permutation(equal.begin(), equal.end()));
+        
+        // 部分相等元素
+        mystl::vector<int> partial{1, 1, 2};
+        int count = 0;
+        do 
+        {
+            ++count;
+        } while (mystl::next_permutation(partial.begin(), partial.end()));
+        EXPECT_EQ(count, 3);  // 1,1,2 -> 1,2,1 -> 2,1,1
+    }
+    
+    // 测试自定义类型
+    {
+        struct Point 
+        {
+            int x, y;
+            Point(int x_ = 0, int y_ = 0) : x(x_), y(y_) {}
+            bool operator<(const Point& other) const 
+            {
+                return x < other.x || (x == other.x && y < other.y);
+            }
+            bool operator==(const Point& other) const 
+            {
+                return x == other.x && y == other.y;
+            }
+        };
+        
+        mystl::vector<Point> points{{1,1}, {1,2}, {2,1}};
+        int count = 0;
+        do 
+        {
+            ++count;
+        } while (mystl::next_permutation(points.begin(), points.end()));
+        EXPECT_EQ(count, 6);  // 3! = 6
+    }
+}
+
+// 测试集合操作算法
+TEST(AlgorithmTest, SetOperations) 
+{
+    // 测试 merge
+    {
+        mystl::vector<int> v1{9, 7, 5, 3, 1};  // 降序排列
+        mystl::vector<int> v2{10, 8, 6, 4, 2}; // 降序排列
+        mystl::vector<int> dest(10);
+        
+        auto end = mystl::merge(v1.begin(), v1.end(), v2.begin(), v2.end(), dest.begin(), mystl::greater<int>());
+        EXPECT_EQ(end, dest.end());
+        EXPECT_EQ(dest, (mystl::vector<int>{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}));
+    }
+    
+    // 测试 inplace_merge
+    {
+        mystl::vector<int> v{9, 7, 5, 3, 1, 10, 8, 6, 4, 2};  // 两段都是降序
+        mystl::inplace_merge(v.begin(), v.begin() + 5, v.end(), mystl::greater<int>());
+        EXPECT_EQ(v, (mystl::vector<int>{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}));
+    }
+    
+    // 测试 set_union
+    {
+        mystl::vector<int> v1{1, 2, 3, 4, 5};
+        mystl::vector<int> v2{4, 5, 6, 7, 8};
+        mystl::vector<int> dest;
+        
+        mystl::set_union(v1.begin(), v1.end(), v2.begin(), v2.end(), 
+                        mystl::back_inserter(dest));
+        EXPECT_EQ(dest, (mystl::vector<int>{1, 2, 3, 4, 5, 6, 7, 8}));
+        
+        // 测试重复元素
+        mystl::vector<int> v3{1, 1, 2, 2, 3};
+        mystl::vector<int> v4{2, 2, 3, 3, 4};
+        mystl::vector<int> dest2;
+        mystl::set_union(v3.begin(), v3.end(), v4.begin(), v4.end(), mystl::back_inserter(dest2));
+        EXPECT_EQ(dest2, (mystl::vector<int>{1, 1, 2, 2, 3, 3, 4}));
+    }
+    
+    // 测试 set_intersection
+    {
+        mystl::vector<int> v1{1, 2, 3, 4, 5};
+        mystl::vector<int> v2{4, 5, 6, 7, 8};
+        mystl::vector<int> dest;
+        
+        mystl::set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), mystl::back_inserter(dest));
+        EXPECT_EQ(dest, (mystl::vector<int>{4, 5}));
+        
+        // 测试重复元素
+        mystl::vector<int> v3{1, 1, 2, 2, 3};
+        mystl::vector<int> v4{2, 2, 3, 3, 4};
+        mystl::vector<int> dest2;
+        mystl::set_intersection(v3.begin(), v3.end(), v4.begin(), v4.end(), mystl::back_inserter(dest2));
+        EXPECT_EQ(dest2, (mystl::vector<int>{2, 2, 3}));
+    }
+    
+    // 测试 set_difference
+    {
+        mystl::vector<int> v1{1, 2, 3, 4, 5};
+        mystl::vector<int> v2{4, 5, 6, 7, 8};
+        mystl::vector<int> dest;
+        
+        mystl::set_difference(v1.begin(), v1.end(), v2.begin(), v2.end(), mystl::back_inserter(dest));
+        EXPECT_EQ(dest, (mystl::vector<int>{1, 2, 3}));
+        
+        // 测试重复元素
+        mystl::vector<int> v3{1, 1, 2, 2, 3};
+        mystl::vector<int> v4{2, 2, 3, 3, 4};
+        mystl::vector<int> dest2;
+        mystl::set_difference(v3.begin(), v3.end(), v4.begin(), v4.end(), mystl::back_inserter(dest2));
+        EXPECT_EQ(dest2, (mystl::vector<int>{1, 1}));
+    }
+    
+    // 测试 set_symmetric_difference
+    {
+        mystl::vector<int> v1{1, 2, 3, 4, 5};
+        mystl::vector<int> v2{4, 5, 6, 7, 8};
+        mystl::vector<int> dest;
+        
+        mystl::set_symmetric_difference(v1.begin(), v1.end(), v2.begin(), v2.end(), mystl::back_inserter(dest));
+        EXPECT_EQ(dest, (mystl::vector<int>{1, 2, 3, 6, 7, 8}));
+        
+        // 测试重复元素
+        mystl::vector<int> v3{1, 1, 2, 2, 3};
+        mystl::vector<int> v4{2, 2, 3, 3, 4};
+        mystl::vector<int> dest2;
+        mystl::set_symmetric_difference(v3.begin(), v3.end(), v4.begin(), v4.end(), mystl::back_inserter(dest2));
+        EXPECT_EQ(dest2, (mystl::vector<int>{1, 1, 3, 4}));
+    }
+    
+    // 测试边界情况
+    {
+        mystl::vector<int> empty;
+        mystl::vector<int> v{1, 2, 3};
+        mystl::vector<int> dest;
+        
+        // 空序列
+        mystl::merge(empty.begin(), empty.end(), empty.begin(), empty.end(), mystl::back_inserter(dest));
+        EXPECT_TRUE(dest.empty());
+        
+        // 一个序列为空
+        dest.clear();
+        mystl::merge(v.begin(), v.end(), empty.begin(), empty.end(), mystl::back_inserter(dest));
+        EXPECT_EQ(dest, v);
+        
+        // 单个元素
+        mystl::vector<int> single1{1};
+        mystl::vector<int> single2{2};
+        dest.clear();
+        mystl::merge(single1.begin(), single1.end(), single2.begin(), single2.end(), mystl::back_inserter(dest));
+        EXPECT_EQ(dest, (mystl::vector<int>{1, 2}));
+    }
+}
+
+// 测试数值算法
+TEST(AlgorithmTest, NumericOperations) 
+{
+    // 测试 accumulate
+    {
+        mystl::vector<int> v{1, 2, 3, 4, 5};
+        
+        // 测试默认加法
+        int sum = mystl::accumulate(v.begin(), v.end(), 0);
+        EXPECT_EQ(sum, 15);  // 1 + 2 + 3 + 4 + 5 = 15
+        
+        // 测试自定义操作（乘法）
+        int product = mystl::accumulate(v.begin(), v.end(), 1, 
+            [](int a, int b) { return a * b; });
+        EXPECT_EQ(product, 120);  // 1 * 2 * 3 * 4 * 5 = 120
+    }
+    
+    // 测试 inner_product
+    {
+        mystl::vector<int> v1{1, 2, 3};
+        mystl::vector<int> v2{4, 5, 6};
+        
+        // 测试默认操作（乘加）
+        int result1 = mystl::inner_product(v1.begin(), v1.end(), v2.begin(), 0);
+        EXPECT_EQ(result1, 32);  // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
+        
+        // 测试自定义操作（加乘）
+        int result2 = mystl::inner_product(v1.begin(), v1.end(), v2.begin(), 0, mystl::plus<int>(), mystl::multiplies<int>());
+        EXPECT_EQ(result2, 32);  // (0 + 1*4) + 2*5 + 3*6 = 32
+    }
+    
+    // 测试 partial_sum
+    {
+        mystl::vector<int> v{1, 2, 3, 4, 5};
+        mystl::vector<int> result1(v.size());
+        
+        // 测试默认加法
+        mystl::partial_sum(v.begin(), v.end(), result1.begin());
+        EXPECT_EQ(result1, (mystl::vector<int>{1, 3, 6, 10, 15}));
+        
+        // 测试自定义操作（乘法）
+        mystl::vector<int> result2(v.size());
+        mystl::partial_sum(v.begin(), v.end(), result2.begin(), std::multiplies<int>());
+        EXPECT_EQ(result2, (mystl::vector<int>{1, 2, 6, 24, 120}));
+    }
+    
+    // 测试 adjacent_difference
+    {
+        mystl::vector<int> v{1, 3, 6, 10, 15};
+        mystl::vector<int> result1(v.size());
+        
+        // 测试默认减法
+        mystl::adjacent_difference(v.begin(), v.end(), result1.begin());
+        EXPECT_EQ(result1, (mystl::vector<int>{1, 2, 3, 4, 5}));
+        
+        // 测试自定义操作（加法）
+        mystl::vector<int> result2(v.size());
+        mystl::adjacent_difference(v.begin(), v.end(), result2.begin(), std::plus<int>());
+        EXPECT_EQ(result2, (mystl::vector<int>{1, 4, 9, 16, 25}));
+    }
+    
+    // 测试边界情况
+    {
+        // 空序列
+        mystl::vector<int> empty;
+        mystl::vector<int> result;
+        
+        int sum = mystl::accumulate(empty.begin(), empty.end(), 0);
+        EXPECT_EQ(sum, 0);
+        
+        mystl::partial_sum(empty.begin(), empty.end(), mystl::back_inserter(result));
+        EXPECT_TRUE(result.empty());
+        
+        mystl::adjacent_difference(empty.begin(), empty.end(), mystl::back_inserter(result));
+        EXPECT_TRUE(result.empty());
+        
+        // 单个元素
+        mystl::vector<int> single{1};
+        mystl::vector<int> result_single(1);
+        
+        mystl::partial_sum(single.begin(), single.end(), result_single.begin());
+        EXPECT_EQ(result_single, single);
+        
+        mystl::adjacent_difference(single.begin(), single.end(), result_single.begin());
+        EXPECT_EQ(result_single, single);
+    }
+    
+    // 测试自定义类型
+    {
+        struct Point 
+        {
+            int x, y;
+            Point(int x_ = 0, int y_ = 0) : x(x_), y(y_) {}
+            Point operator+(const Point& other) const 
+            {
+                return Point(x + other.x, y + other.y);
+            }
+            Point operator-(const Point& other) const 
+            {
+                return Point(x - other.x, y - other.y);
+            }
+            bool operator==(const Point& other) const 
+            {
+                return x == other.x && y == other.y;
+            }
+        };
+        
+        mystl::vector<Point> points{{1,1}, {2,2}, {3,3}};
+        mystl::vector<Point> result(points.size());
+        
+        // 测试 partial_sum
+        mystl::partial_sum(points.begin(), points.end(), result.begin());
+        EXPECT_EQ(result[0], (Point{1,1}));
+        EXPECT_EQ(result[1], (Point{3,3}));
+        EXPECT_EQ(result[2], (Point{6,6}));
+        
+        // 测试 adjacent_difference
+        mystl::adjacent_difference(result.begin(), result.end(), result.begin());
+        EXPECT_EQ(result[0], (Point{1,1}));
+        EXPECT_EQ(result[1], (Point{2,2}));
+        EXPECT_EQ(result[2], (Point{3,3}));
+    }
+}

@@ -61,5 +61,43 @@ namespace mystl
     {
         bool operator()(const T& x, const T& y) const { return x <= y; }
     };
+    
+
+    // 算术运算函数对象
+    template <class T>
+    struct plus 
+    {
+        T operator()(const T& x, const T& y) const { return x + y; }
+    };
+
+    template <class T>
+    struct minus 
+    {
+        T operator()(const T& x, const T& y) const { return x - y; }
+    };
+
+    template <class T>
+    struct multiplies 
+    {
+        T operator()(const T& x, const T& y) const { return x * y; }
+    };
+
+    template <class T>
+    struct divides 
+    {
+        T operator()(const T& x, const T& y) const { return x / y; }
+    };
+
+    template <class T>
+    struct modulus 
+    {
+        T operator()(const T& x, const T& y) const { return x % y; }
+    };
+
+    template <class T>
+    struct negate 
+    {
+        T operator()(const T& x) const { return -x; }
+    };
 
 } // namespace mystl

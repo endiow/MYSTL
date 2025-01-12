@@ -111,8 +111,8 @@ STL算法库的实现，提供一系列常用算法。
 
 ## 排列组合
 
-- `next_permutation(first, last)`: 获取下一个排列
-- `prev_permutation(first, last)`: 获取上一个排列
+- `next_permutation(first, last)`: 获取下一个字典序排列
+- `prev_permutation(first, last)`: 获取上一个字典序排列
 
 
 

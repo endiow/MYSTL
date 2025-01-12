@@ -1421,4 +1421,420 @@ namespace mystl
         return mystl::pair<OutputIt1, OutputIt2>(d_first_true, d_first_false);
     }
 
+
+
+    /*****************************************************************************************/
+    // next_permutation
+    // 获取下一个字典序排列，如果存在则返回 true，否则返回 false
+    // eg:1 3 2 -> 2 1 3：
+    // 找到升序对 1,3
+    // 找到大于 1 的最右元素 2
+    // 交换 1,2
+    // 反转 3,2 得到 2,1,3
+    /*****************************************************************************************/
+    template <class BidirIt, class Compare>
+    bool next_permutation(BidirIt first, BidirIt last, Compare comp)
+    {
+        if (first == last) return false;
+        BidirIt i = last;
+        if (first == --i) return false;
+
+        while (true) 
+        {
+            BidirIt i1, i2;
+            i1 = i;
+            if (comp(*--i, *i1))  // 从右向左找第一个相邻的升序对
+            {
+                i2 = last;
+                while (!comp(*i, *--i2));  // 从右向左找第一个小于 *i 的元素
+                mystl::iter_swap(i, i2);
+                mystl::reverse(i1, last);  // 反转 i1 之后的序列
+                return true;
+            }
+            if (i == first)     // 如果已经是最后一个排列
+            {
+                mystl::reverse(first, last);  // 反转整个序列
+                return false;
+            }
+        }
+    }
+
+    template <class BidirIt>
+    bool next_permutation(BidirIt first, BidirIt last)
+    {
+        return mystl::next_permutation(first, last, mystl::less<typename iterator_traits<BidirIt>::value_type>());
+    }
+    
+
+    /*****************************************************************************************/
+    // prev_permutation
+    // 获取上一个字典序排列，如果存在则返回 true，否则返回 false
+    /*****************************************************************************************/
+    template <class BidirIt, class Compare>
+    bool prev_permutation(BidirIt first, BidirIt last, Compare comp)
+    {
+        if (first == last) return false;
+        BidirIt i = last;
+        if (first == --i) return false;
+
+        while (true) 
+        {
+            BidirIt i1, i2;
+            i1 = i;
+            if (comp(*i1, *--i))  
+            {
+                i2 = last;
+                while (!comp(*--i2, *i));  
+                mystl::iter_swap(i, i2);
+                mystl::reverse(i1, last);
+                return true;
+            }
+            if (i == first) 
+            {
+                mystl::reverse(first, last);
+                return false;
+            }
+        }
+    }
+
+    template <class BidirIt>
+    bool prev_permutation(BidirIt first, BidirIt last)
+    {
+        return mystl::prev_permutation(first, last, mystl::less<typename iterator_traits<BidirIt>::value_type>());
+    }
+
+
+
+    /*****************************************************************************************/
+    // 集合操作算法
+    /*****************************************************************************************/
+
+    /*****************************************************************************************/
+    // merge
+    // 合并两个有序序列，结果放到以 d_first 为起始的位置（相等元素的相对位置不变）
+    /*****************************************************************************************/
+    template<class InputIt1, class InputIt2, class OutputIt, class Compare>
+    OutputIt merge(InputIt1 first1, InputIt1 last1,
+                   InputIt2 first2, InputIt2 last2,
+                   OutputIt d_first, Compare comp)
+    {
+        while (first1 != last1 && first2 != last2)
+        {
+            if (comp(*first2, *first1))
+            {
+                *d_first = *first2;
+                ++first2;
+            }
+            else
+            {
+                *d_first = *first1;
+                ++first1;
+            }
+            ++d_first;
+        }
+        return mystl::copy(first2, last2, mystl::copy(first1, last1, d_first));
+    }
+
+    template<class InputIt1, class InputIt2, class OutputIt>
+    OutputIt merge(InputIt1 first1, InputIt1 last1,
+                   InputIt2 first2, InputIt2 last2,
+                   OutputIt d_first)
+    {
+        return mystl::merge(first1, last1, first2, last2, d_first, 
+                            mystl::less<typename iterator_traits<InputIt1>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // inplace_merge
+    // 原地合并两个有序序列
+    /*****************************************************************************************/
+    template<class BidirIt, class Compare>
+    void inplace_merge(BidirIt first, BidirIt middle, BidirIt last, Compare comp)
+    {
+        if (first == middle || middle == last) return;
+
+        // 分配临时缓冲区
+        using value_type = typename iterator_traits<BidirIt>::value_type;
+        auto buffer = new value_type[last - first];
+        
+        // 合并到缓冲区
+        mystl::merge(first, middle, middle, last, buffer, comp);
+        
+        // 复制回原序列
+        mystl::move(buffer, buffer + (last - first), first);
+        
+        delete[] buffer;
+    }
+
+    template<class BidirIt>
+    void inplace_merge(BidirIt first, BidirIt middle, BidirIt last)
+    {
+        mystl::inplace_merge(first, middle, last,
+                             mystl::less<typename iterator_traits<BidirIt>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // set_union
+    // 构造两个有序序列的并集（相等元素只保留一个）
+    /*****************************************************************************************/
+    template<class InputIt1, class InputIt2, class OutputIt, class Compare>
+    OutputIt set_union(InputIt1 first1, InputIt1 last1,
+                       InputIt2 first2, InputIt2 last2,
+                       OutputIt d_first, Compare comp)
+    {
+        while (first1 != last1 && first2 != last2)
+        {
+            if (comp(*first1, *first2))
+            {
+                *d_first = *first1;
+                ++first1;
+            }
+            else if (comp(*first2, *first1))
+            {
+                *d_first = *first2;
+                ++first2;
+            }
+            else
+            {
+                *d_first = *first1;
+                ++first1;
+                ++first2;
+            }
+            ++d_first;
+        }
+        return mystl::copy(first2, last2, mystl::copy(first1, last1, d_first));
+    }
+
+    template<class InputIt1, class InputIt2, class OutputIt>
+    OutputIt set_union(InputIt1 first1, InputIt1 last1,
+                       InputIt2 first2, InputIt2 last2,
+                       OutputIt d_first)
+    {
+        return mystl::set_union(first1, last1, first2, last2, d_first,
+                                mystl::less<typename iterator_traits<InputIt1>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // set_intersection
+    // 构造两个有序序列的交集（两个序列中都存在的元素）
+    /*****************************************************************************************/
+    template<class InputIt1, class InputIt2, class OutputIt, class Compare>
+    OutputIt set_intersection(InputIt1 first1, InputIt1 last1,
+                              InputIt2 first2, InputIt2 last2,
+                              OutputIt d_first, Compare comp)
+    {
+        while (first1 != last1 && first2 != last2)
+        {
+            if (comp(*first1, *first2))
+                ++first1;
+            else if (comp(*first2, *first1))
+                ++first2;
+            else
+            {
+                *d_first = *first1;
+                ++first1;
+                ++first2;
+                ++d_first;
+            }
+        }
+        return d_first;
+    }
+
+    template<class InputIt1, class InputIt2, class OutputIt>
+    OutputIt set_intersection(InputIt1 first1, InputIt1 last1,
+                              InputIt2 first2, InputIt2 last2,
+                              OutputIt d_first)
+    {
+        return mystl::set_intersection(first1, last1, first2, last2, d_first,
+                                       mystl::less<typename iterator_traits<InputIt1>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // set_difference
+    // 构造两个有序序列的差集（在第一个序列中但不在第二个序列中的元素）
+    /*****************************************************************************************/
+    template<class InputIt1, class InputIt2, class OutputIt, class Compare>
+    OutputIt set_difference(InputIt1 first1, InputIt1 last1,
+                            InputIt2 first2, InputIt2 last2,
+                            OutputIt d_first, Compare comp)
+    {
+        while (first1 != last1 && first2 != last2)
+        {
+            if (comp(*first1, *first2))
+            {
+                *d_first = *first1;
+                ++first1;
+                ++d_first;
+            }
+            else if (comp(*first2, *first1))
+                ++first2;
+            else
+            {
+                ++first1;
+                ++first2;
+            }
+        }
+        return mystl::copy(first1, last1, d_first);
+    }
+
+    template<class InputIt1, class InputIt2, class OutputIt>
+    OutputIt set_difference(InputIt1 first1, InputIt1 last1,
+                            InputIt2 first2, InputIt2 last2,
+                            OutputIt d_first)
+    {
+        return mystl::set_difference(first1, last1, first2, last2, d_first,
+                                     mystl::less<typename iterator_traits<InputIt1>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // set_symmetric_difference
+    // 构造两个有序序列的对称差集（在第一个序列中但不在第二个序列中的元素，以及在第二个序列中但不在第一个序列中的元素）
+    /*****************************************************************************************/
+    template<class InputIt1, class InputIt2, class OutputIt, class Compare>
+    OutputIt set_symmetric_difference(InputIt1 first1, InputIt1 last1,
+                                      InputIt2 first2, InputIt2 last2,
+                                      OutputIt d_first, Compare comp)
+    {
+        while (first1 != last1 && first2 != last2)
+        {
+            if (comp(*first1, *first2))
+            {
+                *d_first = *first1;
+                ++first1;
+                ++d_first;
+            }
+            else if (comp(*first2, *first1))
+            {
+                *d_first = *first2;
+                ++first2;
+                ++d_first;
+            }
+            else
+            {
+                ++first1;
+                ++first2;
+            }
+        }
+        return mystl::copy(first2, last2, mystl::copy(first1, last1, d_first));
+    }
+
+    template<class InputIt1, class InputIt2, class OutputIt>
+    OutputIt set_symmetric_difference(InputIt1 first1, InputIt1 last1,
+                                      InputIt2 first2, InputIt2 last2,
+                                      OutputIt d_first)
+    {
+        return mystl::set_symmetric_difference(first1, last1, first2, last2, d_first,
+                                               mystl::less<typename iterator_traits<InputIt1>::value_type>());
+    }
+
+
+
+    /*****************************************************************************************/
+    // 数值算法
+    /*****************************************************************************************/
+
+    /*****************************************************************************************/
+    // accumulate
+    // 计算序列中元素的和，可以提供初值和自定义操作
+    /*****************************************************************************************/
+    template<class InputIt, class T, class BinaryOperation>
+    T accumulate(InputIt first, InputIt last, T init, BinaryOperation op)
+    {
+        for (; first != last; ++first)
+        {
+            init = op(init, *first);  // 使用自定义操作
+        }
+        return init;
+    }
+
+    template<class InputIt, class T>
+    T accumulate(InputIt first, InputIt last, T init)
+    {
+        return mystl::accumulate(first, last, init, mystl::plus<T>());
+    }
+
+
+    /*****************************************************************************************/
+    // inner_product
+    // 计算两个序列的内积，可以提供初值和自定义操作
+    /*****************************************************************************************/
+    template<class InputIt1, class InputIt2, class T, class BinaryOperation1, class BinaryOperation2>
+    T inner_product(InputIt1 first1, InputIt1 last1, InputIt2 first2, T init,
+                    BinaryOperation1 op1, BinaryOperation2 op2)
+    {
+        for (; first1 != last1; ++first1, ++first2)
+        {
+            init = op1(init, op2(*first1, *first2));  // 使用自定义操作
+        }
+        return init;
+    }
+
+    template<class InputIt1, class InputIt2, class T>
+    T inner_product(InputIt1 first1, InputIt1 last1, InputIt2 first2, T init)
+    {
+        return mystl::inner_product(first1, last1, first2, init,
+                                    mystl::plus<T>(), mystl::multiplies<T>());
+    }
+
+
+    /*****************************************************************************************/
+    // partial_sum
+    // 计算序列的部分和，结果保存到以 d_first 为起始的位置
+    /*****************************************************************************************/
+    template<class InputIt, class OutputIt, class BinaryOperation>
+    OutputIt partial_sum(InputIt first, InputIt last, OutputIt d_first, BinaryOperation op)
+    {
+        if (first == last) return d_first;
+        
+        typename iterator_traits<InputIt>::value_type sum = *first;
+        *d_first = sum;
+        
+        while (++first != last)
+        {
+            sum = op(sum, *first);  // 使用自定义操作
+            *++d_first = sum;
+        }
+        return ++d_first;
+    }
+
+    template<class InputIt, class OutputIt>
+    OutputIt partial_sum(InputIt first, InputIt last, OutputIt d_first)
+    {
+        return mystl::partial_sum(first, last, d_first,
+                                  mystl::plus<typename iterator_traits<InputIt>::value_type>());
+    }
+
+
+    /*****************************************************************************************/
+    // adjacent_difference
+    // 计算相邻元素的差，结果保存到以 d_first 为起始的位置
+    /*****************************************************************************************/
+    template<class InputIt, class OutputIt, class BinaryOperation>
+    OutputIt adjacent_difference(InputIt first, InputIt last, OutputIt d_first, BinaryOperation op)
+    {
+        if (first == last) return d_first;
+        
+        typename iterator_traits<InputIt>::value_type value = *first;
+        *d_first = value;
+        
+        while (++first != last)
+        {
+            typename iterator_traits<InputIt>::value_type tmp = *first;
+            *++d_first = op(tmp, value);  // 使用自定义操作
+            value = tmp;
+        }
+        return ++d_first;
+    }
+
+    template<class InputIt, class OutputIt>
+    OutputIt adjacent_difference(InputIt first, InputIt last, OutputIt d_first)
+    {
+        return mystl::adjacent_difference(first, last, d_first,
+                                          mystl::minus<typename iterator_traits<InputIt>::value_type>());
+    }
 } // namespace mystl 
