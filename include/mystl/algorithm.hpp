@@ -740,27 +740,8 @@ namespace mystl
 
     /*****************************************************************************************/
     // insertion_sort (稳定)
-    // 插入排序，对 [first, last) 进行排序
+    // 插入排序，假设当前元素之前的元素已经有序，将当前元素插入到前面合适的位置
     /*****************************************************************************************/
-    template<class RandomIt>
-    void insertion_sort(RandomIt first, RandomIt last)
-    {
-        if (first == last) return;
-        
-        for (auto i = first + 1; i != last; ++i)
-        {
-            auto key = mystl::move(*i);
-            auto j = i;
-            
-            for (; j != first && key < *(j - 1); --j)
-            {
-                *j = mystl::move(*(j - 1));
-            }
-            *j = mystl::move(key);
-        }
-    }
-
-    // 重载版本使用函数对象 comp 代替比较操作
     template<class RandomIt, class Compare>
     void insertion_sort(RandomIt first, RandomIt last, Compare comp)
     {
@@ -779,15 +760,21 @@ namespace mystl
         }
     }
 
+    template<class RandomIt>
+    void insertion_sort(RandomIt first, RandomIt last)
+    {
+        insertion_sort(first, last, mystl::less<typename iterator_traits<RandomIt>::value_type>());
+    }
+
 
     /*****************************************************************************************/
     // merge_sort (稳定)
-    // 归并排序，对 [first, last) 进行排序
+    // 归并排序，递归将两个有序的序列合并成一个有序的序列
     /*****************************************************************************************/
     template<class RandomIt, class Compare>
     void merge_sort_impl(RandomIt first, RandomIt middle, RandomIt last,
-                        typename iterator_traits<RandomIt>::value_type* buffer,
-                        Compare comp)
+                         typename iterator_traits<RandomIt>::value_type* buffer,
+                         Compare comp)
     {
         RandomIt first1 = first;
         RandomIt first2 = middle;
@@ -834,7 +821,7 @@ namespace mystl
 
     /*****************************************************************************************/
     // bubble_sort (稳定)
-    // 冒泡排序，对 [first, last) 进行排序
+    // 冒泡排序，每次找出最小的元素，移动到最前面
     /*****************************************************************************************/
     template<class RandomIt, class Compare>
     void bubble_sort(RandomIt first, RandomIt last, Compare comp)
@@ -870,46 +857,8 @@ namespace mystl
 
     /*****************************************************************************************/
     // quick_sort (不稳定)
-    // 快速排序，对 [first, last) 进行排序
+    // 快速排序，令first为基准值，将小于基准值的元素放在基准值左边，大于基准值的元素放在基准值右边，递归处理直到只有两个元素
     /*****************************************************************************************/
-    template<class RandomIt>
-    void quick_sort_impl(RandomIt first, RandomIt last)
-    {
-        if (first >= last) return;
-        
-        // 选择基准值
-        auto pivot = mystl::move(*first);
-        auto i = first;
-        auto j = last - 1;
-        
-        while (i < j)
-        {
-            while (i < j && !(pivot < *j)) --j;
-            if (i < j) *i = mystl::move(*j);
-            
-            while (i < j && *i < pivot) ++i;
-            if (i < j) *j = mystl::move(*i);
-        }
-        *i = mystl::move(pivot);
-        
-        quick_sort_impl(first, i);
-        quick_sort_impl(i + 1, last);
-    }
-
-    template<class RandomIt>
-    void quick_sort(RandomIt first, RandomIt last)
-    {
-        if (last - first > 16)
-        {
-            quick_sort_impl(first, last);
-        }
-        else
-        {
-            insertion_sort(first, last);  // 小数组使用插入排序
-        }
-    }
-
-    // 重载版本使用函数对象 comp 代替比较操作
     template<class RandomIt, class Compare>
     void quick_sort_impl(RandomIt first, RandomIt last, Compare comp)
     {
@@ -946,17 +895,23 @@ namespace mystl
         }
     }
 
+    template<class RandomIt>
+    void quick_sort(RandomIt first, RandomIt last)
+    {
+        quick_sort(first, last, mystl::less<typename iterator_traits<RandomIt>::value_type>());
+    }
+
 
     /*****************************************************************************************/
     // heap_sort (不稳定)
-    // 堆排序，对 [first, last) 进行排序
+    // 堆排序，建堆，然后每次将堆顶元素与最后一个元素交换，然后调整堆，弹出的堆顶元素就是有序的
     /*****************************************************************************************/
     // 上溯，用于调整堆
     template<class RandomIt, class Compare>
     void up_heap(RandomIt first, 
-                typename iterator_traits<RandomIt>::difference_type holeIndex,
-                typename iterator_traits<RandomIt>::difference_type topIndex,
-                Compare comp)
+                 typename iterator_traits<RandomIt>::difference_type holeIndex,
+                 typename iterator_traits<RandomIt>::difference_type topIndex,
+                 Compare comp)
     {
         auto value = mystl::move(*(first + holeIndex));
         while (holeIndex > topIndex && comp(*(first + (holeIndex - 1) / 2), value))
@@ -970,9 +925,9 @@ namespace mystl
     // 下溯，用于调整堆
     template<class RandomIt, class Compare>
     void down_heap(RandomIt first,
-                  typename iterator_traits<RandomIt>::difference_type holeIndex,
-                  typename iterator_traits<RandomIt>::difference_type len,
-                  Compare comp)
+                   typename iterator_traits<RandomIt>::difference_type holeIndex,
+                   typename iterator_traits<RandomIt>::difference_type len,
+                   Compare comp)
     {
         auto value = mystl::move(*(first + holeIndex));
         typename iterator_traits<RandomIt>::difference_type child;
@@ -1017,23 +972,43 @@ namespace mystl
 
     /*****************************************************************************************/
     // selection_sort (不稳定)
-    // 选择排序，对 [first, last) 进行排序
+    // 双向选择排序，每次同时找出最大值和最小值，最小值放在前面，最大值放在后面
     /*****************************************************************************************/
     template<class RandomIt, class Compare>
     void selection_sort(RandomIt first, RandomIt last, Compare comp)
     {
         if (first == last) return;
         
-        for (auto i = first; i != last - 1; ++i)
+        while (first < last)
         {
-            auto min_pos = i;
-            for (auto j = i + 1; j != last; ++j)
+            auto min_pos = first;
+            auto max_pos = first;
+            auto i = first + 1;
+            
+            // 同时寻找最大值和最小值
+            while (i != last)
             {
-                if (comp(*j, *min_pos))
-                    min_pos = j;
+                if (comp(*i, *min_pos))
+                    min_pos = i;
+                else if (comp(*max_pos, *i))
+                    max_pos = i;
+                ++i;
             }
-            if (min_pos != i)
-                mystl::iter_swap(i, min_pos);
+            
+            // 如果最小值不在开头，交换到开头
+            if (min_pos != first)
+                mystl::iter_swap(first, min_pos);
+                
+            // 如果最大值是first(已被交换)，更新为min_pos的位置
+            if (max_pos == first)
+                max_pos = min_pos;
+                
+            // 如果最大值不在末尾，交换到末尾
+            --last;
+            if (max_pos != last)
+                mystl::iter_swap(last, max_pos);
+                
+            ++first;
         }
     }
 
@@ -1046,7 +1021,7 @@ namespace mystl
 
     /*****************************************************************************************/
     // shell_sort (不稳定)
-    // 希尔排序，对 [first, last) 进行排序
+    // 希尔排序，使用不同的间隔对子序列进行插入排序，最后一次间隔为1就是普通插入排序
     /*****************************************************************************************/
     template<class RandomIt, class Compare>
     void shell_sort(RandomIt first, RandomIt last, Compare comp)
