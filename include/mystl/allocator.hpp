@@ -14,7 +14,10 @@ namespace mystl
         MemoryBlock* next;  // 指向下一个内存块，形成链表
     };
 
+
+    //------------------------------------------------------------------------------
     // 内存池实现：为特定类型T提供内存分配和管理
+    //------------------------------------------------------------------------------
     template<class T, size_t BlockSize = 4096>
     class MemoryPool 
     {
@@ -167,7 +170,11 @@ namespace mystl
         }
     };
 
+
+
+    //------------------------------------------------------------------------------    
     // STL分配器封装：符合STL分配器要求的接口
+    //------------------------------------------------------------------------------
     template<class T>
     class allocator 
     {
@@ -189,9 +196,38 @@ namespace mystl
         struct rebind { using other = allocator<U>; };
 
         // 构造函数
-        allocator() = default;
+        constexpr allocator() noexcept = default;
+        constexpr allocator(const allocator&) noexcept = default;
+        constexpr allocator& operator=(const allocator&) noexcept = default;
+        ~allocator() = default;
+
+        // 允许从其他类型的分配器构造
         template<typename U>
-        allocator(const allocator<U>&) {}
+        constexpr allocator(const allocator<U>&) noexcept {}
+
+        // 获取地址
+        static pointer address(reference x) noexcept 
+        { 
+            return &x; 
+        }
+
+        static const_pointer address(const_reference x) noexcept 
+        { 
+            return &x; 
+        }
+
+        // 比较操作
+        template <class U>
+        bool operator==(const allocator<U>&) const noexcept 
+        { 
+            return true; 
+        }
+
+        template <class U>
+        bool operator!=(const allocator<U>&) const noexcept 
+        { 
+            return false; 
+        }
 
         // 内存分配
         pointer allocate(size_type n) 
