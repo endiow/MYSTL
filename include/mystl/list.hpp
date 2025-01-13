@@ -6,6 +6,7 @@
 #include "iterator.hpp"
 #include "util.hpp"
 #include "functional.hpp"
+#include "algorithm.hpp"
 
 namespace mystl 
 {
@@ -407,11 +408,14 @@ namespace mystl
 
         // 在pos之前插入[first, last)范围内的元素
         template <class InputIt>
-        iterator insert(const_iterator pos, InputIt first, InputIt last)
+        iterator insert(const_iterator pos, InputIt first, InputIt last,
+            typename std::enable_if<!std::is_integral<InputIt>::value>::type* = nullptr)
         {
             iterator result(reinterpret_cast<node_type*>(pos.node));
             for (; first != last; ++first)
-                result = insert(pos, *first);
+            {
+                insert(pos, *first);
+            }
             return result;
         }
 
@@ -609,40 +613,7 @@ namespace mystl
             unique(mystl::equal_to<T>());
         }
 
-        // 修改器
-        template <class InputIt>
-        iterator insert(const_iterator pos, InputIt first, InputIt last) 
-        {
-            iterator result(reinterpret_cast<node_type*>(pos.node));
-            for (; first != last; ++first)
-                result = insert(pos, *first);
-            return result;
-        }
-
-        iterator erase(const_iterator first, const_iterator last) 
-        {
-            while (first != last)
-                first = erase(first);
-            return iterator(reinterpret_cast<node_type*>(last.node));
-        }
-
-        void resize(size_type count) 
-        {
-            resize(count, T());
-        }
-
-        void resize(size_type count, const T& value) 
-        {
-            if (count > size_) 
-            {
-                insert(end(), count - size_, value);
-            }
-            else 
-            {
-                while (size_ > count)
-                    pop_back();
-            }
-        }
+        
 
         // 算法操作
         void sort() 

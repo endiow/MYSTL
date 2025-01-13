@@ -191,7 +191,7 @@ namespace mystl
     };
 
 
-    
+
 
     /*****************************************************************************************/
     // vector 的实现
@@ -311,133 +311,37 @@ namespace mystl
 
 
         //------------------------------------------------------------------------------
-        // 赋值操作
+        // 迭代器
         //------------------------------------------------------------------------------
+
+        // 返回指向首元素的迭代器
+        iterator begin() noexcept { return iterator(data_); }
+        const_iterator begin() const noexcept { return const_iterator(data_); }
+        const_iterator cbegin() const noexcept { return const_iterator(data_); }
+
+        // 返回指向末元素后一位置的迭代器
+        iterator end() noexcept { return iterator(data_ + size_); }
+        const_iterator end() const noexcept { return const_iterator(data_ + size_); }
+        const_iterator cend() const noexcept { return const_iterator(data_ + size_); }
+
+        // 添加反向迭代器相关函数
+        reverse_iterator rbegin() noexcept 
+        { return reverse_iterator(end()); }
         
-        // 拷贝赋值运算符
-        vector& operator=(const vector& other)
-        {
-            if (this != &other)
-            {
-                vector temp(other);
-                swap(temp);
-            }
-            return *this;
-        }
+        const_reverse_iterator rbegin() const noexcept 
+        { return const_reverse_iterator(end()); }
+        
+        const_reverse_iterator crbegin() const noexcept 
+        { return const_reverse_iterator(end()); }
 
-        // 移动赋值操作符
-        vector& operator=(vector&& other) noexcept
-        {
-            if (this != &other)
-            {
-                clear();
-                if (data_)
-                {
-                    alloc_.deallocate(data_, capacity_);
-                }
-                data_ = other.data_;
-                size_ = other.size_;
-                capacity_ = other.capacity_;
-                other.data_ = nullptr;
-                other.size_ = 0;
-                other.capacity_ = 0;
-            }
-            return *this;
-        }
-
-        // assign 操作：用新内容替换原内容
-        template<class InputIt, typename = typename enable_if<!is_integral<InputIt>::value>::type>
-        void assign(InputIt first, InputIt last) 
-        {
-            size_type new_size = mystl::distance(first, last);
-            if (new_size > capacity_)
-            {
-                pointer new_data = nullptr;
-                try 
-                {
-                    new_data = alloc_.allocate(new_size);
-                    mystl::uninitialized_copy(first, last, new_data);
-                    
-                    clear();  // 先清理旧元素
-                    if (data_)
-                    {
-                        alloc_.deallocate(data_, capacity_);
-                    }
-
-                    data_ = new_data;
-                    size_ = new_size;
-                    capacity_ = new_size;
-                }
-                catch (...) 
-                {
-                    // 如果发生异常，清理新分配的内存
-                    if (new_data)
-                    {
-                        for (size_type i = 0; i < new_size; ++i)
-                        {
-                            alloc_.destroy(new_data + i);
-                        }
-                        alloc_.deallocate(new_data, new_size);
-                    }
-                    throw;  // 重新抛出异常
-                }
-            }
-            else 
-            {
-                clear();  // 先清理旧元素
-                mystl::uninitialized_copy(first, last, data_);  // 在原空间构造新元素
-                size_ = new_size;
-            }
-        }
-
-        // 使用初始化列表赋值
-        void assign(std::initializer_list<T> ilist) 
-        {
-            assign(ilist.begin(), ilist.end());
-        }
-
-        // assign 操作：用 n 个值为 value 的元素替换原内容
-        void assign(size_type n, const value_type& value) 
-        {
-            if (n > capacity_)
-            {
-                pointer new_data = nullptr;
-                try 
-                {
-                    new_data = alloc_.allocate(n);
-                    mystl::uninitialized_fill_n(new_data, n, value);
-                    
-                    clear();  // 先清理旧元素
-                    if (data_)
-                    {
-                        alloc_.deallocate(data_, capacity_);
-                    }
-                    
-                    data_ = new_data;
-                    size_ = n;
-                    capacity_ = n;
-                }
-                catch (...) 
-                {
-                    // 如果发生异常，清理新分配的内存
-                    if (new_data)
-                    {
-                        for (size_type i = 0; i < n; ++i)
-                        {
-                            alloc_.destroy(new_data + i);
-                        }
-                        alloc_.deallocate(new_data, n);
-                    }
-                    throw;  // 重新抛出异常
-                }
-            }
-            else 
-            {
-                clear();  // 先清理旧元素
-                mystl::uninitialized_fill_n(data_, n, value);  // 在原空间构造新元素
-                size_ = n;
-            }
-        }
+        reverse_iterator rend() noexcept 
+        { return reverse_iterator(begin()); }
+        
+        const_reverse_iterator rend() const noexcept 
+        { return const_reverse_iterator(begin()); }
+        
+        const_reverse_iterator crend() const noexcept 
+        { return const_reverse_iterator(begin()); }      
 
 
 
@@ -483,41 +387,6 @@ namespace mystl
 
 
         //------------------------------------------------------------------------------
-        // 迭代器操作
-        //------------------------------------------------------------------------------
-
-        // 返回指向首元素的迭代器
-        iterator begin() noexcept { return iterator(data_); }
-        const_iterator begin() const noexcept { return const_iterator(data_); }
-        const_iterator cbegin() const noexcept { return const_iterator(data_); }
-
-        // 返回指向末元素后一位置的迭代器
-        iterator end() noexcept { return iterator(data_ + size_); }
-        const_iterator end() const noexcept { return const_iterator(data_ + size_); }
-        const_iterator cend() const noexcept { return const_iterator(data_ + size_); }
-
-        // 添加反向迭代器相关函数
-        reverse_iterator rbegin() noexcept 
-        { return reverse_iterator(end()); }
-        
-        const_reverse_iterator rbegin() const noexcept 
-        { return const_reverse_iterator(end()); }
-        
-        const_reverse_iterator crbegin() const noexcept 
-        { return const_reverse_iterator(end()); }
-
-        reverse_iterator rend() noexcept 
-        { return reverse_iterator(begin()); }
-        
-        const_reverse_iterator rend() const noexcept 
-        { return const_reverse_iterator(begin()); }
-        
-        const_reverse_iterator crend() const noexcept 
-        { return const_reverse_iterator(begin()); }      
-
-
-
-        //------------------------------------------------------------------------------
         // 容量操作
         //------------------------------------------------------------------------------
         
@@ -525,6 +394,17 @@ namespace mystl
         bool empty() const noexcept { return size_ == 0; }
         // 返回当前元素个数
         size_type size() const noexcept { return size_; }
+        // 返回最大可容纳的元素个数
+        size_type max_size() const noexcept 
+        { 
+            // 考虑两个限制因素：
+            // 1. size_type 能表示的最大值
+            // 2. 最大可分配的内存 / 每个元素的大小
+            return mystl::min(
+                size_type(-1) / sizeof(T),  // 防止内存大小溢出
+                alloc_.max_size()           // 分配器的限制
+            );
+        }
         // 返回当前容量
         size_type capacity() const noexcept { return capacity_; }
 
@@ -663,6 +543,137 @@ namespace mystl
                 }
                 size_ = count;
             }
+        }
+
+
+
+        //------------------------------------------------------------------------------
+        // 赋值操作
+        //------------------------------------------------------------------------------
+        
+        // 拷贝赋值运算符
+        vector& operator=(const vector& other)
+        {
+            if (this != &other)
+            {
+                vector temp(other);
+                swap(temp);
+            }
+            return *this;
+        }
+
+        // 移动赋值操作符
+        vector& operator=(vector&& other) noexcept
+        {
+            if (this != &other)
+            {
+                clear();
+                if (data_)
+                {
+                    alloc_.deallocate(data_, capacity_);
+                }
+                data_ = other.data_;
+                size_ = other.size_;
+                capacity_ = other.capacity_;
+                other.data_ = nullptr;
+                other.size_ = 0;
+                other.capacity_ = 0;
+            }
+            return *this;
+        }
+
+        // assign 操作：用新内容替换原内容
+        template<class InputIt, typename = typename enable_if<!is_integral<InputIt>::value>::type>
+        void assign(InputIt first, InputIt last) 
+        {
+            size_type new_size = mystl::distance(first, last);
+            if (new_size > capacity_)
+            {
+                pointer new_data = nullptr;
+                try 
+                {
+                    new_data = alloc_.allocate(new_size);
+                    mystl::uninitialized_copy(first, last, new_data);
+                    
+                    clear();  // 先清理旧元素
+                    if (data_)
+                    {
+                        alloc_.deallocate(data_, capacity_);
+                    }
+
+                    data_ = new_data;
+                    size_ = new_size;
+                    capacity_ = new_size;
+                }
+                catch (...) 
+                {
+                    // 如果发生异常，清理新分配的内存
+                    if (new_data)
+                    {
+                        for (size_type i = 0; i < new_size; ++i)
+                        {
+                            alloc_.destroy(new_data + i);
+                        }
+                        alloc_.deallocate(new_data, new_size);
+                    }
+                    throw;  // 重新抛出异常
+                }
+            }
+            else 
+            {
+                clear();  // 先清理旧元素
+                mystl::uninitialized_copy(first, last, data_);  // 在原空间构造新元素
+                size_ = new_size;
+            }
+        }
+
+        // assign 操作：用 n 个值为 value 的元素替换原内容
+        void assign(size_type n, const value_type& value) 
+        {
+            if (n > capacity_)
+            {
+                pointer new_data = nullptr;
+                try 
+                {
+                    new_data = alloc_.allocate(n);
+                    mystl::uninitialized_fill_n(new_data, n, value);
+                    
+                    clear();  // 先清理旧元素
+                    if (data_)
+                    {
+                        alloc_.deallocate(data_, capacity_);
+                    }
+                    
+                    data_ = new_data;
+                    size_ = n;
+                    capacity_ = n;
+                }
+                catch (...) 
+                {
+                    // 如果发生异常，清理新分配的内存
+                    if (new_data)
+                    {
+                        for (size_type i = 0; i < n; ++i)
+                        {
+                            alloc_.destroy(new_data + i);
+                        }
+                        alloc_.deallocate(new_data, n);
+                    }
+                    throw;  // 重新抛出异常
+                }
+            }
+            else 
+            {
+                clear();  // 先清理旧元素
+                mystl::uninitialized_fill_n(data_, n, value);  // 在原空间构造新元素
+                size_ = n;
+            }
+        }
+
+        // 使用初始化列表赋值
+        void assign(std::initializer_list<T> ilist) 
+        {
+            assign(ilist.begin(), ilist.end());
         }
 
 

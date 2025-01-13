@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <cassert>
+#include "iterator.hpp"
 
 namespace mystl 
 {
@@ -24,9 +25,8 @@ namespace mystl
     using std::overflow_error;   // 算术运算上溢
     using std::underflow_error;  // 算术运算下溢
 
-    #define EXPECT(condition, message) \
-        if (!(condition)) throw std::runtime_error(message)
 
-    #define ASSERT(condition) \
-        assert(condition)
+    // 断言宏
+    #define EXPECT(condition, message) \
+        if (!(condition)) { throw std::runtime_error(message); }
 } // namespace mystl 

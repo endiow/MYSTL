@@ -258,6 +258,23 @@ test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj: \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/construct.hpp \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/allocator.hpp \
+ C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/algorithm.hpp \
+ C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cmath \
+ C:/software/msys2/MSYS/ucrt64/include/math.h \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/specfun.h \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/gamma.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/special_function_util.h \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/bessel_function.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/beta_function.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/ell_integral.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/exp_integral.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/hypergeometric.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/legendre_function.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/modified_bessel_func.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/poly_hermite.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/poly_laguerre.tcc \
+ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/tr1/riemann_zeta.tcc \
  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/list \
  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_list.h \
  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/list.tcc

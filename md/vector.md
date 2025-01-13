@@ -11,15 +11,6 @@ vector 是一个动态数组，能够自动扩展容量。
 
 
 
-## 迭代器
-
-- `iterator`: 随机访问迭代器
-- `const_iterator`: 常量随机访问迭代器
-- `reverse_iterator`: 反向迭代器
-- `const_reverse_iterator`: 常量反向迭代器
-
-
-
 ## 构造函数
 
 - `vector()`: 默认构造函数
@@ -32,19 +23,25 @@ vector 是一个动态数组，能够自动扩展容量。
 
 
 
-## 赋值操作
+## 迭代器
 
-- `vector& operator=(const vector& other)`: 拷贝赋值
+- `iterator`: 随机访问迭代器
+- `const_iterator`: 常量随机访问迭代器
+- `reverse_iterator`: 反向迭代器
+- `const_reverse_iterator`: 常量反向迭代器
 
-- `vector& operator=(vector&& other)`: 移动赋值
 
-- `void assign(size_type count, const T& value)`: 替换为 count 个值为 value 的元素
 
-- `void assign(InputIt first, InputIt last)`: 替换为迭代器范围内的元素
+## 迭代器操作
 
-- `void assign(std::initializer_list<T> ilist)`: 替换为初始化列表中的元素
-
-`assign()提供异常安全保证`
+- `iterator begin()`: 返回指向首元素的迭代器
+- `const_iterator begin() const`: 返回指向首元素的常量迭代器
+- `iterator end()`: 返回指向末元素后一位置的迭代器
+- `const_iterator end() const`: 返回指向末元素后一位置的常量迭代器
+- `reverse_iterator rbegin()`: 返回指向末元素的反向迭代器
+- `const_reverse_iterator rbegin() const`: 返回指向末元素的常量反向迭代器
+- `reverse_iterator rend()`: 返回指向首元素前一位置的反向迭代器
+- `const_reverse_iterator rend() const`: 返回指向首元素前一位置的常量反向迭代器
 
 
 
@@ -60,19 +57,6 @@ vector 是一个动态数组，能够自动扩展容量。
 - `const_reference back() const`: 访问最后一个元素（常量版本）
 - `T* data()`: 返回指向内存的指针
 - `const T* data() const`: 返回指向内存的指针（常量版本）
-
-
-
-## 迭代器操作
-
-- `iterator begin()`: 返回指向首元素的迭代器
-- `const_iterator begin() const`: 返回指向首元素的常量迭代器
-- `iterator end()`: 返回指向末元素后一位置的迭代器
-- `const_iterator end() const`: 返回指向末元素后一位置的常量迭代器
-- `reverse_iterator rbegin()`: 返回指向末元素的反向迭代器
-- `const_reverse_iterator rbegin() const`: 返回指向末元素的常量反向迭代器
-- `reverse_iterator rend()`: 返回指向首元素前一位置的反向迭代器
-- `const_reverse_iterator rend() const`: 返回指向首元素前一位置的常量反向迭代器
 
 
 
@@ -92,7 +76,23 @@ vector 是一个动态数组，能够自动扩展容量。
 
 - `void resize(size_type count, const value_type& value)`: 改变容器中元素的个数，并指定新元素的值
 
-`reserve(), resize()提供异常安全保证`
+`reserve(), resize()提供强异常安全保证`
+
+
+
+## 赋值操作
+
+- `vector& operator=(const vector& other)`: 拷贝赋值
+
+- `vector& operator=(vector&& other)`: 移动赋值
+
+- `void assign(size_type count, const T& value)`: 替换为 count 个值为 value 的元素
+
+- `void assign(InputIt first, InputIt last)`: 替换为迭代器范围内的元素
+
+- `void assign(std::initializer_list<T> ilist)`: 替换为初始化列表中的元素
+
+`assign()提供强异常安全保证`
 
 
 
@@ -113,7 +113,7 @@ vector 是一个动态数组，能够自动扩展容量。
 - `iterator erase(const_iterator first, const_iterator last)`: 移除范围内的元素
 - `void swap(vector& other)`: 交换内容
 
-`push_back(), emplace(), insert()提供异常安全保证。`
+`push_back(), emplace(), insert()提供强异常安全保证。`
 
 
 
@@ -127,7 +127,7 @@ vector 是一个动态数组，能够自动扩展容量。
 
 ## 异常安全
 
-- 提供基本异常安全保证（不考虑move操作是否会改变数据时，提供强异常安全保证）
+- 提供强异常安全保证
 - 抛出异常时，原数据不变，内存不变
 - 在内存分配失败时会抛出异常
 - 在元素构造失败时会回滚操作
