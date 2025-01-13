@@ -269,8 +269,8 @@ googletest/googletest/CMakeFiles/gtest_main.dir/clean:
 # Target rules for target test/CMakeFiles/mystl_test.dir
 
 # All Build rule for target.
-test/CMakeFiles/mystl_test.dir/all: googletest/googletest/CMakeFiles/gtest.dir/all
 test/CMakeFiles/mystl_test.dir/all: googletest/googletest/CMakeFiles/gtest_main.dir/all
+test/CMakeFiles/mystl_test.dir/all: googletest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/depend
 	$(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\CMakeFiles --progress-num=9,10,11,12,13,14 "Built target mystl_test"
