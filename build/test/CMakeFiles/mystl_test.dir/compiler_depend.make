@@ -10,6 +10,7 @@ test/CMakeFiles/mystl_test.dir/algorithm_base_test.cpp.obj: C:/Users/IMikoto/Doc
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
@@ -287,6 +288,7 @@ test/CMakeFiles/mystl_test.dir/algorithm_test.cpp.obj: C:/Users/IMikoto/Document
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
@@ -564,6 +566,7 @@ test/CMakeFiles/mystl_test.dir/allocator_test.cpp.obj: C:/Users/IMikoto/Document
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
@@ -841,6 +844,7 @@ test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj: C:/Users/IMikoto/Documents
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
@@ -1120,6 +1124,7 @@ test/CMakeFiles/mystl_test.dir/list_test.cpp.obj: C:/Users/IMikoto/Documents/vsc
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/list.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/googletest/googletest/include/gtest/gtest-assertion-result.h \
@@ -1395,6 +1400,7 @@ test/CMakeFiles/mystl_test.dir/vector_test.cpp.obj: C:/Users/IMikoto/Documents/v
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
+  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/type_traits.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/uninitialized.hpp \
   C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/util.hpp \
@@ -1696,6 +1702,8 @@ C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/expectdef.hpp:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/iterator.hpp:
 
+C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp:
+
 C:/software/msys2/MSYS/ucrt64/include/pthread_time.h:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp:
@@ -1836,13 +1844,13 @@ C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/basic_ios.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/basic_string.h:
 
-C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/cpp_type_traits.h:
-
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/stl_algobase.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/invoke.h:
 
 C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/basic_string.tcc:
+
+C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/bits/cpp_type_traits.h:
 
 C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/list_test.cpp:
 

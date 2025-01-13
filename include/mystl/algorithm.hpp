@@ -2,7 +2,6 @@
 
 #include <cmath>  
 
-#include "type_traits.hpp"
 #include "algorithm_base.hpp"
 #include "numeric.hpp"
 
