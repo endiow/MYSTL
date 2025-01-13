@@ -24,7 +24,11 @@ namespace mystl
         using reference = Reference;         // 引用类型
     };
 
+
+
+    /*****************************************************************************************/ 
     // 迭代器萃取
+    /*****************************************************************************************/
     template<class T>
     struct has_iterator_type 
     {
@@ -85,7 +89,11 @@ namespace mystl
         using reference = const T&;
     };
 
+
+
+    /*****************************************************************************************/     
     // 迭代器类别判断
+    /*****************************************************************************************/
     template<class Iterator, class = void>
     struct is_input_iterator : false_type {};
 
@@ -141,6 +149,9 @@ namespace mystl
 
 
 
+    /*****************************************************************************************/ 
+    // 辅助函数
+    /*****************************************************************************************/ 
     // 获取迭代器类别
     template<class Iter>
     inline typename iterator_traits<Iter>::iterator_category
@@ -165,7 +176,6 @@ namespace mystl
     {
         return static_cast<typename iterator_traits<Iter>::value_type*>(nullptr);
     }
-
 
     // 计算迭代器距离
     // 输入迭代器只能通过++操作来移动
@@ -197,8 +207,6 @@ namespace mystl
         using category = typename iterator_traits<InputIterator>::iterator_category;
         return distance_dispatch(first, last, category());
     }
-
-
 
     // 移动迭代器
     // 输入迭代器只能通过++操作来移动
@@ -232,7 +240,6 @@ namespace mystl
         advance_dispatch(i, n, category());
     }
 
-
     template<class InputIt>
     InputIt next(InputIt it, typename iterator_traits<InputIt>::difference_type n = 1)
     {
@@ -240,12 +247,27 @@ namespace mystl
         return it;
     }
 
-
     template<class BidirIt>
     BidirIt prev(BidirIt it, typename iterator_traits<BidirIt>::difference_type n = 1)
     {
         mystl::advance(it, -n);
         return it;
+    }
+
+    // 获取原生指针
+    // 对迭代器类型，使用其 base() 函数
+    template<class Iter>
+    typename iterator_traits<Iter>::pointer
+    iterator_base(Iter iter, typename enable_if<!is_pointer<Iter>::value>::type* = 0) 
+    {
+        return iter.base();
+    }
+
+    // 对指针类型，直接返回指针本身
+    template<class T>
+    T* iterator_base(T* ptr, typename enable_if<is_pointer<T*>::value>::type* = 0) 
+    {
+        return ptr;
     }
 
     
@@ -388,20 +410,7 @@ namespace mystl
         return !(lhs < rhs);
     }
 
-    // 对迭代器类型，使用其 base() 函数
-    template<class Iter>
-    typename iterator_traits<Iter>::pointer
-    iterator_base(Iter iter, typename enable_if<!is_pointer<Iter>::value>::type* = 0) 
-    {
-        return iter.base();
-    }
 
-    // 对指针类型，直接返回指针本身
-    template<class T>
-    T* iterator_base(T* ptr, typename enable_if<is_pointer<T*>::value>::type* = 0) 
-    {
-        return ptr;
-    }
 
 
 
