@@ -5,6 +5,7 @@ add_executable(mystl_test
     iterator_test.cpp
     allocator_test.cpp
     algorithm_base_test.cpp
+    list_test.cpp
 )
 
 # 链接 Google Test 和我们的库

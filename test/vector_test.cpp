@@ -301,15 +301,15 @@ TEST(VectorTest, Comparison)
 }
 
 // 异常安全测试
-struct ThrowOnCopy 
+struct VectorThrowOnCopy  
 {
     int value;
     static bool should_throw;
     static int copy_count;
     
-    ThrowOnCopy(int v = 0) noexcept : value(v) {}
+    VectorThrowOnCopy (int v = 0) noexcept : value(v) {}
     
-    ThrowOnCopy(const ThrowOnCopy& other) 
+    VectorThrowOnCopy (const VectorThrowOnCopy & other) 
     {
         if (should_throw) 
         {
@@ -318,7 +318,7 @@ struct ThrowOnCopy
         value = other.value;
     }
     
-    ThrowOnCopy& operator=(const ThrowOnCopy& other) 
+    VectorThrowOnCopy & operator=(const VectorThrowOnCopy & other) 
     {
         if (should_throw) 
         {
@@ -329,10 +329,10 @@ struct ThrowOnCopy
     }
     
     // 移动操作不抛出异常
-    ThrowOnCopy(ThrowOnCopy&& other) noexcept 
+    VectorThrowOnCopy (VectorThrowOnCopy && other) noexcept 
         : value(other.value) {}
     
-    ThrowOnCopy& operator=(ThrowOnCopy&& other) noexcept 
+    VectorThrowOnCopy & operator=(VectorThrowOnCopy && other) noexcept 
     {
         value = other.value;
         return *this;
@@ -341,15 +341,15 @@ struct ThrowOnCopy
     static void reset() { should_throw = false; }
 };
 
-bool ThrowOnCopy::should_throw = false;
-int ThrowOnCopy::copy_count = 0;
+bool VectorThrowOnCopy ::should_throw = false;
+int VectorThrowOnCopy ::copy_count = 0;
 
-TEST(VectorTest, ExceptionSafety) 
+TEST(VectorTest, VectorExceptionSafety) 
 {
-    mystl::vector<ThrowOnCopy> v;
+    mystl::vector<VectorThrowOnCopy > v;
     
     // 先添加两个元素（不抛出异常）
-    ThrowOnCopy::should_throw = false;
+    VectorThrowOnCopy ::should_throw = false;
     v.push_back(1);
     v.push_back(2);
     
@@ -359,7 +359,7 @@ TEST(VectorTest, ExceptionSafety)
     EXPECT_EQ(v[1].value, 2);
     
     // 设置抛出异常，并尝试添加元素
-    ThrowOnCopy::should_throw = true;
+    VectorThrowOnCopy ::should_throw = true;
     try 
     {
         v.push_back(3);
@@ -379,14 +379,14 @@ TEST(VectorTest, InsertExceptionSafety)
 {
     // 测试单个元素插入
     {
-        mystl::vector<ThrowOnCopy> vec;
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        vec.push_back(ThrowOnCopy(1));
-        vec.push_back(ThrowOnCopy(2));
+        mystl::vector<VectorThrowOnCopy > vec;
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        vec.push_back(VectorThrowOnCopy (1));
+        vec.push_back(VectorThrowOnCopy (2));
         
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        ThrowOnCopy value(3);
-        ThrowOnCopy::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        VectorThrowOnCopy  value(3);
+        VectorThrowOnCopy ::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
         
         try 
         {
@@ -404,17 +404,17 @@ TEST(VectorTest, InsertExceptionSafety)
     
     // 测试多个元素插入
     {
-        mystl::vector<ThrowOnCopy> vec;
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        vec.push_back(ThrowOnCopy(1));
-        vec.push_back(ThrowOnCopy(2));
+        mystl::vector<VectorThrowOnCopy > vec;
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        vec.push_back(VectorThrowOnCopy (1));
+        vec.push_back(VectorThrowOnCopy (2));
         
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        ThrowOnCopy::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        VectorThrowOnCopy ::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
         
         try 
         {
-            vec.insert(vec.begin() + 1, 2, ThrowOnCopy(3));
+            vec.insert(vec.begin() + 1, 2, VectorThrowOnCopy (3));
             FAIL() << "Expected std::runtime_error";
         }
         catch (const std::runtime_error&) 
@@ -430,13 +430,13 @@ TEST(VectorTest, InsertExceptionSafety)
 // 测试 emplace 的异常安全性
 TEST(VectorTest, EmplaceExceptionSafety) 
 {
-    mystl::vector<ThrowOnCopy> vec;
-    ThrowOnCopy::reset();  // 重置计数器和标志
-    vec.push_back(ThrowOnCopy(1));
-    vec.push_back(ThrowOnCopy(2));
+    mystl::vector<VectorThrowOnCopy > vec;
+    VectorThrowOnCopy ::reset();  // 重置计数器和标志
+    vec.push_back(VectorThrowOnCopy (1));
+    vec.push_back(VectorThrowOnCopy (2));
     
-    ThrowOnCopy::reset();  // 重置计数器和标志
-    ThrowOnCopy::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
+    VectorThrowOnCopy ::reset();  // 重置计数器和标志
+    VectorThrowOnCopy ::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
     
     try 
     {
@@ -472,14 +472,14 @@ TEST(VectorTest, InsertSelfReference)
 // 测试移动语义的异常安全性
 TEST(VectorTest, MoveExceptionSafety) 
 {
-    mystl::vector<ThrowOnCopy> vec;
-    ThrowOnCopy::reset();  // 重置计数器和标志
-    vec.push_back(ThrowOnCopy(1));
-    vec.push_back(ThrowOnCopy(2));
+    mystl::vector<VectorThrowOnCopy > vec;
+    VectorThrowOnCopy ::reset();  // 重置计数器和标志
+    vec.push_back(VectorThrowOnCopy (1));
+    vec.push_back(VectorThrowOnCopy (2));
     
-    ThrowOnCopy::reset();  // 重置计数器和标志
-    ThrowOnCopy value(3);
-    ThrowOnCopy::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
+    VectorThrowOnCopy ::reset();  // 重置计数器和标志
+    VectorThrowOnCopy  value(3);
+    VectorThrowOnCopy ::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
     
     try 
     {
@@ -500,10 +500,10 @@ TEST(VectorTest, MoveExceptionSafety)
 // 测试 reserve 的异常安全性
 TEST(VectorTest, ReserveExceptionSafety) 
 {
-    mystl::vector<ThrowOnCopy> vec;
-    ThrowOnCopy::reset();  // 重置计数器和标志
-    vec.push_back(ThrowOnCopy(1));
-    vec.push_back(ThrowOnCopy(2));
+    mystl::vector<VectorThrowOnCopy > vec;
+    VectorThrowOnCopy ::reset();  // 重置计数器和标志
+    vec.push_back(VectorThrowOnCopy (1));
+    vec.push_back(VectorThrowOnCopy (2));
     
     // 验证初始状态
     EXPECT_EQ(vec.size(), 2);
@@ -511,8 +511,8 @@ TEST(VectorTest, ReserveExceptionSafety)
     EXPECT_EQ(vec[1].value, 2);
     
     size_t old_capacity = vec.capacity();
-    ThrowOnCopy::reset();  // 重置计数器和标志
-    ThrowOnCopy::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
+    VectorThrowOnCopy ::reset();  // 重置计数器和标志
+    VectorThrowOnCopy ::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
     
     try 
     {
@@ -534,15 +534,15 @@ TEST(VectorTest, ResizeExceptionSafety)
 {
     // 测试扩大容量时的异常安全性
     {
-        mystl::vector<ThrowOnCopy> vec;
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        vec.push_back(ThrowOnCopy(1));
-        vec.push_back(ThrowOnCopy(2));
+        mystl::vector<VectorThrowOnCopy > vec;
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        vec.push_back(VectorThrowOnCopy (1));
+        vec.push_back(VectorThrowOnCopy (2));
         
         size_t old_size = vec.size();
         size_t old_capacity = vec.capacity();
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        ThrowOnCopy::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        VectorThrowOnCopy ::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
         
         try 
         {
@@ -561,16 +561,16 @@ TEST(VectorTest, ResizeExceptionSafety)
     
     // 测试使用值填充时的异常安全性
     {
-        mystl::vector<ThrowOnCopy> vec;
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        vec.push_back(ThrowOnCopy(1));
-        vec.push_back(ThrowOnCopy(2));
+        mystl::vector<VectorThrowOnCopy > vec;
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        vec.push_back(VectorThrowOnCopy (1));
+        vec.push_back(VectorThrowOnCopy (2));
         
         size_t old_size = vec.size();
         size_t old_capacity = vec.capacity();
-        ThrowOnCopy value(3);
-        ThrowOnCopy::reset();  // 重置计数器和标志
-        ThrowOnCopy::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
+        VectorThrowOnCopy  value(3);
+        VectorThrowOnCopy ::reset();  // 重置计数器和标志
+        VectorThrowOnCopy ::should_throw = true;  // 设置标志，使下一次拷贝抛出异常
         
         try 
         {
@@ -593,16 +593,16 @@ TEST(VectorTest, AssignExceptionSafety)
 {
     // 测试填充 assign 的异常安全性
     {
-        mystl::vector<ThrowOnCopy> vec;
-        ThrowOnCopy::should_throw = false;  // 禁用异常
-        vec.push_back(ThrowOnCopy(1));
-        vec.push_back(ThrowOnCopy(2));
+        mystl::vector<VectorThrowOnCopy > vec;
+        VectorThrowOnCopy ::should_throw = false;  // 禁用异常
+        vec.push_back(VectorThrowOnCopy (1));
+        vec.push_back(VectorThrowOnCopy (2));
         
         size_t old_size = vec.size();
         size_t old_capacity = vec.capacity();
-        ThrowOnCopy value(3);
-        ThrowOnCopy::reset();  // 重置计数器
-        ThrowOnCopy::should_throw = true;  // 启用异常
+        VectorThrowOnCopy  value(3);
+        VectorThrowOnCopy ::reset();  // 重置计数器
+        VectorThrowOnCopy ::should_throw = true;  // 启用异常
         
         try 
         {
@@ -621,20 +621,20 @@ TEST(VectorTest, AssignExceptionSafety)
     
     // 测试范围 assign 的异常安全性
     {
-        mystl::vector<ThrowOnCopy> vec;
-        ThrowOnCopy::should_throw = false;  // 禁用异常
-        vec.push_back(ThrowOnCopy(1));
-        vec.push_back(ThrowOnCopy(2));
+        mystl::vector<VectorThrowOnCopy > vec;
+        VectorThrowOnCopy ::should_throw = false;  // 禁用异常
+        vec.push_back(VectorThrowOnCopy (1));
+        vec.push_back(VectorThrowOnCopy (2));
         
-        mystl::vector<ThrowOnCopy> src;
-        src.push_back(ThrowOnCopy(3));
-        src.push_back(ThrowOnCopy(4));
-        src.push_back(ThrowOnCopy(5));
+        mystl::vector<VectorThrowOnCopy > src;
+        src.push_back(VectorThrowOnCopy (3));
+        src.push_back(VectorThrowOnCopy (4));
+        src.push_back(VectorThrowOnCopy (5));
         
         size_t old_size = vec.size();
         size_t old_capacity = vec.capacity();
-        ThrowOnCopy::reset();  // 重置计数器
-        ThrowOnCopy::should_throw = true;  // 启用异常
+        VectorThrowOnCopy ::reset();  // 重置计数器
+        VectorThrowOnCopy ::should_throw = true;  // 启用异常
         
         try 
         {
@@ -653,20 +653,20 @@ TEST(VectorTest, AssignExceptionSafety)
 
     // 测试初始化列表 assign 的异常安全性
     {
-        mystl::vector<ThrowOnCopy> vec;
-        ThrowOnCopy::should_throw = false;  // 禁用异常
-        vec.push_back(ThrowOnCopy(1));
-        vec.push_back(ThrowOnCopy(2));
+        mystl::vector<VectorThrowOnCopy > vec;
+        VectorThrowOnCopy ::should_throw = false;  // 禁用异常
+        vec.push_back(VectorThrowOnCopy (1));
+        vec.push_back(VectorThrowOnCopy (2));
         
         size_t old_size = vec.size();
         size_t old_capacity = vec.capacity();
         
         // 构造初始化列表时禁用异常
-        std::initializer_list<ThrowOnCopy> ilist = {ThrowOnCopy(3), ThrowOnCopy(4), ThrowOnCopy(5)};
+        std::initializer_list<VectorThrowOnCopy > ilist = {VectorThrowOnCopy (3), VectorThrowOnCopy (4), VectorThrowOnCopy (5)};
         
         // 在 assign 操作前启用异常
-        ThrowOnCopy::reset();  // 重置状态
-        ThrowOnCopy::should_throw = true;  // 启用异常
+        VectorThrowOnCopy ::reset();  // 重置状态
+        VectorThrowOnCopy ::should_throw = true;  // 启用异常
         
         try 
         {

@@ -132,12 +132,12 @@ TEST(ListTest, Operations)
 }
 
 // 异常安全测试
-class ThrowOnCopy 
+class ListThrowOnCopy
 {
 public:
     static bool should_throw;
-    ThrowOnCopy() = default;
-    ThrowOnCopy(const ThrowOnCopy&) 
+    ListThrowOnCopy() = default;
+    ListThrowOnCopy(const ListThrowOnCopy&) 
     {
         if (should_throw) 
         {
@@ -146,16 +146,16 @@ public:
     }
 };
 
-bool ThrowOnCopy::should_throw = false;
+bool ListThrowOnCopy::should_throw = false;
 
-TEST(ListTest, ExceptionSafety) 
+TEST(ListTest, ListExceptionSafety) 
 {
-    mystl::list<ThrowOnCopy> lst;
-    lst.push_back(ThrowOnCopy());
+    mystl::list<ListThrowOnCopy> lst;
+    lst.push_back(ListThrowOnCopy());
     
-    ThrowOnCopy::should_throw = true;
-    EXPECT_THROW(lst.push_back(ThrowOnCopy()), std::runtime_error);
-    EXPECT_EQ(lst.size(), 1);  // 确保大小没有改变
+    ListThrowOnCopy::should_throw = true;
+    EXPECT_THROW(lst.push_back(ListThrowOnCopy()), std::runtime_error);
+    EXPECT_EQ(lst.size(), 1);
     
-    ThrowOnCopy::should_throw = false;
+    ListThrowOnCopy::should_throw = false;
 } 
