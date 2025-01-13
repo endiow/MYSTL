@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/algorithm_test.cpp" "test/CMakeFiles/mystl_test.dir/algorithm_test.cpp.obj" "gcc" "test/CMakeFiles/mystl_test.dir/algorithm_test.cpp.obj.d"
   "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/allocator_test.cpp" "test/CMakeFiles/mystl_test.dir/allocator_test.cpp.obj" "gcc" "test/CMakeFiles/mystl_test.dir/allocator_test.cpp.obj.d"
   "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/iterator_test.cpp" "test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj" "gcc" "test/CMakeFiles/mystl_test.dir/iterator_test.cpp.obj.d"
+  "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/list_test.cpp" "test/CMakeFiles/mystl_test.dir/list_test.cpp.obj" "gcc" "test/CMakeFiles/mystl_test.dir/list_test.cpp.obj.d"
   "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/vector_test.cpp" "test/CMakeFiles/mystl_test.dir/vector_test.cpp.obj" "gcc" "test/CMakeFiles/mystl_test.dir/vector_test.cpp.obj.d"
   )
 

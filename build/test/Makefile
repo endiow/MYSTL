@@ -280,6 +280,30 @@ iterator_test.cpp.s:
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/iterator_test.cpp.s
 .PHONY : iterator_test.cpp.s
 
+list_test.obj: list_test.cpp.obj
+.PHONY : list_test.obj
+
+# target to build an object file
+list_test.cpp.obj:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/list_test.cpp.obj
+.PHONY : list_test.cpp.obj
+
+list_test.i: list_test.cpp.i
+.PHONY : list_test.i
+
+# target to preprocess a source file
+list_test.cpp.i:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/list_test.cpp.i
+.PHONY : list_test.cpp.i
+
+list_test.s: list_test.cpp.s
+.PHONY : list_test.s
+
+# target to generate assembly for a file
+list_test.cpp.s:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/list_test.cpp.s
+.PHONY : list_test.cpp.s
+
 vector_test.obj: vector_test.cpp.obj
 .PHONY : vector_test.obj
 
@@ -330,6 +354,9 @@ help:
 	@echo ... iterator_test.obj
 	@echo ... iterator_test.i
 	@echo ... iterator_test.s
+	@echo ... list_test.obj
+	@echo ... list_test.i
+	@echo ... list_test.s
 	@echo ... vector_test.obj
 	@echo ... vector_test.i
 	@echo ... vector_test.s

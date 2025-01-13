@@ -1,5 +1,7 @@
 #pragma once
 
+#include <initializer_list>
+
 #include "allocator.hpp"
 #include "iterator.hpp"
 #include "util.hpp"
@@ -112,6 +114,15 @@ namespace mystl
         { 
             return node != rhs.node; 
         }
+
+        // 从非const迭代器到const迭代器的隐式转换
+        operator list_iterator<const T>() const noexcept
+        { 
+            return list_iterator<const T>(reinterpret_cast<list_node<const T>*>(this->node)); 
+            //使用reinterpret_cast进行类型转换，因为node是list_node_base<T>*类型，而list_node<const T>是list_node_base<const T>的子类
+            //在这种转换中，node的内存布局保持不变，只是类型发生了变化，reinterpret_cast是安全的
+            //不使用static_cast，因为static_cast不能用于基类和子类之间的转换
+        }
     };
 
 
@@ -140,7 +151,8 @@ namespace mystl
     private:
         using node_type = list_node<T>;
         using node_base = list_node_base<T>;
-        using node_allocator = Allocator;      // 直接使用传入的分配器
+        //分配器类型绑定为node_type
+        using node_allocator = typename Allocator::template rebind<node_type>::other;
         
         node_type* node_;     // 指向末尾的空节点
         size_type size_;      // 大小
@@ -157,13 +169,23 @@ namespace mystl
             node_type* p = alloc_.allocate(1);
             try 
             {
-                alloc_.construct(p, mystl::forward<Args>(args)...);
-                p->next = p;
-                p->prev = p;
+                alloc_.construct(p, node_type());  // 先构造节点
+                try 
+                {
+                    p->data = T(mystl::forward<Args>(args)...);  // 再构造数据
+                    p->next = p;
+                    p->prev = p;
+                }
+                catch(...) 
+                {
+                    alloc_.destroy(p);
+                    alloc_.deallocate(p, 1);
+                    throw;
+                }
             }
-            catch(...) 
+            catch(...)  //如果构造失败，则释放已分配的内存
             {
-                alloc_.deallocate(p);
+                alloc_.deallocate(p, 1);
                 throw;
             }
             return p;
@@ -172,7 +194,7 @@ namespace mystl
         void destroy_node(node_type* p)
         {
             alloc_.destroy(p);
-            alloc_.deallocate(p);
+            alloc_.deallocate(p, 1);
         }
 
         // 初始化空链表
@@ -234,6 +256,13 @@ namespace mystl
             insert(begin(), n, value);
         }
 
+        // 初始化列表构造函数
+        list(std::initializer_list<T> ilist)
+        {
+            empty_initialize();
+            insert(begin(), ilist.begin(), ilist.end());
+        }
+
         // 析构函数
         ~list()
         {
@@ -256,6 +285,12 @@ namespace mystl
         { return iterator(static_cast<node_type*>(node_)); }
         
         const_iterator end() const noexcept 
+        { return const_iterator(static_cast<node_type*>(node_)); }
+
+        const_iterator cbegin() const noexcept 
+        { return const_iterator(static_cast<node_type*>(node_->next)); }
+
+        const_iterator cend() const noexcept 
         { return const_iterator(static_cast<node_type*>(node_)); }
 
 
@@ -302,14 +337,14 @@ namespace mystl
         /*****************************************************************************************/
         iterator insert(const_iterator pos, const T& value)
         {
-            node_type* p = insert_node(static_cast<node_type*>(pos.node), value);
+            node_type* p = insert_node(reinterpret_cast<node_type*>(pos.node), value);
             return iterator(p);
         }
 
         // 在pos之前插入一个元素(移动版本)
         iterator insert(const_iterator pos, T&& value)
         {
-            node_type* p = insert_node(static_cast<node_type*>(pos.node), mystl::move(value));
+            node_type* p = insert_node(reinterpret_cast<node_type*>(pos.node), mystl::move(value));
             return iterator(p);
         }
 
@@ -317,9 +352,9 @@ namespace mystl
         iterator insert(const_iterator pos, size_type n, const T& value)
         {
             if (n == 0)
-                return iterator(const_cast<node_type*>(static_cast<const node_type*>(pos.node)));
+                return iterator(reinterpret_cast<node_type*>(pos.node));
             
-            iterator result(pos.node);
+            iterator result(reinterpret_cast<node_type*>(pos.node));
             for (size_type i = 0; i < n; ++i)
                 result = insert(pos, value);
             return result;
@@ -329,7 +364,7 @@ namespace mystl
         template <class InputIt>
         iterator insert(const_iterator pos, InputIt first, InputIt last)
         {
-            iterator result(pos.node);
+            iterator result(reinterpret_cast<node_type*>(pos.node));
             for (; first != last; ++first)
                 result = insert(pos, *first);
             return result;
@@ -359,8 +394,8 @@ namespace mystl
         // 删除pos位置的元素
         iterator erase(const_iterator pos)
         {
-            node_type* node = static_cast<node_type*>(pos.node);
-            node_type* next_node = static_cast<node_type*>(node->next);
+            node_type* node = reinterpret_cast<node_type*>(pos.node);
+            node_type* next_node = reinterpret_cast<node_type*>(node->next);
             node->prev->next = node->next;
             node->next->prev = node->prev;
             destroy_node(node);
