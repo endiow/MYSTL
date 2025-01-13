@@ -4,21 +4,24 @@
 #include "expectdef.hpp"
 #include "uninitialized.hpp"
 #include "allocator.hpp"
-#include "algorithm_base.hpp"
+#include "algorithm.hpp"
 
 namespace mystl 
 {
-    // vector 的迭代器实现
-    template<class T>
-    class vector_iterator : public iterator<random_access_iterator_tag, T>
+    /*****************************************************************************************/
+    // vector 的迭代器设计
+    /*****************************************************************************************/
+    template <class T>
+    class vector_iterator 
     {
     public:
-        using iterator_type = vector_iterator<T>;
-        using iterator_category = random_access_iterator_tag;
+        // 类型定义
+        using iterator_category = mystl::random_access_iterator_tag;
         using value_type = T;
-        using difference_type = ptrdiff_t;
         using pointer = T*;
         using reference = T&;
+        using difference_type = ptrdiff_t;
+        using iterator_type = vector_iterator<T>;
 
     private:
         pointer curr_;  // 当前指向的元素
@@ -28,10 +31,11 @@ namespace mystl
         vector_iterator() noexcept : curr_(nullptr) {}
         explicit vector_iterator(pointer ptr) noexcept : curr_(ptr) {}
 
-        // 访问运算符
+        // 基本操作
         reference operator*() const noexcept { return *curr_; }
         pointer operator->() const noexcept { return curr_; }
         reference operator[](difference_type n) const noexcept { return curr_[n]; }
+        pointer base() const noexcept { return curr_; }
 
         // 迭代器移动
         iterator_type& operator++() noexcept 
@@ -72,6 +76,12 @@ namespace mystl
             return iterator_type(curr_ + n);
         }
 
+        template <class U>
+        iterator_type operator+(const vector_iterator<U>& other) const noexcept 
+        {
+            return iterator_type(curr_ + other.base());
+        }
+
         iterator_type& operator-=(difference_type n) noexcept 
         {
             curr_ -= n;
@@ -83,10 +93,15 @@ namespace mystl
             return iterator_type(curr_ - n);
         }
 
-        // 差值运算
         difference_type operator-(const iterator_type& other) const noexcept 
         {
             return curr_ - other.curr_;
+        }
+
+        template <class U>
+        difference_type operator-(const vector_iterator<U>& other) const noexcept 
+        {
+            return curr_ - other.base();
         }
 
         // 比较运算
@@ -105,14 +120,14 @@ namespace mystl
             return curr_ < other.curr_;
         }
 
-        bool operator<=(const iterator_type& other) const noexcept 
-        {
-            return !(other < *this);
-        }
-
         bool operator>(const iterator_type& other) const noexcept 
         {
             return other < *this;
+        }
+
+        bool operator<=(const iterator_type& other) const noexcept 
+        {
+            return !(other < *this);
         }
 
         bool operator>=(const iterator_type& other) const noexcept 
@@ -120,151 +135,68 @@ namespace mystl
             return !(*this < other);
         }
 
-        // 获取底层指针
-        pointer base() const noexcept { return curr_; }
-
-        friend iterator_type operator+(difference_type n, const iterator_type& it) noexcept 
+        // 比较运算 - 支持不同类型迭代器之间的比较（比如 iterator 和 const_iterator）
+        template <class U>
+        bool operator==(const vector_iterator<U>& other) const noexcept 
         {
-            return it + n;  // 复用已有的 operator+
+            return curr_ == other.base();
         }
 
-        friend iterator_type operator-(difference_type n, const iterator_type& it) noexcept 
-        {
-            return it - n;  // 复用已有的 operator-
-        }
-    };
-
-    // const 迭代器
-    template<class T>
-    class const_vector_iterator : public iterator<random_access_iterator_tag, const T>
-    {
-    public:
-        using iterator_type = const_vector_iterator<T>;
-        using iterator_category = random_access_iterator_tag;
-        using value_type = const T;
-        using difference_type = ptrdiff_t;
-        using pointer = const T*;
-        using reference = const T&;
-
-    private:
-        pointer curr_;  // 当前指向的元素
-
-    public:
-        // 构造函数
-        const_vector_iterator() noexcept : curr_(nullptr) {}
-        explicit const_vector_iterator(pointer ptr) noexcept : curr_(ptr) {}
-        const_vector_iterator(const vector_iterator<T>& other) noexcept : curr_(other.base()) {}
-
-        // 访问运算符
-        reference operator*() const noexcept { return *curr_; }
-        pointer operator->() const noexcept { return curr_; }
-        reference operator[](difference_type n) const noexcept { return curr_[n]; }
-
-        // 迭代器移动
-        iterator_type& operator++() noexcept 
-        {
-            ++curr_;
-            return *this;
-        }
-
-        iterator_type operator++(int) noexcept 
-        {
-            iterator_type tmp = *this;
-            ++curr_;
-            return tmp;
-        }
-
-        iterator_type& operator--() noexcept 
-        {
-            --curr_;
-            return *this;
-        }
-
-        iterator_type operator--(int) noexcept 
-        {
-            iterator_type tmp = *this;
-            --curr_;
-            return tmp;
-        }
-
-        // 算术运算
-        iterator_type& operator+=(difference_type n) noexcept 
-        {
-            curr_ += n;
-            return *this;
-        }
-
-        iterator_type operator+(difference_type n) const noexcept 
-        {
-            return iterator_type(curr_ + n);
-        }
-
-        iterator_type& operator-=(difference_type n) noexcept 
-        {
-            curr_ -= n;
-            return *this;
-        }
-
-        iterator_type operator-(difference_type n) const noexcept 
-        {
-            return iterator_type(curr_ - n);
-        }
-
-        // 差值运算
-        difference_type operator-(const iterator_type& other) const noexcept 
-        {
-            return curr_ - other.curr_;
-        }
-
-        // 比较运算
-        bool operator==(const iterator_type& other) const noexcept 
-        {
-            return curr_ == other.curr_;
-        }
-
-        bool operator!=(const iterator_type& other) const noexcept 
+        template <class U>
+        bool operator!=(const vector_iterator<U>& other) const noexcept 
         {
             return !(*this == other);
         }
 
-        bool operator<(const iterator_type& other) const noexcept 
+        template <class U>
+        bool operator<(const vector_iterator<U>& other) const noexcept 
         {
-            return curr_ < other.curr_;
+            return curr_ < other.base();
         }
 
-        bool operator<=(const iterator_type& other) const noexcept 
-        {
-            return !(other < *this);
-        }
-
-        bool operator>(const iterator_type& other) const noexcept 
+        template <class U>
+        bool operator>(const vector_iterator<U>& other) const noexcept 
         {
             return other < *this;
         }
 
-        bool operator>=(const iterator_type& other) const noexcept 
+        template <class U>
+        bool operator<=(const vector_iterator<U>& other) const noexcept 
+        {
+            return !(other < *this);
+        }
+
+        template <class U>
+        bool operator>=(const vector_iterator<U>& other) const noexcept 
         {
             return !(*this < other);
         }
 
-        // 获取底层指针
-        pointer base() const noexcept { return curr_; }
+        // 类型转换
+        operator vector_iterator<const T>() const noexcept 
+        { 
+            return vector_iterator<const T>(curr_); 
+        }
 
+        //友元函数
         friend iterator_type operator+(difference_type n, const iterator_type& it) noexcept 
         {
-            return it + n;  // 复用已有的 operator+
+            return it + n;
         }
 
         friend iterator_type operator-(difference_type n, const iterator_type& it) noexcept 
         {
-            return it - n;  // 复用已有的 operator-
+            return it - n;
         }
     };
+
 
     
 
-    // vector 类模板：实现动态数组，支持动态扩容、自动管理内存
-    template<class T, class Alloc = allocator<T>>
+    /*****************************************************************************************/
+    // vector 的实现
+    /*****************************************************************************************/
+    template <class T, class Allocator = mystl::allocator<T>>
     class vector 
     {
     public:
@@ -272,15 +204,15 @@ namespace mystl
         // 类型定义
         //------------------------------------------------------------------------------
         using value_type = T;
-        using allocator_type = Alloc;
+        using allocator_type = Allocator;
         using size_type = size_t;
         using difference_type = ptrdiff_t;
         using reference = value_type&;
         using const_reference = const value_type&;
-        using pointer = T*;
-        using const_pointer = const T*;
+        using pointer = typename allocator_type::pointer;
+        using const_pointer = typename allocator_type::const_pointer;
         using iterator = vector_iterator<T>;
-        using const_iterator = const_vector_iterator<T>;
+        using const_iterator = vector_iterator<const T>;
         using reverse_iterator = mystl::reverse_iterator<iterator>;
         using const_reverse_iterator = mystl::reverse_iterator<const_iterator>;
 
