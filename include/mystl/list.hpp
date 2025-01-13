@@ -270,6 +270,27 @@ namespace mystl
             alloc_.deallocate(static_cast<node_type*>(node_), 1);
         }
 
+        // 构造函数区域
+        template <class InputIt>
+        list(InputIt first, InputIt last) 
+        {
+            empty_initialize();
+            insert(begin(), first, last);
+        }
+
+        list(const list& other) 
+        {
+            empty_initialize();
+            insert(begin(), other.begin(), other.end());
+        }
+
+        list(list&& other) noexcept
+            : node_(other.node_), size_(other.size_)
+        {
+            other.node_ = nullptr;
+            other.size_ = 0;
+        }
+
 
 
         /*****************************************************************************************/
@@ -288,10 +309,34 @@ namespace mystl
         { return const_iterator(static_cast<node_type*>(node_)); }
 
         const_iterator cbegin() const noexcept 
-        { return const_iterator(static_cast<node_type*>(node_->next)); }
+        { 
+            return const_iterator(static_cast<node_type*>(node_->next)); 
+        }
 
         const_iterator cend() const noexcept 
-        { return const_iterator(static_cast<node_type*>(node_)); }
+        { 
+            return const_iterator(static_cast<node_type*>(node_)); 
+        }
+
+        reverse_iterator rbegin() noexcept 
+        { 
+            return reverse_iterator(end()); 
+        }
+
+        reverse_iterator rend() noexcept 
+        { 
+            return reverse_iterator(begin()); 
+        }
+
+        const_reverse_iterator rbegin() const noexcept 
+        { 
+            return const_reverse_iterator(end()); 
+        }
+
+        const_reverse_iterator rend() const noexcept 
+        { 
+            return const_reverse_iterator(begin()); 
+        }
 
 
 
@@ -562,6 +607,136 @@ namespace mystl
         void unique()
         {
             unique(mystl::equal_to<T>());
+        }
+
+        // 修改器
+        template <class InputIt>
+        iterator insert(const_iterator pos, InputIt first, InputIt last) 
+        {
+            iterator result(reinterpret_cast<node_type*>(pos.node));
+            for (; first != last; ++first)
+                result = insert(pos, *first);
+            return result;
+        }
+
+        iterator erase(const_iterator first, const_iterator last) 
+        {
+            while (first != last)
+                first = erase(first);
+            return iterator(reinterpret_cast<node_type*>(last.node));
+        }
+
+        void resize(size_type count) 
+        {
+            resize(count, T());
+        }
+
+        void resize(size_type count, const T& value) 
+        {
+            if (count > size_) 
+            {
+                insert(end(), count - size_, value);
+            }
+            else 
+            {
+                while (size_ > count)
+                    pop_back();
+            }
+        }
+
+        // 算法操作
+        void sort() 
+        {
+            sort(mystl::less<T>());
+        }
+
+        template <class Compare>
+        void sort(Compare comp) 
+        {
+            if (size_ <= 1) return;
+            list carry;
+            list counter[64];
+            int fill = 0;
+            while (!empty()) 
+            {
+                carry.splice(carry.begin(), *this, begin());
+                int i = 0;
+                while (i < fill && !counter[i].empty()) 
+                {
+                    counter[i].merge(carry, comp);
+                    carry.swap(counter[i++]);
+                }
+                carry.swap(counter[i]);
+                if (i == fill) ++fill;
+            }
+            for (int i = 1; i < fill; ++i)
+                counter[i].merge(counter[i-1], comp);
+            swap(counter[fill-1]);
+        }
+
+        void splice(const_iterator pos, list& other) 
+        {
+            if (!other.empty()) 
+            {
+                transfer(pos, other.begin(), other.end());
+                size_ += other.size_;
+                other.size_ = 0;
+            }
+        }
+
+        void splice(const_iterator pos, list& other, const_iterator it) 
+        {
+            iterator next = it;
+            ++next;
+            if (pos != it && pos != next) 
+            {
+                transfer(pos, it, next);
+                ++size_;
+                --other.size_;
+            }
+        }
+
+        void splice(const_iterator pos, list& other, const_iterator first, const_iterator last) 
+        {
+            if (first != last) 
+            {
+                size_ += mystl::distance(first, last);
+                other.size_ -= mystl::distance(first, last);
+                transfer(pos, first, last);
+            }
+        }
+
+        // 比较操作
+        bool operator==(const list& other) const 
+        {
+            if (size_ != other.size_)
+                return false;
+            return mystl::equal(begin(), end(), other.begin());
+        }
+
+        bool operator!=(const list& other) const 
+        {
+            return !(*this == other);
+        }
+
+        bool operator<(const list& other) const 
+        {
+            return mystl::lexicographical_compare(begin(), end(), other.begin(), other.end());
+        }
+
+        bool operator<=(const list& other) const 
+        {
+            return !(other < *this);
+        }
+
+        bool operator>(const list& other) const 
+        {
+            return other < *this;
+        }
+
+        bool operator>=(const list& other) const 
+        {
+            return !(*this < other);
         }
     };
 
