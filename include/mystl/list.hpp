@@ -264,13 +264,6 @@ namespace mystl
             insert(begin(), ilist.begin(), ilist.end());
         }
 
-        // 析构函数
-        ~list()
-        {
-            clear();
-            alloc_.deallocate(static_cast<node_type*>(node_), 1);
-        }
-
         // 构造函数区域
         template <class InputIt>
         list(InputIt first, InputIt last) 
@@ -292,6 +285,13 @@ namespace mystl
             other.size_ = 0;
         }
 
+        // 析构函数
+        ~list()
+        {
+            clear();
+            alloc_.deallocate(static_cast<node_type*>(node_), 1);
+        }
+
 
 
         /*****************************************************************************************/
@@ -302,6 +302,9 @@ namespace mystl
         
         const_iterator begin() const noexcept 
         { return const_iterator(static_cast<node_type*>(node_->next)); }
+
+        const_iterator cbegin() const noexcept 
+        { return const_iterator(static_cast<node_type*>(node_->next)); }
         
         iterator end() noexcept 
         { return iterator(static_cast<node_type*>(node_)); }
@@ -309,43 +312,27 @@ namespace mystl
         const_iterator end() const noexcept 
         { return const_iterator(static_cast<node_type*>(node_)); }
 
-        const_iterator cbegin() const noexcept 
-        { 
-            return const_iterator(static_cast<node_type*>(node_->next)); 
-        }
-
         const_iterator cend() const noexcept 
-        { 
-            return const_iterator(static_cast<node_type*>(node_)); 
-        }
+        { return const_iterator(static_cast<node_type*>(node_)); }
 
+        // 反向迭代器
         reverse_iterator rbegin() noexcept 
-        { 
-            return reverse_iterator(end()); 
-        }
-
-        reverse_iterator rend() noexcept 
-        { 
-            return reverse_iterator(begin()); 
-        }
+        { return reverse_iterator(end()); }
 
         const_reverse_iterator rbegin() const noexcept 
-        { 
-            return const_reverse_iterator(end()); 
-        }
+        { return const_reverse_iterator(end()); }
+
+        const_reverse_iterator crbegin() const noexcept 
+        { return const_reverse_iterator(end()); }
+
+        reverse_iterator rend() noexcept 
+        { return reverse_iterator(begin()); }
 
         const_reverse_iterator rend() const noexcept 
-        { 
-            return const_reverse_iterator(begin()); 
-        }
+        { return const_reverse_iterator(begin()); }
 
-
-
-        /*****************************************************************************************/
-        // 容量相关操作
-        /*****************************************************************************************/
-        bool empty() const noexcept { return size_ == 0; }
-        size_type size() const noexcept { return size_; }
+        const_reverse_iterator crend() const noexcept 
+        { return const_reverse_iterator(begin()); }
 
 
 
@@ -376,6 +363,14 @@ namespace mystl
             return *(--end()); 
         }
 
+
+
+        /*****************************************************************************************/
+        // 容量相关操作
+        /*****************************************************************************************/
+        bool empty() const noexcept { return size_ == 0; }
+        size_type size() const noexcept { return size_; }
+        size_type max_size() const noexcept { return mystl::max_size(alloc_); }
 
 
         /*****************************************************************************************/

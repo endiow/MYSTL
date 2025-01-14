@@ -397,13 +397,7 @@ namespace mystl
         // 返回最大可容纳的元素个数
         size_type max_size() const noexcept 
         { 
-            // 考虑两个限制因素：
-            // 1. size_type 能表示的最大值
-            // 2. 最大可分配的内存 / 每个元素的大小
-            return mystl::min(
-                size_type(-1) / sizeof(T),  // 防止内存大小溢出
-                alloc_.max_size()           // 分配器的限制
-            );
+            return mystl::max_size(alloc_);
         }
         // 返回当前容量
         size_type capacity() const noexcept { return capacity_; }

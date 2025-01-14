@@ -268,4 +268,14 @@ namespace mystl
     template<class T>
     MemoryPool<T> allocator<T>::pool;
 
+    // 计算最大可分配大小
+    template <class Alloc>
+    typename Alloc::size_type max_size(const Alloc& alloc) noexcept 
+    {
+        return mystl::min(
+            typename Alloc::size_type(-1) / sizeof(typename Alloc::value_type),  // 防止内存大小溢出
+            alloc.max_size()  // 分配器的限制
+        );
+    }
+
 } // namespace mystl 
