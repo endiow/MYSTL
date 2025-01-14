@@ -1408,4 +1408,41 @@ TEST(AlgorithmTest, NumericOperations)
         EXPECT_EQ(result[1], (Point{2,2}));
         EXPECT_EQ(result[2], (Point{3,3}));
     }
+
+    // 测试 iota 函数
+    {
+        // 测试整数序列
+        mystl::vector<int> v1(5);
+        mystl::iota(v1.begin(), v1.end(), 10);
+        
+        // 验证生成的序列
+        for (size_t i = 0; i < v1.size(); ++i) 
+        {
+            EXPECT_EQ(v1[i], 10 + static_cast<int>(i));
+        }
+
+        // 测试浮点数序列
+        mystl::vector<double> v2(4);
+        mystl::iota(v2.begin(), v2.end(), 1.5);
+        
+        // 验证生成的序列
+        for (size_t i = 0; i < v2.size(); ++i) 
+        {
+            EXPECT_DOUBLE_EQ(v2[i], 1.5 + i);
+        }
+
+        // 测试字符序列
+        mystl::vector<char> v3(3);
+        mystl::iota(v3.begin(), v3.end(), 'A');
+        
+        // 验证生成的序列
+        EXPECT_EQ(v3[0], 'A');
+        EXPECT_EQ(v3[1], 'B');
+        EXPECT_EQ(v3[2], 'C');
+
+        // 测试空序列
+        mystl::vector<int> v4;
+        mystl::iota(v4.begin(), v4.end(), 0);  // 不应该有任何操作
+        EXPECT_TRUE(v4.empty());
+    }
 }
