@@ -17,7 +17,7 @@ namespace mystl
     public:
         // 类型定义
         using iterator_category = mystl::random_access_iterator_tag;
-        using value_type = T;
+        using value_type = typename mystl::allocator<T>::value_type;
         using pointer = typename mystl::allocator<T>::pointer;
         using reference = typename mystl::allocator<T>::reference;
         using difference_type = ptrdiff_t;
@@ -203,17 +203,17 @@ namespace mystl
         //------------------------------------------------------------------------------
         // 类型定义
         //------------------------------------------------------------------------------
-        using value_type = T;
+        using value_type = typename Allocator::value_type;
         using allocator_type = Allocator;
         using size_type = size_t;
         using difference_type = ptrdiff_t;
-        using reference = typename mystl::allocator<T>::reference;
-        using const_reference = typename mystl::allocator<T>::const_reference;
-        using pointer = typename mystl::allocator<T>::pointer;
-        using const_pointer = typename mystl::allocator<T>::const_pointer;
+        using reference = typename allocator_type::reference;
+        using const_reference = typename allocator_type::const_reference;
+        using pointer = typename allocator_type::pointer;
+        using const_pointer = typename allocator_type::const_pointer;
         
-        using iterator = vector_iterator<T>;
-        using const_iterator = vector_iterator<const T>;
+        using iterator = vector_iterator<value_type>;
+        using const_iterator = vector_iterator<const value_type>;
         using reverse_iterator = mystl::reverse_iterator<iterator>;
         using const_reverse_iterator = mystl::reverse_iterator<const_iterator>;
 

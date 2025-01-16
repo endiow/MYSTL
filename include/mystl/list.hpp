@@ -59,13 +59,13 @@ namespace mystl
     template <class T>
     struct list_iterator : public list_iterator_base<T> 
     {
-        using base = list_iterator_base<T>;
+        using base = list_iterator_base<typename mystl::allocator<T>::value_type>;
         using iterator_category = mystl::bidirectional_iterator_tag;
-        using value_type = T;
+        using value_type = typename mystl::allocator<T>::value_type;
         using pointer = typename mystl::allocator<T>::pointer;
         using reference = typename mystl::allocator<T>::reference;
         using difference_type = ptrdiff_t;
-        using node_ptr = list_node<typename remove_const<T>::type>*;
+        using node_ptr = list_node<typename remove_const<value_type>::type>*;
         
         using base::node;
         
@@ -135,23 +135,23 @@ namespace mystl
     {
     public:
         // 类型定义
-        using value_type = T;
+        using value_type = typename Allocator::value_type;
         using allocator_type = Allocator;
         using size_type = size_t;
         using difference_type = ptrdiff_t;
-        using reference = typename mystl::allocator<T>::reference;
-        using const_reference = typename mystl::allocator<T>::const_reference;
-        using pointer = typename mystl::allocator<T>::pointer;
-        using const_pointer = typename mystl::allocator<T>::const_pointer;
+        using reference = typename allocator_type::reference;
+        using const_reference = typename allocator_type::const_reference;
+        using pointer = typename allocator_type::pointer;
+        using const_pointer = typename allocator_type::const_pointer;
         
-        using iterator = list_iterator<T>;
-        using const_iterator = list_iterator<const T>;
+        using iterator = list_iterator<value_type>;
+        using const_iterator = list_iterator<const value_type>;
         using reverse_iterator = mystl::reverse_iterator<iterator>;
         using const_reverse_iterator = mystl::reverse_iterator<const_iterator>;
         
     private:
-        using node_type = list_node<T>;
-        using node_base = list_node_base<T>;
+        using node_type = list_node<value_type>;
+        using node_base = list_node_base<value_type>;
         //分配器类型绑定为node_type
         using node_allocator = typename Allocator::template rebind<node_type>::other;
         
