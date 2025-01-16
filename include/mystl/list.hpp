@@ -10,7 +10,7 @@ namespace mystl
     /*****************************************************************************************/
     // list 的节点设计
     /*****************************************************************************************/
-    // list节点的基类
+    // list节点的基类   专门处理节点之间的链接关系    都是无异常的
     template <class T>
     struct list_node_base 
     {
@@ -20,7 +20,7 @@ namespace mystl
         list_node_base() noexcept : prev(nullptr), next(nullptr) {}
     };
 
-    // list节点类
+    // list节点类   专门存储数据
     template <class T>
     struct list_node : public list_node_base<T> 
     {
@@ -40,7 +40,7 @@ namespace mystl
     /*****************************************************************************************/
     // list 的迭代器设计
     /*****************************************************************************************/
-    // list迭代器基类
+    // list迭代器基类   专门处理迭代器的移动    都是无异常的
     template <class T>
     struct list_iterator_base 
     {
@@ -55,7 +55,7 @@ namespace mystl
         void decrement() noexcept { node = node->prev; }
     };
 
-    // list迭代器
+    // list迭代器   专门处理数据访问
     template <class T>
     struct list_iterator : public list_iterator_base<T> 
     {
@@ -75,13 +75,13 @@ namespace mystl
         // 从非const迭代器到const迭代器的隐式转换
         operator list_iterator<const T>() const noexcept
         { 
-            return list_iterator<const T>(static_cast<node_ptr>(this->node));
+            return list_iterator<const T>(get_node());
         }
 
         // 返回底层指针 (reverse_iterator 需要使用此函数)
         pointer base() const noexcept
         {
-            return &(static_cast<node_ptr>(this->node)->data);
+            return &(get_node()->data);
         }
 
         // 获取当前节点
@@ -93,7 +93,7 @@ namespace mystl
         
         reference operator*() const noexcept 
         { 
-            return static_cast<node_ptr>(this->node)->data; 
+            return get_node()->data; 
         }
         
         pointer operator->() const noexcept 
@@ -172,7 +172,11 @@ namespace mystl
         size_type size_;      // 大小
         node_allocator alloc_;// 节点分配器
 
-    
+        // 将 node_base* 转换为 node_type*
+        node_type* as_node(node_base* ptr) const noexcept
+        {
+            return static_cast<node_type*>(ptr);
+        }
 
     public:
         /*****************************************************************************************/
@@ -197,7 +201,7 @@ namespace mystl
             catch (...)
             {
                 clear();
-                alloc_.deallocate(static_cast<node_type*>(node_), 1);
+                alloc_.deallocate(as_node(node_), 1);
                 throw;
             }
         }
@@ -216,7 +220,7 @@ namespace mystl
             catch (...)
             {
                 clear();
-                alloc_.deallocate(static_cast<node_type*>(node_), 1);
+                alloc_.deallocate(as_node(node_), 1);
                 throw;
             }
         }
@@ -236,7 +240,7 @@ namespace mystl
             catch (...)
             {
                 clear();
-                alloc_.deallocate(static_cast<node_type*>(node_), 1);
+                alloc_.deallocate(as_node(node_), 1);
                 throw;
             }
         }
@@ -258,7 +262,7 @@ namespace mystl
             catch (...)
             {
                 clear();
-                alloc_.deallocate(static_cast<node_type*>(node_), 1);
+                alloc_.deallocate(as_node(node_), 1);
                 throw;
             }
         }
@@ -277,7 +281,7 @@ namespace mystl
             catch (...)
             {
                 clear();
-                alloc_.deallocate(static_cast<node_type*>(node_), 1);
+                alloc_.deallocate(as_node(node_), 1);
                 throw;
             }
         }
@@ -293,7 +297,7 @@ namespace mystl
         ~list()
         {
             clear();
-            alloc_.deallocate(static_cast<node_type*>(node_), 1);
+            alloc_.deallocate(as_node(node_), 1);
         }
 
 
@@ -302,22 +306,34 @@ namespace mystl
         // 迭代器相关操作
         /*****************************************************************************************/
         iterator begin() noexcept 
-        { return iterator(static_cast<node_type*>(node_->next)); }
+        { 
+            return iterator(as_node(node_->next)); 
+        }
         
         const_iterator begin() const noexcept 
-        { return const_iterator(static_cast<node_type*>(node_->next)); }
+        { 
+            return const_iterator(as_node(node_->next)); 
+        }
 
         const_iterator cbegin() const noexcept 
-        { return const_iterator(static_cast<node_type*>(node_->next)); }
+        { 
+            return const_iterator(as_node(node_->next)); 
+        }
         
         iterator end() noexcept 
-        { return iterator(static_cast<node_type*>(node_)); }
+        { 
+            return iterator(as_node(node_)); 
+        }
         
         const_iterator end() const noexcept 
-        { return const_iterator(static_cast<node_type*>(node_)); }
+        { 
+            return const_iterator(as_node(node_)); 
+        }
 
         const_iterator cend() const noexcept 
-        { return const_iterator(static_cast<node_type*>(node_)); }
+        { 
+            return const_iterator(as_node(node_)); 
+        }
 
         // 反向迭代器
         reverse_iterator rbegin() noexcept 
@@ -518,11 +534,11 @@ namespace mystl
         // 清空列表
         void clear() noexcept
         {
-            node_type* cur = static_cast<node_type*>(node_->next);
+            node_type* cur = as_node(node_->next);
             while (cur != node_) 
             {
                 node_type* tmp = cur;
-                cur = static_cast<node_type*>(cur->next);
+                cur = as_node(cur->next);
                 destroy_node(tmp);
             }
             node_->next = node_;
@@ -533,14 +549,17 @@ namespace mystl
         // 在pos之前插入一个元素
         iterator insert(const_iterator pos, const T& value)
         {
-            node_type* p = insert_node(reinterpret_cast<node_type*>(pos.node), value);
-            return iterator(p);
+            EXPECT(pos.node != nullptr, "iterator is null");
+            
+            // 使用辅助函数创建和插入节点
+            node_type* new_node = insert_node(pos.get_node(), value);
+            return iterator(new_node);
         }
 
         // 在pos之前插入一个元素(移动版本)
         iterator insert(const_iterator pos, T&& value)
         {
-            node_type* p = insert_node(reinterpret_cast<node_type*>(pos.node), mystl::move(value));
+            node_type* p = insert_node(pos.get_node(), mystl::move(value));
             return iterator(p);
         }
 
@@ -548,7 +567,7 @@ namespace mystl
         iterator insert(const_iterator pos, size_type n, const T& value)
         {
             if (n == 0)
-                return iterator(reinterpret_cast<node_type*>(pos.node));
+                return iterator(pos.get_node());
             
             list tmp;  // 创建临时链表
             try 
@@ -559,7 +578,7 @@ namespace mystl
                     tmp.push_back(value);
                 }
                 // 如果全部构造成功，再将临时链表拼接到指定位置
-                iterator result(reinterpret_cast<node_type*>(pos.node));
+                iterator result(pos.get_node());
                 tmp.transfer(tmp.begin(), tmp.end(), pos);
                 return result;
             }
@@ -584,7 +603,7 @@ namespace mystl
                     tmp.push_back(*first);
                 }
                 // 如果全部构造成功，再将临时链表拼接到指定位置
-                iterator result(reinterpret_cast<node_type*>(pos.node));
+                iterator result(pos.get_node());
                 tmp.transfer(tmp.begin(), tmp.end(), pos);
                 return result;
             }
@@ -688,8 +707,8 @@ namespace mystl
         // 删除pos位置的元素
         iterator erase(const_iterator pos)
         {
-            node_type* node = reinterpret_cast<node_type*>(pos.node);
-            node_type* next_node = reinterpret_cast<node_type*>(node->next);
+            node_type* node = pos.get_node();
+            node_type* next_node = as_node(node->next);
             node->prev->next = node->next;
             node->next->prev = node->prev;
             destroy_node(node);
@@ -702,7 +721,7 @@ namespace mystl
         {
             if (first == last)
             {
-                return iterator(reinterpret_cast<node_type*>(first.node));
+                return iterator(as_node(first.node));
             }
 
             // 保存last的前一个节点，因为last指向的是要保留的节点
@@ -711,7 +730,7 @@ namespace mystl
             // 删除范围内的节点
             while (first != last)
             {
-                node_type* tmp = static_cast<node_type*>(first.node);
+                node_type* tmp = as_node(first.node);
                 ++first;  // 先递增迭代器，再删除节点
                 destroy_node(tmp);
                 --size_;
@@ -721,7 +740,7 @@ namespace mystl
             prev->next = last.node;
             last.node->prev = prev;
             
-            return iterator(reinterpret_cast<node_type*>(last.node));
+            return iterator(as_node(last.node));
         }
 
 
