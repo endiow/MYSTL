@@ -7,7 +7,6 @@
 #include "iterator.hpp"
 #include "uninitialized.hpp"    
 #include "algorithm.hpp"
-#include "construct.hpp"
 
 namespace mystl 
 {
@@ -25,7 +24,7 @@ namespace mystl
         template <class U>
         friend class deque_iterator;  // 允许不同类型迭代器互相访问
 
-        template <class T, class Allocator>
+        template <class Value, class Alloc>
         friend class deque;  // 保留 deque 作为友元
 
     public:
@@ -36,8 +35,11 @@ namespace mystl
         using reference = typename mystl::allocator<T>::reference;
         using difference_type = ptrdiff_t;
         using size_type = size_t;
+
         // 使用分配器的 rebind 获取指针的指针类型
         using map_pointer = typename mystl::allocator<T>::template rebind<pointer>::other::pointer;
+        using const_pointer = typename mystl::allocator<T>::const_pointer;
+        using const_map_pointer = typename mystl::allocator<T>::template rebind<const_pointer>::other::pointer;
 
         // 构造函数
         deque_iterator() noexcept
@@ -64,8 +66,21 @@ namespace mystl
         // 转换为const迭代器
         operator deque_iterator<const T>() const noexcept
         {
-            return deque_iterator<const T>(cur, node);
+            return deque_iterator<const T>(static_cast<const T*>(cur), const_cast<const_map_pointer>(node));
         }
+
+        // base() 函数
+        pointer base() const noexcept
+        {
+            return cur;
+        }
+
+        // 获取内部状态的函数
+        pointer get_cur() const noexcept { return cur; }
+        pointer get_first() const noexcept { return first; }
+        pointer get_last() const noexcept { return last; }
+        map_pointer get_node() const noexcept { return node; }
+        deque_iterator get_iterator() const noexcept{ return *this; }
 
         // 重载操作符
         reference operator*() const noexcept { return *cur; }
@@ -183,6 +198,8 @@ namespace mystl
             return !(*this < rhs);
         }
 
+        
+
     private:
         // map_(控制中心)
         //   │
@@ -270,11 +287,12 @@ namespace mystl
             }
             catch(...) 
             {
+                // 清理已分配的资源
                 for (map_pointer cur = start_.node; cur <= finish_.node; ++cur)
                 {
-                    data_allocator::deallocate(*cur, buffer_size());
+                    alloc_.deallocate(*cur, buffer_size());
                 }
-                map_allocator::deallocate(map_, map_size_);
+                map_alloc_.deallocate(map_, map_size_);
                 throw;
             }
         }
@@ -288,12 +306,12 @@ namespace mystl
             }
             catch(...) 
             {
-                // 清理已分配的内存
+                // 清理已分配的资源
                 for (map_pointer cur = start_.node; cur <= finish_.node; ++cur)
                 {
-                    data_allocator::deallocate(*cur, buffer_size());
+                    alloc_.deallocate(*cur, buffer_size());
                 }
-                map_allocator::deallocate(map_, map_size_);
+                map_alloc_.deallocate(map_, map_size_);
                 throw;
             }
         }
@@ -310,31 +328,32 @@ namespace mystl
             }
             catch(...) 
             {
-                // 如果构造失败，释放已分配的空间
+                // 清理已分配的资源
                 for (map_pointer cur = start_.node; cur <= finish_.node; ++cur)
                 {
-                    data_allocator::deallocate(*cur, buffer_size());
+                    alloc_.deallocate(*cur, buffer_size());
                 }
-                map_allocator::deallocate(map_, map_size_);
+                map_alloc_.deallocate(map_, map_size_);
                 throw;
             }
         }
 
         // 添加初始化列表构造函数
-        deque(std::initializer_list<T> ilist)
+        deque(std::initializer_list<T> init)
         {
-            create_map_and_nodes(ilist.size());
+            create_map_and_nodes(init.size());
             try 
             {
-                mystl::uninitialized_copy(ilist.begin(), ilist.end(), start_);
+                mystl::uninitialized_copy(init.begin(), init.end(), start_);
             }
             catch(...) 
             {
+                // 清理已分配的资源
                 for (map_pointer cur = start_.node; cur <= finish_.node; ++cur)
                 {
-                    data_allocator::deallocate(*cur, buffer_size());
+                    alloc_.deallocate(*cur, buffer_size());
                 }
-                map_allocator::deallocate(map_, map_size_);
+                map_alloc_.deallocate(map_, map_size_);
                 throw;
             }
         }
@@ -348,18 +367,21 @@ namespace mystl
             }
             catch(...) 
             {
+                // 清理已分配的资源
                 for (map_pointer cur = start_.node; cur <= finish_.node; ++cur)
                 {
-                    data_allocator::deallocate(*cur, buffer_size());
+                    alloc_.deallocate(*cur, buffer_size());
                 }
-                map_allocator::deallocate(map_, map_size_);
+                map_alloc_.deallocate(map_, map_size_);
                 throw;
             }
         }
 
         deque(deque&& other) noexcept
-            : start_(other.start_), finish_(other.finish_),
-              map_(other.map_), map_size_(other.map_size_)
+            : start_(other.start_),
+              finish_(other.finish_),
+              map_(other.map_),
+              map_size_(other.map_size_)
         {
             other.start_ = iterator();
             other.finish_ = iterator();
@@ -370,7 +392,7 @@ namespace mystl
         ~deque() 
         {
             clear();
-            map_allocator::deallocate(map_, map_size_);
+            map_alloc_.deallocate(map_, map_size_);
         }   
 
 
@@ -404,7 +426,7 @@ namespace mystl
         // 带边界检查的访问
         reference at(size_type pos)
         {
-            if (pos >= size_)
+            if (pos >= size())
             {
                 throw out_of_range("deque::at");
             }
@@ -413,18 +435,40 @@ namespace mystl
 
         const_reference at(size_type pos) const
         {
-            if (pos >= size_)
+            if (pos >= size())
             {
                 throw out_of_range("deque::at");
             }
             return start_[pos];
         }
 
-        reference front() { return *start_; }
-        const_reference front() const { return *start_; }
+        reference front() 
+        {
+            EXPECT(!empty(), "deque is empty");
+            return *start_;
+        }
+
+        const_reference front() const 
+        {
+            EXPECT(!empty(), "deque is empty");
+            return *start_;
+        }
         
-        reference back() { return *(finish_ - 1); }   
-        const_reference back() const { return *(finish_ - 1); }
+        reference back() 
+        {
+            EXPECT(!empty(), "deque is empty");
+            iterator tmp = finish_;
+            --tmp;
+            return *tmp;
+        }
+
+        const_reference back() const 
+        {
+            EXPECT(!empty(), "deque is empty");
+            const_iterator tmp = finish_;
+            --tmp;
+            return *tmp;
+        }
 
 
         

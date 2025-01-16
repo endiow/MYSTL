@@ -29,14 +29,21 @@ namespace mystl
         vector_iterator() noexcept : curr(nullptr) {}
         explicit vector_iterator(pointer p) noexcept : curr(p) {}
 
+        // 类型转换
+        operator vector_iterator<const T>() const noexcept 
+        { 
+            return vector_iterator<const T>(curr); 
+        }
+
+        pointer base() const noexcept { return curr; }
+
         // 操作符重载
         reference operator*() const noexcept { return *curr; }
         pointer operator->() const noexcept { return curr; }
 
         // 基本操作
         reference operator[](difference_type n) const noexcept { return curr[n]; }
-        pointer base() const noexcept { return curr; }
-
+        
         // 迭代器移动
         vector_iterator& operator++() noexcept 
         {
@@ -170,12 +177,6 @@ namespace mystl
         bool operator>=(const vector_iterator<U>& other) const noexcept 
         {
             return !(*this < other);
-        }
-
-        // 类型转换
-        operator vector_iterator<const T>() const noexcept 
-        { 
-            return vector_iterator<const T>(curr); 
         }
 
         //友元函数
@@ -1326,7 +1327,7 @@ namespace mystl
         {
             if (!empty())
             {
-                mystl::destroy(data_ + --size_);
+                mystl::destroy_at(data_ + --size_);
             }
         }
 

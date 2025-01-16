@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "mystl/allocator.hpp"
+#include "mystl/construct.hpp"
 #include "mystl/vector.hpp"
 
 // 测试基本类型的分配和释放
@@ -10,9 +11,9 @@ TEST(AllocatorTest, BasicTypes)
     // 分配单个对象
     int* p1 = alloc.allocate(1);
     EXPECT_NE(p1, nullptr);
-    alloc.construct(p1, 42);
+    mystl::construct(p1, 42);
     EXPECT_EQ(*p1, 42);
-    alloc.destroy(p1);
+    mystl::destroy_at(p1);
     alloc.deallocate(p1, 1);
 
     // 分配数组
@@ -20,7 +21,7 @@ TEST(AllocatorTest, BasicTypes)
     EXPECT_NE(p2, nullptr);
     for (int i = 0; i < 5; ++i) 
     {
-        alloc.construct(p2 + i, i);
+        mystl::construct(p2 + i, i);
     }
     for (int i = 0; i < 5; ++i) 
     {
@@ -28,23 +29,23 @@ TEST(AllocatorTest, BasicTypes)
     }
     for (int i = 0; i < 5; ++i) 
     {
-        alloc.destroy(p2 + i);
+        mystl::destroy_at(p2 + i);
     }
     alloc.deallocate(p2, 5);
 
     // 测试不同基本类型
     mystl::allocator<char> char_alloc;
     char* pc = char_alloc.allocate(1);
-    char_alloc.construct(pc, 'A');
+    mystl::construct(pc, 'A');
     EXPECT_EQ(*pc, 'A');
-    char_alloc.destroy(pc);
+    mystl::destroy_at(pc);
     char_alloc.deallocate(pc, 1);
 
     mystl::allocator<double> double_alloc;
     double* pd = double_alloc.allocate(1);
-    double_alloc.construct(pd, 3.14);
+    mystl::construct(pd, 3.14);
     EXPECT_DOUBLE_EQ(*pd, 3.14);
-    double_alloc.destroy(pd);
+    mystl::destroy_at(pd);
     double_alloc.deallocate(pd, 1);
 }
 
@@ -72,11 +73,11 @@ TEST(AllocatorTest, CustomTypes)
     // 分配并构造单个对象
     TestStruct* p1 = alloc.allocate(1);
     EXPECT_NE(p1, nullptr);
-    alloc.construct(p1, 42, 3.14, "test");
+    mystl::construct(p1, 42, 3.14, "test");
     EXPECT_EQ(p1->x, 42);
     EXPECT_DOUBLE_EQ(p1->y, 3.14);
     EXPECT_EQ(p1->s, "test");
-    alloc.destroy(p1);
+    mystl::destroy_at(p1);
     alloc.deallocate(p1, 1);
 
     // 分配并构造数组
@@ -84,7 +85,7 @@ TEST(AllocatorTest, CustomTypes)
     EXPECT_NE(p2, nullptr);
     for (int i = 0; i < 3; ++i) 
     {
-        alloc.construct(p2 + i, i, i * 1.1, "test" + std::to_string(i));
+        mystl::construct(p2 + i, i, i * 1.1, "test" + std::to_string(i));
     }
     for (int i = 0; i < 3; ++i) 
     {
@@ -94,7 +95,7 @@ TEST(AllocatorTest, CustomTypes)
     }
     for (int i = 0; i < 3; ++i) 
     {
-        alloc.destroy(p2 + i);
+        mystl::destroy_at(p2 + i);
     }
     alloc.deallocate(p2, 3);
 }
@@ -108,11 +109,11 @@ TEST(AllocatorTest, ConstructDestroy)
     std::string* p = alloc.allocate(1);
     
     // 构造对象
-    alloc.construct(p, "test");
+    mystl::construct(p, "test");
     EXPECT_EQ(*p, "test");
     
     // 析构对象
-    alloc.destroy(p);
+    mystl::destroy_at(p);
     
     // 释放内存
     alloc.deallocate(p, 1);
@@ -147,7 +148,7 @@ TEST(AllocatorTest, ComplexTypeAllocation)
     ComplexType* arr = alloc.allocate(3);
     for (int i = 0; i < 3; ++i) 
     {
-        alloc.construct(arr + i);
+        mystl::construct(arr + i);
     }
     
     EXPECT_EQ(ComplexType::constructor_count, 3);
@@ -155,7 +156,7 @@ TEST(AllocatorTest, ComplexTypeAllocation)
     // 析构并释放对象数组
     for (int i = 0; i < 3; ++i) 
     {
-        alloc.destroy(arr + i);
+        mystl::destroy_at(arr + i);
     }
     alloc.deallocate(arr, 3);
     

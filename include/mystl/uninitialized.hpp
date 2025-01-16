@@ -34,7 +34,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(d_first, current);
+            mystl::destroy(d_first, current);
             throw;
         }
     }
@@ -90,7 +90,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(d_first, current);
+            mystl::destroy(d_first, current);
             throw;
         }
     }
@@ -144,7 +144,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(d_first, current);
+            mystl::destroy(d_first, current);
             throw;
         }
     }
@@ -200,7 +200,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(d_first, current);
+            mystl::destroy(d_first, current);
             throw;
         }
     }
@@ -258,7 +258,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(first, current);
+            mystl::destroy(first, current);
             throw;
         }
     }
@@ -312,7 +312,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(first, current);
+            mystl::destroy(first, current);
             throw;
         }
     }
@@ -350,7 +350,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(first, current);
+            mystl::destroy(first, current);
             throw;
         }
     }
@@ -375,7 +375,7 @@ namespace mystl
         }
         catch (...) 
         {
-            destroy(first, current);
+            mystl::destroy(first, current);
             throw;
         }
     }

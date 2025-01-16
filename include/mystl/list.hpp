@@ -59,7 +59,7 @@ namespace mystl
     template <class T>
     struct list_iterator : public list_iterator_base<T> 
     {
-        using base = list_iterator_base<typename mystl::allocator<T>::value_type>;
+        using iterator_base = list_iterator_base<typename mystl::allocator<T>::value_type>;
         using iterator_category = mystl::bidirectional_iterator_tag;
         using value_type = typename mystl::allocator<T>::value_type;
         using pointer = typename mystl::allocator<T>::pointer;
@@ -67,10 +67,29 @@ namespace mystl
         using difference_type = ptrdiff_t;
         using node_ptr = list_node<typename remove_const<value_type>::type>*;
         
-        using base::node;
+        using iterator_base::node;
         
         list_iterator() noexcept = default;
-        explicit list_iterator(node_ptr x) noexcept : base(x) {}
+        explicit list_iterator(node_ptr x) noexcept : iterator_base(x) {}
+
+        // 从非const迭代器到const迭代器的隐式转换
+        operator list_iterator<const T>() const noexcept
+        { 
+            return list_iterator<const T>(static_cast<node_ptr>(this->node));
+        }
+
+        // 返回底层指针 (reverse_iterator 需要使用此函数)
+        pointer base() const noexcept
+        {
+            return &(static_cast<node_ptr>(this->node)->data);
+        }
+
+        // 获取当前节点
+        node_ptr get_node() const noexcept
+        {
+            return static_cast<node_ptr>(this->node);
+        }
+        
         
         reference operator*() const noexcept 
         { 
@@ -116,12 +135,6 @@ namespace mystl
         bool operator!=(const list_iterator& rhs) const noexcept 
         { 
             return node != rhs.node; 
-        }
-
-        // 从非const迭代器到const迭代器的隐式转换
-        operator list_iterator<const T>() const noexcept
-        { 
-            return list_iterator<const T>(static_cast<node_ptr>(this->node));
         }
     };
 
@@ -915,7 +928,7 @@ namespace mystl
 
         void destroy_node(node_type* p)
         {
-            mystl::destroy_at(p);
+            mystl::destroy_at(&p->data);
             alloc_.deallocate(p, 1);
         }
 

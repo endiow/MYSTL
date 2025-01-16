@@ -6,6 +6,7 @@
 #include "expectdef.hpp"
 #include "util.hpp"
 #include "algorithm.hpp"
+#include "construct.hpp"
 
 namespace mystl 
 {

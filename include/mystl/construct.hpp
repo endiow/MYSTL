@@ -76,9 +76,17 @@ namespace mystl
         destroy_at(mystl::addressof(*pos));
     }
 
-    // 销毁范围内的对象 - 指针版本
+
+    //销毁范围内的对象
+    // 1. 平凡类型的特化（最高优先级）
     template <class T>
-    void destroy(T* first, T* last) noexcept
+    inline typename enable_if<is_trivially_destructible<T>::value>::type
+    destroy(T* first, T* last) noexcept {}
+
+    // 2. 指针类型的基本版本
+    template <class T>
+    inline typename enable_if<!is_trivially_destructible<T>::value>::type
+    destroy(T* first, T* last) noexcept
     {
         for (; first != last; ++first)
         {
@@ -86,7 +94,7 @@ namespace mystl
         }
     }
 
-    // 销毁范围内的对象 - 可解引用类型版本
+    // 3. 可解引用类型版本
     template <class T>
     typename enable_if<!is_pointer<T>::value && is_dereferenceable<T>::value>::type
     destroy(T first, T last) noexcept
@@ -96,10 +104,21 @@ namespace mystl
             destroy_at(mystl::addressof(*first));
         }
     }
+    
 
-    // 销毁n个对象 - 指针版本
+    // 销毁n个对象
+    // 1. 平凡类型的特化
     template <class T>
-    T* destroy_n(T* first, size_t n) noexcept
+    inline typename enable_if<is_trivially_destructible<T>::value, T*>::type
+    destroy_n(T* first, size_t) noexcept
+    {
+        return first;
+    }
+
+    // 2. 指针类型的基本版本
+    template <class T>
+    inline typename enable_if<!is_trivially_destructible<T>::value, T*>::type
+    destroy_n(T* first, size_t n) noexcept
     {
         for (size_t i = 0; i < n; ++i)
         {
@@ -108,7 +127,7 @@ namespace mystl
         return first + n;
     }
 
-    // 销毁n个对象 - 可解引用类型版本
+    // 3. 可解引用类型版本
     template <class T>
     typename enable_if<!is_pointer<T>::value && is_dereferenceable<T>::value, T>::type
     destroy_n(T first, size_t n) noexcept
@@ -117,18 +136,6 @@ namespace mystl
         {
             destroy_at(mystl::addressof(*first));
         }
-        return first;
-    }
-
-    // 平凡类型的特化
-    template <class T>
-    inline typename enable_if<is_trivially_destructible<T>::value>::type
-    destroy(T*, T*) noexcept {}
-
-    template <class T>
-    inline typename enable_if<is_trivially_destructible<T>::value, T*>::type
-    destroy_n(T* first, size_t) noexcept
-    {
         return first;
     }
 

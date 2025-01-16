@@ -272,4 +272,6 @@ test/CMakeFiles/mystl_test.dir/list_test.cpp.obj: \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/algorithm_base.hpp \
  C:/software/msys2/MSYS/ucrt64/include/c++/13.2.0/cstring \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
- C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp
+ C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
+ C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/construct.hpp \
+ C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp
