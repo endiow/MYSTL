@@ -202,7 +202,7 @@ namespace mystl
         // 私有辅助函数
         static size_type buffer_size() noexcept
         {
-            return deque_buf_size(sizeof(T));
+            return deque_buf_size(sizeof(value_type));
         }
 
         void set_node(map_pointer new_node) noexcept
@@ -447,7 +447,7 @@ namespace mystl
             size_type map_max = std::numeric_limits<difference_type>::max() / buf_size;
             
             // 返回三者中的最小值
-            return mystl::min({alloc_max, diff_max, map_max * buf_size});
+            return mystl::min(alloc_max, min(diff_max, map_max * buf_size));
         }
         
         // 调整容器大小
@@ -479,7 +479,7 @@ namespace mystl
             {
                 // 创建新的map和缓冲区
                 size_type new_map_size = need_buffer + 2;  // 多分配2个用于扩展
-                map_pointer new_map = map_allocator::allocate(new_map_size);
+                map_pointer new_map = map_alloc_.allocate(new_map_size);
                 map_pointer new_nstart = new_map + 1;
                 
                 try 
@@ -487,19 +487,29 @@ namespace mystl
                     // 分配新的缓冲区并复制数据
                     for (size_type i = 0; i < need_buffer; ++i)
                     {
-                        new_map[i + 1] = data_allocator::allocate(buffer_size());
+                        new_map[i + 1] = alloc_.allocate(buffer_size());
                     }
                     
                     // 复制元素到新缓冲区
                     iterator new_start(new_map[1], new_map + 1);
-                    mystl::uninitialized_copy(begin(), end(), new_start);
-                    
-                    // 释放原有内存
-                    for (map_pointer cur = start_.node; cur <= finish_.node; ++cur)
+                    try 
                     {
-                        data_allocator::deallocate(*cur, buffer_size());
+                        mystl::uninitialized_copy(begin(), end(), new_start);
                     }
-                    map_allocator::deallocate(map_, map_size_);
+                    catch (...) 
+                    {
+                        // 如果复制失败，释放新分配的缓冲区
+                        for (size_type i = 0; i < need_buffer; ++i)
+                        {
+                            alloc_.deallocate(new_map[i + 1], buffer_size());
+                        }
+                        map_alloc_.deallocate(new_map, new_map_size);
+                        throw;
+                    }
+                    
+                    // 销毁原有对象并释放内存
+                    clear();  // 先销毁原有对象
+                    map_alloc_.deallocate(map_, map_size_);  // 再释放map
                     
                     // 更新成员变量
                     map_ = new_map;
@@ -507,17 +517,9 @@ namespace mystl
                     start_ = iterator(new_map[1], new_map + 1);
                     finish_ = start_ + size();
                 }
-                catch (...)
+                catch (...) 
                 {
-                    // 如果发生异常，释放已分配的新内存
-                    for (size_type i = 0; i < need_buffer; ++i)
-                    {
-                        if (new_map[i + 1])
-                        {
-                            data_allocator::deallocate(new_map[i + 1], buffer_size());
-                        }
-                    }
-                    map_allocator::deallocate(new_map, new_map_size);
+                    map_alloc_.deallocate(new_map, new_map_size);
                     throw;
                 }
             }
@@ -573,25 +575,29 @@ namespace mystl
         // 清空操作
         void clear() 
         {
-            // 清空所有缓冲区
+            if (empty()) return;  // 处理空 deque
+
+            // 清空所有中间缓冲区
             for (map_pointer node = start_.node + 1; node < finish_.node; ++node) 
             {
-                destroy_range(*node, *node + buffer_size());
-                data_allocator::deallocate(*node, buffer_size());
+                mystl::destroy(*node, *node + buffer_size());  // 直接使用 destroy
+                alloc_.deallocate(*node, buffer_size());
             }
 
             if (start_.node != finish_.node) 
             {
-                destroy_range(start_.cur, start_.last);
-                destroy_range(finish_.first, finish_.cur);
-                data_allocator::deallocate(*finish_.node, buffer_size());
+                // 有多个缓冲区时
+                mystl::destroy(start_.cur, start_.last);
+                mystl::destroy(finish_.first, finish_.cur);
+                alloc_.deallocate(*finish_.node, buffer_size());
             }
             else 
             {
-                destroy_range(start_.cur, finish_.cur);
+                // 只有一个缓冲区时
+                mystl::destroy(start_.cur, finish_.cur);
             }
 
-            finish_ = start_;
+            finish_ = start_;  // 重置迭代器
         }
         
 
@@ -762,32 +768,40 @@ namespace mystl
     private:
         //------------------------------------------------------------------------------        
         // 辅助函数
-        //------------------------------------------------------------------------------    
+        //------------------------------------------------------------------------------   
+
+        // 获取缓冲区大小
+        static size_type buffer_size() noexcept
+        {
+            return deque_buf_size(sizeof(value_type));
+        }
+        
+         
         // 创建map和节点
         void create_map_and_nodes(size_type num_elements) 
         {
             // 需要的节点数 = (元素个数 / 每个缓冲区可容纳的元素个数) + 1
-            size_type num_nodes = num_elements / deque_buf_size(sizeof(T)) + 1;
+            size_type num_nodes = num_elements / buffer_size() + 1;
             
             // map至少管理8个节点，最多是所需节点数加2
             map_size_ = mystl::max(size_type(8), num_nodes + 2);
             map_ = map_alloc_.allocate(map_size_);
             
             // 让 nstart 和 nfinish 都指向 map_ 最中央的区域
-            T** nstart = map_ + (map_size_ - num_nodes) / 2;
-            T** nfinish = nstart + num_nodes - 1;
+            map_pointer nstart = map_ + (map_size_ - num_nodes) / 2;
+            map_pointer nfinish = nstart + num_nodes - 1;
             
             try 
             {
                 // 为每个节点配置缓冲区
-                for (T** cur = nstart; cur <= nfinish; ++cur)
-                    *cur = alloc_.allocate(deque_buf_size(sizeof(T)));
+                for (map_pointer cur = nstart; cur <= nfinish; ++cur)
+                    *cur = alloc_.allocate(buffer_size());
             }
             catch(...) 
             {
                 // 若配置失败，释放已配置的空间
-                for (T** cur = nstart; cur < nfinish; ++cur)
-                    alloc_.deallocate(*cur, deque_buf_size(sizeof(T)));
+                for (map_pointer cur = nstart; cur < nfinish; ++cur)
+                    alloc_.deallocate(*cur, buffer_size());
                 map_alloc_.deallocate(map_, map_size_);
                 throw;
             }
@@ -796,43 +810,61 @@ namespace mystl
             start_.node = nstart;
             finish_.node = nfinish;
             start_.cur = start_.first = *nstart;
-            start_.last = start_.first + deque_buf_size(sizeof(T));
+            start_.last = start_.first + buffer_size();
             finish_.first = *nfinish;
-            finish_.last = finish_.first + deque_buf_size(sizeof(T));
+            finish_.last = finish_.first + buffer_size();
             finish_.cur = finish_.first;
         }
-
-        
-
-        
 
 
         // 在前端预留n个元素的空间
         iterator reserve_elements_at_front(size_type n)
         {
-            size_type vacancies = start_.cur - start_.first;  // 当前缓冲区前端的空闲空间
+            size_type vacancies = start_.cur - start_.first;
             if (n > vacancies)
             {
-                // 需要的空间大于当前缓冲区前端的空闲空间
                 size_type new_nodes = (n - vacancies) / buffer_size() + 1;
-                reserve_map_at_front(new_nodes);  // 确保map前端有足够空间
                 
-                // 分配新的缓冲区
-                size_type i;
+                // 保存原始状态
+                map_pointer old_start_node = start_.node;
+                
                 try
                 {
-                    for (i = 1; i <= new_nodes; ++i)
-                        *(start_.node - i) = data_allocator::allocate(buffer_size());
+                    // 先确保 map 有足够空间
+                    reserve_map_at_front(new_nodes);
+                    
+                    // 分配新的缓冲区
+                    size_type i;
+                    try
+                    {
+                        for (i = 1; i <= new_nodes; ++i)
+                            *(start_.node - i) = alloc_.allocate(buffer_size());
+                    }
+                    catch (...)
+                    {
+                        // 清理已分配的缓冲区
+                        for (size_type j = 1; j < i; ++j)
+                            alloc_.deallocate(*(start_.node - j), buffer_size());
+                        
+                        // 恢复原始状态
+                        start_.node = old_start_node;
+                        throw;
+                    }
+
+                    iterator new_start;
+                    new_start.set_node(start_.node - new_nodes);
+                    new_start.cur = new_start.last - (n - vacancies);
+                    return new_start;
                 }
                 catch (...)
                 {
-                    // 如果分配失败，释放已分配的缓冲区
-                    for (size_type j = 1; j < i; ++j)
-                        data_allocator::deallocate(*(start_.node - j), buffer_size());
+                    // 恢复原始状态
+                    start_.node = old_start_node;
                     throw;
                 }
             }
-            return start_ - n;  // 返回新的起始位置
+            else
+                return iterator(start_.cur - n, start_.node);
         }
 
         // 在后端预留n个元素的空间
@@ -841,26 +873,44 @@ namespace mystl
             size_type vacancies = (finish_.last - finish_.cur) - 1;  // 当前缓冲区后端的空闲空间
             if (n > vacancies)
             {
-                // 需要的空间大于当前缓冲区后端的空闲空间
                 size_type new_nodes = (n - vacancies) / buffer_size() + 1;
-                reserve_map_at_back(new_nodes);  // 确保map后端有足够空间
                 
-                // 分配新的缓冲区
-                size_type i;
+                // 保存原始状态
+                map_pointer old_finish_node = finish_.node;
+                
                 try
                 {
-                    for (i = 1; i <= new_nodes; ++i)
-                        *(finish_.node + i) = data_allocator::allocate(buffer_size());
+                    // 先确保 map 有足够空间
+                    reserve_map_at_back(new_nodes);
+                    
+                    // 分配新的缓冲区
+                    size_type i;
+                    try
+                    {
+                        for (i = 1; i <= new_nodes; ++i)
+                            *(finish_.node + i) = alloc_.allocate(buffer_size());
+                    }
+                    catch (...)
+                    {
+                        // 清理已分配的缓冲区
+                        for (size_type j = 1; j < i; ++j)
+                            alloc_.deallocate(*(finish_.node + j), buffer_size());
+                        
+                        // 恢复原始状态
+                        finish_.node = old_finish_node;
+                        throw;
+                    }
+                    
+                    return finish_ + n;  // 返回新的结束位置
                 }
                 catch (...)
                 {
-                    // 如果分配失败，释放已分配的缓冲区
-                    for (size_type j = 1; j < i; ++j)
-                        data_allocator::deallocate(*(finish_.node + j), buffer_size());
+                    // 恢复原始状态
+                    finish_.node = old_finish_node;
                     throw;
                 }
             }
-            return finish_ + n;  // 返回新的结束位置
+            return finish_ + n;  // 当前缓冲区空间足够
         }
 
         // 确保map后端有足够空间
@@ -886,21 +936,32 @@ namespace mystl
             map_pointer new_nstart;
             if (map_size_ > 2 * new_num_nodes) 
             {
-                // 现有map空间足够，只需要移动数据
                 new_nstart = map_ + (map_size_ - new_num_nodes) / 2 + (add_at_front ? nodes_to_add : 0);
-                if (new_nstart < start_.node)
+                
+                // 保存原始状态
+                map_pointer old_start = start_.node;
+                map_pointer old_finish = finish_.node;
+                
+                try 
                 {
-                    mystl::copy(start_.node, finish_.node + 1, new_nstart);
+                    if (new_nstart < start_.node)
+                    {
+                        mystl::copy(start_.node, finish_.node + 1, new_nstart);
+                    }
+                    else
+                    {
+                        mystl::copy_backward(start_.node, finish_.node + 1, new_nstart + old_num_nodes);
+                    }
                     // 只有复制成功后才更新节点指针
                     start_.set_node(new_nstart);
                     finish_.set_node(new_nstart + old_num_nodes - 1);
                 }
-                else
+                catch (...) 
                 {
-                    mystl::copy_backward(start_.node, finish_.node + 1, new_nstart + old_num_nodes);
-                    // 只有复制成功后才更新节点指针
-                    start_.set_node(new_nstart);
-                    finish_.set_node(new_nstart + old_num_nodes - 1);
+                    // 恢复原始状态
+                    start_.set_node(old_start);
+                    finish_.set_node(old_finish);
+                    throw;
                 }
             }
             else 
@@ -938,8 +999,12 @@ namespace mystl
         {
             for (map_pointer n = before_start.node; n < start_.node; ++n)
             {
-                data_allocator::deallocate(*n, buffer_size());
-                *n = nullptr;
+                if (*n != nullptr)  // 检查指针是否有效
+                {
+                    mystl::destroy(*n, *n + buffer_size());  // 先销毁对象
+                    alloc_.deallocate(*n, buffer_size());    // 再释放内存
+                    *n = nullptr;                            // 设置为空指针
+                }
             }
         }
 
@@ -948,37 +1013,16 @@ namespace mystl
         {
             for (map_pointer n = after_finish.node; n > finish_.node; --n)
             {
-                data_allocator::deallocate(*n, buffer_size());
-                *n = nullptr;
+                if (*n != nullptr)  // 检查指针是否有效
+                {
+                    mystl::destroy(*n, *n + buffer_size());  // 先销毁对象
+                    alloc_.deallocate(*n, buffer_size());    // 再释放内存
+                    *n = nullptr;                            // 设置为空指针
+                }
             }
         }
 
-        // 销毁[first, last)范围内的元素
-        void destroy_range(iterator first, iterator last)
-        {
-            // 如果区间在同一个缓冲区内
-            if (first.node == last.node)
-            {
-                mystl::destroy(first.cur, last.cur);
-            }
-            else
-            {
-                // 处理第一个缓冲区
-                mystl::destroy(first.cur, first.last);
-                
-                // 处理中间的完整缓冲区
-                for (map_pointer node = first.node + 1; node < last.node; ++node)
-                {
-                    mystl::destroy(*node, *node + buffer_size());
-                }
-                
-                // 处理最后一个缓冲区
-                if (first.node != last.node)  // 确保有最后一个缓冲区
-                {
-                    mystl::destroy(last.first, last.cur);
-                }
-            }
-        }
+        
     };
 
     

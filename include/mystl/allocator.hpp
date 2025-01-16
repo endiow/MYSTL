@@ -156,19 +156,6 @@ namespace mystl
                 std::free(p);
             }
         }
-
-        // 在已分配的内存上构造对象
-        template<typename... Args>
-        void construct(T* p, Args&&... args) 
-        {
-            if (p) ::new(static_cast<void*>(p)) T(mystl::forward<Args>(args)...);
-        }
-
-        // 析构对象但不释放内存
-        void destroy(T* p) noexcept 
-        {
-            if (p) p->~T();
-        }
     };
 
 
@@ -231,20 +218,6 @@ namespace mystl
         void deallocate(pointer p, size_type n) noexcept 
         {
             pool.deallocate(p, n);
-        }
-
-        // 对象构造
-        template<typename U, typename... Args>
-        void construct(U* p, Args&&... args) 
-        {
-            ::new(static_cast<void*>(p)) U(::mystl::forward<Args>(args)...);
-        }
-        
-        // 对象析构
-        template<typename U>
-        void destroy(U* p) noexcept 
-        { 
-            p->~U();
         }
 
         // 返回最大可分配大小

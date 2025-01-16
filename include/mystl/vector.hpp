@@ -241,7 +241,7 @@ namespace mystl
             data_ = alloc_.allocate(count);
             for (size_type i = 0; i < count; ++i)
             {
-                alloc_.construct(data_ + i);
+                mystl::construct(data_ + i);
             }
         }
 
@@ -252,7 +252,7 @@ namespace mystl
             data_ = alloc_.allocate(count);
             for (size_type i = 0; i < count; ++i)
             {
-                alloc_.construct(data_ + i, value);
+                mystl::construct(data_ + i, value);
             }
         }
 
@@ -275,7 +275,7 @@ namespace mystl
             size_type i = 0;
             for (const auto& item : init)
             {
-                alloc_.construct(data_ + i++, item);
+                mystl::construct(data_ + i++, item);
             }
         }
 
@@ -286,7 +286,7 @@ namespace mystl
             data_ = alloc_.allocate(capacity_);
             for (size_type i = 0; i < size_; ++i)
             {
-                alloc_.construct(data_ + i, other.data_[i]);
+                mystl::construct(data_ + i, other.data_[i]);
             }
         }
 
@@ -416,13 +416,13 @@ namespace mystl
                 // 先复制，如果复制成功再移动
                 for (; i < size_; ++i)
                 {
-                    alloc_.construct(new_data + i, data_[i]);  // 使用复制而不是移动，保证原数据不变
+                    mystl::construct(new_data + i, data_[i]);  // 使用复制而不是移动，保证原数据不变
                 }
                 
                 // 复制成功后，清理原内存
                 for (size_type j = 0; j < size_; ++j)
                 {
-                    alloc_.destroy(data_ + j);
+                    mystl::destroy_at(data_ + j);
                 }
                 if (data_)
                 {
@@ -437,7 +437,7 @@ namespace mystl
                 // 析构对象
                 for (size_type j = 0; j < i; ++j)
                 {
-                    alloc_.destroy(new_data + j);
+                    mystl::destroy_at(new_data + j);
                 }
                 // 释放内存
                 if (new_data)   
@@ -474,7 +474,7 @@ namespace mystl
                     // 构造新元素
                     for (; i < count; ++i)
                     {
-                        alloc_.construct(data_ + i);
+                        mystl::construct(data_ + i);
                     }
                     size_ = count;
                 }
@@ -483,7 +483,7 @@ namespace mystl
                     // 如果构造失败，清理已构造的新元素
                     for (size_type j = size_; j < i; ++j)
                     {
-                        alloc_.destroy(data_ + j);
+                        mystl::destroy_at(data_ + j);
                     }
                     throw;  // 重新抛出异常
                 }
@@ -493,7 +493,7 @@ namespace mystl
                 // 销毁多余元素
                 for (size_type i = count; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 size_ = count;
             }
@@ -515,7 +515,7 @@ namespace mystl
                     // 构造新元素
                     for (; i < count; ++i)
                     {
-                        alloc_.construct(data_ + i, value);
+                        mystl::construct(data_ + i, value);
                     }
                     size_ = count;
                 }
@@ -524,7 +524,7 @@ namespace mystl
                     // 如果构造失败，清理已构造的新元素
                     for (size_type j = size_; j < i; ++j)
                     {
-                        alloc_.destroy(data_ + j);
+                        mystl::destroy_at(data_ + j);
                     }
                     throw;  // 重新抛出异常
                 }
@@ -534,7 +534,7 @@ namespace mystl
                 // 销毁多余元素
                 for (size_type i = count; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 size_ = count;
             }
@@ -607,7 +607,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < new_size; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_size);
                     }
@@ -650,7 +650,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < n; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, n);
                     }
@@ -682,7 +682,7 @@ namespace mystl
         {
             for (size_type i = 0; i < size_; ++i)
             {
-                alloc_.destroy(data_ + i);
+                mystl::destroy_at(data_ + i);
             }
             size_ = 0;
         }
@@ -699,7 +699,7 @@ namespace mystl
                 {
                     new_data = alloc_.allocate(new_capacity);
                     mystl::uninitialized_copy(begin(), begin() + offset, new_data);
-                    alloc_.construct(new_data + offset, value);
+                    mystl::construct(new_data + offset, value);
                     mystl::uninitialized_copy(begin() + offset, end(), new_data + offset + 1);
                 }
                 catch (...) 
@@ -708,7 +708,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < offset; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_capacity);
                     }
@@ -717,7 +717,7 @@ namespace mystl
                 
                 for (size_type i = 0; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 if (data_)
                 {
@@ -732,7 +732,7 @@ namespace mystl
                 try 
                 {
                     // 先构造末尾元素
-                    alloc_.construct(data_ + size_, mystl::move(data_[size_ - 1]));
+                    mystl::construct(data_ + size_, mystl::move(data_[size_ - 1]));
                     
                     // 移动中间元素
                     size_type i;
@@ -750,7 +750,7 @@ namespace mystl
                         {
                             data_[k - 1] = mystl::move(data_[k]);
                         }
-                        alloc_.destroy(data_ + size_);
+                        mystl::destroy_at(data_ + size_);
                         throw;
                     }
                     
@@ -766,14 +766,14 @@ namespace mystl
                         {
                             data_[k - 1] = mystl::move(data_[k]);
                         }
-                        alloc_.destroy(data_ + size_);
+                        mystl::destroy_at(data_ + size_);
                         throw;
                     }
                 }
                 catch (...) 
                 {
                     // 如果在构造末尾元素时发生异常，直接销毁
-                    alloc_.destroy(data_ + size_);
+                    mystl::destroy_at(data_ + size_);
                     throw;
                 }
             }
@@ -793,7 +793,7 @@ namespace mystl
                 {
                     new_data = alloc_.allocate(new_capacity);
                     mystl::uninitialized_copy(begin(), begin() + offset, new_data);
-                    alloc_.construct(new_data + offset, mystl::move(value));
+                    mystl::construct(new_data + offset, mystl::move(value));
                     mystl::uninitialized_copy(begin() + offset, end(), new_data + offset + 1);
                 }
                 catch (...) 
@@ -802,7 +802,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < offset; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_capacity);
                     }
@@ -811,7 +811,7 @@ namespace mystl
                 
                 for (size_type i = 0; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 if (data_)
                 {
@@ -829,7 +829,7 @@ namespace mystl
                 try 
                 {
                     // 先构造末尾元素
-                    alloc_.construct(data_ + size_, mystl::move(data_[size_ - 1]));
+                    mystl::construct(data_ + size_, mystl::move(data_[size_ - 1]));
                     
                     // 移动中间元素
                     size_type i;
@@ -847,7 +847,7 @@ namespace mystl
                         {
                             data_[k - 1] = mystl::move(data_[k]);
                         }
-                        alloc_.destroy(data_ + size_);
+                        mystl::destroy_at(data_ + size_);
                         throw;
                     }
                     
@@ -857,7 +857,7 @@ namespace mystl
                 catch (...) 
                 {
                     // 如果在构造末尾元素时发生异常，直接销毁
-                    alloc_.destroy(data_ + size_);
+                    mystl::destroy_at(data_ + size_);
                     throw;
                 }
             }
@@ -886,7 +886,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < offset; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_capacity);
                     }
@@ -895,7 +895,7 @@ namespace mystl
                 
                 for (size_type i = 0; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 if (data_)
                 {
@@ -913,7 +913,7 @@ namespace mystl
                     // 先构造末尾的元素
                     for (; constructed < count; ++constructed)
                     {
-                        alloc_.construct(data_ + size_ + constructed, mystl::move(data_[size_ - count + constructed]));
+                        mystl::construct(data_ + size_ + constructed, mystl::move(data_[size_ - count + constructed]));
                     }
                     
                     // 移动中间元素
@@ -935,7 +935,7 @@ namespace mystl
                         // 销毁末尾临时空间
                         for (size_type k = 0; k < count; ++k)
                         {
-                            alloc_.destroy(data_ + size_ + k);
+                            mystl::destroy_at(data_ + size_ + k);
                         }
                         throw;
                     }
@@ -964,7 +964,7 @@ namespace mystl
                         // 销毁末尾临时空间
                         for (size_type k = 0; k < count; ++k)
                         {
-                            alloc_.destroy(data_ + size_ + k);
+                            mystl::destroy_at(data_ + size_ + k);
                         }
                         throw;
                     }
@@ -974,7 +974,7 @@ namespace mystl
                     // 如果在构造末尾元素时发生异常，销毁已构造的元素
                     for (size_type k = 0; k < constructed; ++k)
                     {
-                        alloc_.destroy(data_ + size_ + k);
+                        mystl::destroy_at(data_ + size_ + k);
                     }
                     throw;
                 }
@@ -1024,7 +1024,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < offset; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_capacity);
                     }
@@ -1033,7 +1033,7 @@ namespace mystl
                 
                 for (size_type i = 0; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 if (data_)
                 {
@@ -1051,7 +1051,7 @@ namespace mystl
                     // 先构造末尾的元素
                     for (; constructed < count; ++constructed)
                     {
-                        alloc_.construct(data_ + size_ + constructed, mystl::move(data_[size_ - count + constructed]));
+                        mystl::construct(data_ + size_ + constructed, mystl::move(data_[size_ - count + constructed]));
                     }
                     
                     // 移动中间元素
@@ -1073,7 +1073,7 @@ namespace mystl
                         // 销毁末尾临时空间
                         for (size_type k = 0; k < count; ++k)
                         {
-                            alloc_.destroy(data_ + size_ + k);
+                            mystl::destroy_at(data_ + size_ + k);
                         }
                         throw;
                     }
@@ -1103,7 +1103,7 @@ namespace mystl
                         // 销毁末尾临时空间
                         for (size_type k = 0; k < count; ++k)
                         {
-                            alloc_.destroy(data_ + size_ + k);
+                            mystl::destroy_at(data_ + size_ + k);
                         }
                         throw;
                     }
@@ -1113,7 +1113,7 @@ namespace mystl
                     // 如果在构造末尾元素时发生异常，销毁已构造的元素
                     for (size_type k = 0; k < constructed; ++k)
                     {
-                        alloc_.destroy(data_ + size_ + k);
+                        mystl::destroy_at(data_ + size_ + k);
                     }
                     throw;
                 }
@@ -1145,7 +1145,7 @@ namespace mystl
                     mystl::uninitialized_copy(begin(), begin() + offset, new_data);
                     
                     // 3. 构造新元素
-                    alloc_.construct(new_data + offset, mystl::forward<Args>(args)...);
+                    mystl::construct(new_data + offset, mystl::forward<Args>(args)...);
                     
                     // 4. 复制后半部分
                     mystl::uninitialized_copy(begin() + offset, end(), new_data + offset + 1);
@@ -1157,7 +1157,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < offset; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_capacity);
                     }
@@ -1167,7 +1167,7 @@ namespace mystl
                 // 清理旧内存
                 for (size_type i = 0; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 if (data_)
                 {
@@ -1184,7 +1184,7 @@ namespace mystl
                 
                 try 
                 {
-                    alloc_.construct(data_ + size_, mystl::move(data_[size_ - 1]));
+                    mystl::construct(data_ + size_, mystl::move(data_[size_ - 1]));
                     
                     size_type move_idx;
                     try 
@@ -1201,7 +1201,7 @@ namespace mystl
                         {
                             data_[k - 1] = mystl::move(data_[k]);
                         }
-                        alloc_.destroy(data_ + size_);
+                        mystl::destroy_at(data_ + size_);
                         throw;
                     }
                     
@@ -1210,7 +1210,7 @@ namespace mystl
                 catch (...) 
                 {
                     // 如果在构造末尾元素时发生异常，直接销毁
-                    alloc_.destroy(data_ + size_);
+                    mystl::destroy_at(data_ + size_);
                     throw;
                 }
             }
@@ -1225,7 +1225,7 @@ namespace mystl
             {
                 reserve(capacity_ == 0 ? 1 : 2 * capacity_);
             }
-            alloc_.construct(data_ + size_, mystl::forward<Args>(args)...);
+            mystl::construct(data_ + size_, mystl::forward<Args>(args)...);
             ++size_;
         }
 
@@ -1240,7 +1240,7 @@ namespace mystl
                 {
                     new_data = alloc_.allocate(new_capacity);
                     mystl::uninitialized_copy(begin(), end(), new_data);
-                    alloc_.construct(new_data + size_, value);
+                    mystl::construct(new_data + size_, value);
                 }
                 catch (...) 
                 {
@@ -1249,7 +1249,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < size_; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_capacity);
                     }
@@ -1259,7 +1259,7 @@ namespace mystl
                 // 清理旧内存
                 for (size_type i = 0; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 if (data_)
                 {
@@ -1271,7 +1271,7 @@ namespace mystl
             }
             else 
             {
-                alloc_.construct(data_ + size_, mystl::move(value));
+                mystl::construct(data_ + size_, mystl::move(value));
             }
             ++size_;
         }
@@ -1287,7 +1287,7 @@ namespace mystl
                 {
                     new_data = alloc_.allocate(new_capacity);
                     mystl::uninitialized_copy(begin(), end(), new_data);
-                    alloc_.construct(new_data + size_, mystl::move(value));
+                    mystl::construct(new_data + size_, mystl::move(value));
                 }
                 catch (...) 
                 {
@@ -1295,7 +1295,7 @@ namespace mystl
                     {
                         for (size_type i = 0; i < size_; ++i)
                         {
-                            alloc_.destroy(new_data + i);
+                            mystl::destroy_at(new_data + i);
                         }
                         alloc_.deallocate(new_data, new_capacity);
                     }
@@ -1304,7 +1304,7 @@ namespace mystl
                 
                 for (size_type i = 0; i < size_; ++i)
                 {
-                    alloc_.destroy(data_ + i);
+                    mystl::destroy_at(data_ + i);
                 }
                 if (data_)
                 {
@@ -1316,7 +1316,7 @@ namespace mystl
             }
             else 
             {
-                alloc_.construct(data_ + size_, mystl::move(value));
+                mystl::construct(data_ + size_, mystl::move(value));
             }
             ++size_;
         }
@@ -1326,7 +1326,7 @@ namespace mystl
         {
             if (!empty())
             {
-                alloc_.destroy(data_ + --size_);
+                mystl::destroy(data_ + --size_);
             }
         }
 
@@ -1339,10 +1339,10 @@ namespace mystl
             // 移动后续元素
             for (size_type i = offset; i < size_ - 1; ++i)
             {
-                alloc_.destroy(data_ + i);
-                alloc_.construct(data_ + i, mystl::move(data_[i + 1]));
+                mystl::destroy_at(data_ + i);
+                mystl::construct(data_ + i, mystl::move(data_[i + 1]));
             }
-            alloc_.destroy(data_ + size_ - 1);
+            mystl::destroy_at(data_ + size_ - 1);
             --size_;
             return iterator(data_ + offset);
         }
@@ -1358,14 +1358,14 @@ namespace mystl
             // 移动后续元素
             for (size_type i = offset; i < size_ - count; ++i)
             {
-                alloc_.destroy(data_ + i);
-                alloc_.construct(data_ + i, mystl::move(data_[i + count]));
+                mystl::destroy_at(data_ + i);
+                mystl::construct(data_ + i, mystl::move(data_[i + count]));
             }
             
             // 销毁多余元素
             for (size_type i = size_ - count; i < size_; ++i)
             {
-                alloc_.destroy(data_ + i);
+                mystl::destroy_at(data_ + i);
             }
             
             size_ -= count;

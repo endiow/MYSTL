@@ -901,7 +901,7 @@ namespace mystl
             node_type* p = alloc_.allocate(1);
             try 
             {
-                alloc_.construct(&p->data, mystl::forward<Args>(args)...);  // 只构造数据部分
+                mystl::construct(&p->data, mystl::forward<Args>(args)...);  // 只构造数据部分
                 p->next = p;  // 初始化为自环
                 p->prev = p;
                 return p;
@@ -915,7 +915,7 @@ namespace mystl
 
         void destroy_node(node_type* p)
         {
-            alloc_.destroy(p);
+            mystl::destroy_at(p);
             alloc_.deallocate(p, 1);
         }
 

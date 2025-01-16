@@ -112,4 +112,13 @@ namespace mystl
     template<typename T>
     inline constexpr bool is_byte_type_v = is_byte_type<T>::value;
 
+    // 检查类型是否可解引用
+    template<typename T, typename = void> 
+    struct is_dereferenceable : mystl::false_type {};
+
+    template<typename T>
+    struct is_dereferenceable<T, void_t<decltype(*std::declval<T>())>> : mystl::true_type {};
+
+    template<typename T>
+    inline constexpr bool is_dereferenceable_v = is_dereferenceable<T>::value;
 } // namespace mystl 
