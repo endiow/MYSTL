@@ -18,119 +18,119 @@ namespace mystl
         // 类型定义
         using iterator_category = mystl::random_access_iterator_tag;
         using value_type = T;
-        using pointer = T*;
-        using reference = T&;
+        using pointer = typename mystl::allocator<T>::pointer;
+        using reference = typename mystl::allocator<T>::reference;
         using difference_type = ptrdiff_t;
-        using iterator_type = vector_iterator<T>;
-
-    private:
-        pointer curr_;  // 当前指向的元素
+        
+        pointer curr;  // 当前指向的元素
 
     public:
         // 构造函数
-        vector_iterator() noexcept : curr_(nullptr) {}
-        explicit vector_iterator(pointer ptr) noexcept : curr_(ptr) {}
+        vector_iterator() noexcept : curr(nullptr) {}
+        explicit vector_iterator(pointer p) noexcept : curr(p) {}
+
+        // 操作符重载
+        reference operator*() const noexcept { return *curr; }
+        pointer operator->() const noexcept { return curr; }
 
         // 基本操作
-        reference operator*() const noexcept { return *curr_; }
-        pointer operator->() const noexcept { return curr_; }
-        reference operator[](difference_type n) const noexcept { return curr_[n]; }
-        pointer base() const noexcept { return curr_; }
+        reference operator[](difference_type n) const noexcept { return curr[n]; }
+        pointer base() const noexcept { return curr; }
 
         // 迭代器移动
-        iterator_type& operator++() noexcept 
+        vector_iterator& operator++() noexcept 
         {
-            ++curr_;
+            ++curr;
             return *this;
         }
 
-        iterator_type operator++(int) noexcept 
+        vector_iterator operator++(int) noexcept 
         {
-            iterator_type tmp = *this;
-            ++curr_;
+            vector_iterator tmp = *this;
+            ++curr;
             return tmp;
         }
 
-        iterator_type& operator--() noexcept 
+        vector_iterator& operator--() noexcept 
         {
-            --curr_;
+            --curr;
             return *this;
         }
 
-        iterator_type operator--(int) noexcept 
+        vector_iterator operator--(int) noexcept 
         {
-            iterator_type tmp = *this;
-            --curr_;
+            vector_iterator tmp = *this;
+            --curr;
             return tmp;
         }
 
         // 算术运算
-        iterator_type& operator+=(difference_type n) noexcept 
+        vector_iterator& operator+=(difference_type n) noexcept 
         {
-            curr_ += n;
+            curr += n;
             return *this;
         }
 
-        iterator_type operator+(difference_type n) const noexcept 
+        vector_iterator operator+(difference_type n) const noexcept 
         {
-            return iterator_type(curr_ + n);
+            return vector_iterator(curr + n);
         }
 
         template <class U>
-        iterator_type operator+(const vector_iterator<U>& other) const noexcept 
+        vector_iterator operator+(const vector_iterator<U>& other) const noexcept 
         {
-            return iterator_type(curr_ + other.base());
+            return vector_iterator(curr + other.base());
         }
 
-        iterator_type& operator-=(difference_type n) noexcept 
+        vector_iterator& operator-=(difference_type n) noexcept 
         {
-            curr_ -= n;
+            curr -= n;
             return *this;
         }
 
-        iterator_type operator-(difference_type n) const noexcept 
+        vector_iterator operator-(difference_type n) const noexcept 
         {
-            return iterator_type(curr_ - n);
+            return vector_iterator(curr - n);
         }
 
-        difference_type operator-(const iterator_type& other) const noexcept 
+        difference_type operator-(const vector_iterator& other) const noexcept 
         {
-            return curr_ - other.curr_;
+            return curr - other.curr;
         }
 
         template <class U>
         difference_type operator-(const vector_iterator<U>& other) const noexcept 
         {
-            return curr_ - other.base();
+            return curr - other.base();
         }
 
         // 比较运算
-        bool operator==(const iterator_type& other) const noexcept 
+        bool operator==(const vector_iterator& other) const noexcept 
         {
-            return curr_ == other.curr_;
+            return curr == other.curr;
         }
 
-        bool operator!=(const iterator_type& other) const noexcept 
+        bool operator!=(const vector_iterator& other) const noexcept 
         {
             return !(*this == other);
         }
 
-        bool operator<(const iterator_type& other) const noexcept 
+        bool operator<(const vector_iterator& other) const noexcept 
         {
-            return curr_ < other.curr_;
+            return curr < other.curr;
         }
 
-        bool operator>(const iterator_type& other) const noexcept 
+        bool operator>(const vector_iterator& other) const noexcept 
         {
             return other < *this;
         }
 
-        bool operator<=(const iterator_type& other) const noexcept 
+        bool operator<=(const vector_iterator& other) const noexcept 
         {
             return !(other < *this);
         }
 
-        bool operator>=(const iterator_type& other) const noexcept 
+        bool operator>=(const vector_iterator& other) const noexcept 
         {
             return !(*this < other);
         }
@@ -139,7 +139,7 @@ namespace mystl
         template <class U>
         bool operator==(const vector_iterator<U>& other) const noexcept 
         {
-            return curr_ == other.base();
+            return curr == other.base();
         }
 
         template <class U>
@@ -151,7 +151,7 @@ namespace mystl
         template <class U>
         bool operator<(const vector_iterator<U>& other) const noexcept 
         {
-            return curr_ < other.base();
+            return curr < other.base();
         }
 
         template <class U>
@@ -175,16 +175,16 @@ namespace mystl
         // 类型转换
         operator vector_iterator<const T>() const noexcept 
         { 
-            return vector_iterator<const T>(curr_); 
+            return vector_iterator<const T>(curr); 
         }
 
         //友元函数
-        friend iterator_type operator+(difference_type n, const iterator_type& it) noexcept 
+        friend vector_iterator operator+(difference_type n, const vector_iterator& it) noexcept 
         {
             return it + n;
         }
 
-        friend iterator_type operator-(difference_type n, const iterator_type& it) noexcept 
+        friend vector_iterator operator-(difference_type n, const vector_iterator& it) noexcept 
         {
             return it - n;
         }
@@ -207,10 +207,11 @@ namespace mystl
         using allocator_type = Allocator;
         using size_type = size_t;
         using difference_type = ptrdiff_t;
-        using reference = value_type&;
-        using const_reference = const value_type&;
-        using pointer = typename allocator_type::pointer;
-        using const_pointer = typename allocator_type::const_pointer;
+        using reference = typename mystl::allocator<T>::reference;
+        using const_reference = typename mystl::allocator<T>::const_reference;
+        using pointer = typename mystl::allocator<T>::pointer;
+        using const_pointer = typename mystl::allocator<T>::const_pointer;
+        
         using iterator = vector_iterator<T>;
         using const_iterator = vector_iterator<const T>;
         using reverse_iterator = mystl::reverse_iterator<iterator>;

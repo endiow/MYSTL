@@ -1,226 +1,415 @@
-Start testing: Jan 11 18:04 中国标准时间
+Start testing: Jan 14 18:13 中国标准时间
 ----------------------------------------------------------
-1/44 Testing: AlgorithmBaseTest.MinMax
-1/44 Test: AlgorithmBaseTest.MinMax
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.MinMax" "--gtest_also_run_disabled_tests"
+1/76 Testing: ListTest.ConstructorAndAssignment
+1/76 Test: ListTest.ConstructorAndAssignment
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=ListTest.ConstructorAndAssignment" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.MinMax" start time: Jan 11 18:04 中国标准时间
+"ListTest.ConstructorAndAssignment" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.MinMax
+Note: Google Test filter = ListTest.ConstructorAndAssignment
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ListTest
+[ RUN      ] ListTest.ConstructorAndAssignment
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:19: Failure
+Expected equality of these values:
+  lst3.size()
+    Which is: 0
+  3
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:25: Failure
+Expected equality of these values:
+  lst4.size()
+    Which is: 0
+  3
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:38: Failure
+Expected equality of these values:
+  lst6.size()
+    Which is: 0
+  3
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:42: Failure
+Expected equality of these values:
+  lst7.size()
+    Which is: 0
+  3
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:57: Failure
+Expected equality of these values:
+  lst9.size()
+    Which is: 0
+  3
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:62: Failure
+Expected equality of these values:
+  lst10.size()
+    Which is: 0
+  3
+
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"ListTest.ConstructorAndAssignment" end time: Jan 14 18:13 中国标准时间
+"ListTest.ConstructorAndAssignment" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/76 Testing: ListTest.ElementAccess
+2/76 Test: ListTest.ElementAccess
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=ListTest.ElementAccess" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"ListTest.ElementAccess" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ListTest.ElementAccess
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ListTest
+[ RUN      ] ListTest.ElementAccess
+unknown file: Failure
+C++ exception with description "list is empty" thrown in the test body.
+
+[  FAILED  ] ListTest.ElementAccess (0 ms)
+[----------] 1 test from ListTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ListTest.ElementAccess
+
+ 1 FAILED TEST
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Failed.
+"ListTest.ElementAccess" end time: Jan 14 18:13 中国标准时间
+"ListTest.ElementAccess" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/76 Testing: ListTest.Iterator
+3/76 Test: ListTest.Iterator
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=ListTest.Iterator" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"ListTest.Iterator" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ListTest.Iterator
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ListTest
+[ RUN      ] ListTest.Iterator
+[       OK ] ListTest.Iterator (0 ms)
+[----------] 1 test from ListTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"ListTest.Iterator" end time: Jan 14 18:13 中国标准时间
+"ListTest.Iterator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/76 Testing: ListTest.Capacity
+4/76 Test: ListTest.Capacity
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=ListTest.Capacity" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"ListTest.Capacity" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ListTest.Capacity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ListTest
+[ RUN      ] ListTest.Capacity
+[       OK ] ListTest.Capacity (0 ms)
+[----------] 1 test from ListTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"ListTest.Capacity" end time: Jan 14 18:13 中国标准时间
+"ListTest.Capacity" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/76 Testing: ListTest.Modifiers
+5/76 Test: ListTest.Modifiers
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=ListTest.Modifiers" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"ListTest.Modifiers" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ListTest.Modifiers
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ListTest
+[ RUN      ] ListTest.Modifiers
+[       OK ] ListTest.Modifiers (0 ms)
+[----------] 1 test from ListTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"ListTest.Modifiers" end time: Jan 14 18:13 中国标准时间
+"ListTest.Modifiers" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/76 Testing: ListTest.Operations
+6/76 Test: ListTest.Operations
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=ListTest.Operations" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"ListTest.Operations" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ListTest.Operations
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ListTest
+[ RUN      ] ListTest.Operations
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:171: Failure
+Expected equality of these values:
+  lst1.size()
+    Which is: 0
+  6
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:180: Failure
+Expected equality of these values:
+  lst1.size()
+    Which is: 0
+  9
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:184: Failure
+Expected equality of these values:
+  *it++
+    Which is: -1986961448
+  i
+    Which is: 7
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:184: Failure
+Expected equality of these values:
+  *it++
+    Which is: 1
+  i
+    Which is: 8
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:184: Failure
+Expected equality of these values:
+  *it++
+    Which is: 2
+  i
+    Which is: 9
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:188: Failure
+Expected equality of these values:
+  lst1.size()
+    Which is: 18446744073709551615
+  8
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:194: Failure
+Expected equality of these values:
+  lst1.size()
+    Which is: 0
+  8
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:203: Failure
+Expected equality of these values:
+  *it++
+    Which is: 1
+  i
+    Which is: 9
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:203: Failure
+Expected equality of these values:
+  *it++
+    Which is: 2
+  i
+    Which is: 8
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:203: Failure
+Expected equality of these values:
+  *it++
+    Which is: 3
+  i
+    Which is: 7
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:203: Failure
+Expected equality of these values:
+  *it++
+    Which is: 4
+  i
+    Which is: 6
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:203: Failure
+Expected equality of these values:
+  *it++
+    Which is: 6
+  i
+    Which is: 4
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:203: Failure
+Expected equality of these values:
+  *it++
+    Which is: 9
+  i
+    Which is: 3
+
+C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\list_test.cpp:203: Failure
+Expected equality of these values:
+  *it++
+    Which is: -1986961448
+  i
+    Which is: 2
+
+[  FAILED  ] ListTest.Operations (0 ms)
+[----------] 1 test from ListTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] ListTest.Operations
+
+ 1 FAILED TEST
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"ListTest.Operations" end time: Jan 14 18:13 中国标准时间
+"ListTest.Operations" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/76 Testing: ListTest.ExceptionSafety
+7/76 Test: ListTest.ExceptionSafety
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=ListTest.ExceptionSafety" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"ListTest.ExceptionSafety" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = ListTest.ExceptionSafety
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ListTest
+[ RUN      ] ListTest.ExceptionSafety
+[       OK ] ListTest.ExceptionSafety (0 ms)
+[----------] 1 test from ListTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"ListTest.ExceptionSafety" end time: Jan 14 18:13 中国标准时间
+"ListTest.ExceptionSafety" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/76 Testing: AlgorithmBaseTest.PredicateCheck
+8/76 Test: AlgorithmBaseTest.PredicateCheck
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.PredicateCheck" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmBaseTest.PredicateCheck" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmBaseTest.PredicateCheck
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.MinMax
-[       OK ] AlgorithmBaseTest.MinMax (0 ms)
+[ RUN      ] AlgorithmBaseTest.PredicateCheck
+[       OK ] AlgorithmBaseTest.PredicateCheck (0 ms)
 [----------] 1 test from AlgorithmBaseTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmBaseTest.MinMax" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.MinMax" time elapsed: 00:00:00
+"AlgorithmBaseTest.PredicateCheck" end time: Jan 14 18:13 中国标准时间
+"AlgorithmBaseTest.PredicateCheck" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/44 Testing: AlgorithmBaseTest.Equal
-2/44 Test: AlgorithmBaseTest.Equal
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.Equal" "--gtest_also_run_disabled_tests"
+9/76 Testing: AlgorithmBaseTest.CompareOperations
+9/76 Test: AlgorithmBaseTest.CompareOperations
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.CompareOperations" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.Equal" start time: Jan 11 18:04 中国标准时间
+"AlgorithmBaseTest.CompareOperations" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.Equal
+Note: Google Test filter = AlgorithmBaseTest.CompareOperations
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.Equal
-[       OK ] AlgorithmBaseTest.Equal (0 ms)
+[ RUN      ] AlgorithmBaseTest.CompareOperations
+[       OK ] AlgorithmBaseTest.CompareOperations (0 ms)
 [----------] 1 test from AlgorithmBaseTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmBaseTest.Equal" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.Equal" time elapsed: 00:00:00
+"AlgorithmBaseTest.CompareOperations" end time: Jan 14 18:13 中国标准时间
+"AlgorithmBaseTest.CompareOperations" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/44 Testing: AlgorithmBaseTest.Mismatch
-3/44 Test: AlgorithmBaseTest.Mismatch
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.Mismatch" "--gtest_also_run_disabled_tests"
+10/76 Testing: AlgorithmBaseTest.CopyAndMove
+10/76 Test: AlgorithmBaseTest.CopyAndMove
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.CopyAndMove" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.Mismatch" start time: Jan 11 18:04 中国标准时间
+"AlgorithmBaseTest.CopyAndMove" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.Mismatch
+Note: Google Test filter = AlgorithmBaseTest.CopyAndMove
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.Mismatch
-[       OK ] AlgorithmBaseTest.Mismatch (0 ms)
+[ RUN      ] AlgorithmBaseTest.CopyAndMove
+[       OK ] AlgorithmBaseTest.CopyAndMove (0 ms)
 [----------] 1 test from AlgorithmBaseTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmBaseTest.Mismatch" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.Mismatch" time elapsed: 00:00:00
+"AlgorithmBaseTest.CopyAndMove" end time: Jan 14 18:13 中国标准时间
+"AlgorithmBaseTest.CopyAndMove" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/44 Testing: AlgorithmBaseTest.LexicographicalCompare
-4/44 Test: AlgorithmBaseTest.LexicographicalCompare
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.LexicographicalCompare" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.LexicographicalCompare" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.LexicographicalCompare
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.LexicographicalCompare
-[       OK ] AlgorithmBaseTest.LexicographicalCompare (0 ms)
-[----------] 1 test from AlgorithmBaseTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"AlgorithmBaseTest.LexicographicalCompare" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.LexicographicalCompare" time elapsed: 00:00:00
-----------------------------------------------------------
-
-5/44 Testing: AlgorithmBaseTest.Copy
-5/44 Test: AlgorithmBaseTest.Copy
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.Copy" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.Copy" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.Copy
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.Copy
-[       OK ] AlgorithmBaseTest.Copy (0 ms)
-[----------] 1 test from AlgorithmBaseTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"AlgorithmBaseTest.Copy" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.Copy" time elapsed: 00:00:00
-----------------------------------------------------------
-
-6/44 Testing: AlgorithmBaseTest.CopyBackward
-6/44 Test: AlgorithmBaseTest.CopyBackward
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.CopyBackward" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.CopyBackward" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.CopyBackward
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.CopyBackward
-[       OK ] AlgorithmBaseTest.CopyBackward (0 ms)
-[----------] 1 test from AlgorithmBaseTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"AlgorithmBaseTest.CopyBackward" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.CopyBackward" time elapsed: 00:00:00
-----------------------------------------------------------
-
-7/44 Testing: AlgorithmBaseTest.CopyIf
-7/44 Test: AlgorithmBaseTest.CopyIf
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.CopyIf" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.CopyIf" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.CopyIf
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.CopyIf
-[       OK ] AlgorithmBaseTest.CopyIf (0 ms)
-[----------] 1 test from AlgorithmBaseTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"AlgorithmBaseTest.CopyIf" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.CopyIf" time elapsed: 00:00:00
-----------------------------------------------------------
-
-8/44 Testing: AlgorithmBaseTest.Move
-8/44 Test: AlgorithmBaseTest.Move
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.Move" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.Move" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.Move
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.Move
-[       OK ] AlgorithmBaseTest.Move (0 ms)
-[----------] 1 test from AlgorithmBaseTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"AlgorithmBaseTest.Move" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.Move" time elapsed: 00:00:00
-----------------------------------------------------------
-
-9/44 Testing: AlgorithmBaseTest.Fill
-9/44 Test: AlgorithmBaseTest.Fill
+11/76 Testing: AlgorithmBaseTest.Fill
+11/76 Test: AlgorithmBaseTest.Fill
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.Fill" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.Fill" start time: Jan 11 18:04 中国标准时间
+"AlgorithmBaseTest.Fill" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -236,99 +425,99 @@ Note: Google Test filter = AlgorithmBaseTest.Fill
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmBaseTest.Fill" end time: Jan 11 18:04 中国标准时间
+"AlgorithmBaseTest.Fill" end time: Jan 14 18:13 中国标准时间
 "AlgorithmBaseTest.Fill" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-10/44 Testing: AlgorithmBaseTest.FillN
-10/44 Test: AlgorithmBaseTest.FillN
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.FillN" "--gtest_also_run_disabled_tests"
+12/76 Testing: AlgorithmBaseTest.Miscellaneous
+12/76 Test: AlgorithmBaseTest.Miscellaneous
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.Miscellaneous" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.FillN" start time: Jan 11 18:04 中国标准时间
+"AlgorithmBaseTest.Miscellaneous" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.FillN
+Note: Google Test filter = AlgorithmBaseTest.Miscellaneous
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.FillN
-[       OK ] AlgorithmBaseTest.FillN (0 ms)
+[ RUN      ] AlgorithmBaseTest.Miscellaneous
+[       OK ] AlgorithmBaseTest.Miscellaneous (0 ms)
 [----------] 1 test from AlgorithmBaseTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmBaseTest.FillN" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.FillN" time elapsed: 00:00:00
+"AlgorithmBaseTest.Miscellaneous" end time: Jan 14 18:13 中国标准时间
+"AlgorithmBaseTest.Miscellaneous" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-11/44 Testing: AlgorithmBaseTest.IterSwap
-11/44 Test: AlgorithmBaseTest.IterSwap
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmBaseTest.IterSwap" "--gtest_also_run_disabled_tests"
+13/76 Testing: AllocatorTest.BasicTypes
+13/76 Test: AllocatorTest.BasicTypes
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AllocatorTest.BasicTypes" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmBaseTest.IterSwap" start time: Jan 11 18:04 中国标准时间
+"AllocatorTest.BasicTypes" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AlgorithmBaseTest.IterSwap
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from AlgorithmBaseTest
-[ RUN      ] AlgorithmBaseTest.IterSwap
-[       OK ] AlgorithmBaseTest.IterSwap (0 ms)
-[----------] 1 test from AlgorithmBaseTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"AlgorithmBaseTest.IterSwap" end time: Jan 11 18:04 中国标准时间
-"AlgorithmBaseTest.IterSwap" time elapsed: 00:00:00
-----------------------------------------------------------
-
-12/44 Testing: AllocatorTest.BasicAllocation
-12/44 Test: AllocatorTest.BasicAllocation
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AllocatorTest.BasicAllocation" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AllocatorTest.BasicAllocation" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = AllocatorTest.BasicAllocation
+Note: Google Test filter = AllocatorTest.BasicTypes
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from AllocatorTest
-[ RUN      ] AllocatorTest.BasicAllocation
-[       OK ] AllocatorTest.BasicAllocation (0 ms)
+[ RUN      ] AllocatorTest.BasicTypes
+[       OK ] AllocatorTest.BasicTypes (0 ms)
 [----------] 1 test from AllocatorTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AllocatorTest.BasicAllocation" end time: Jan 11 18:04 中国标准时间
-"AllocatorTest.BasicAllocation" time elapsed: 00:00:00
+"AllocatorTest.BasicTypes" end time: Jan 14 18:13 中国标准时间
+"AllocatorTest.BasicTypes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-13/44 Testing: AllocatorTest.ConstructDestroy
-13/44 Test: AllocatorTest.ConstructDestroy
+14/76 Testing: AllocatorTest.CustomTypes
+14/76 Test: AllocatorTest.CustomTypes
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AllocatorTest.CustomTypes" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AllocatorTest.CustomTypes" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AllocatorTest.CustomTypes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AllocatorTest
+[ RUN      ] AllocatorTest.CustomTypes
+[       OK ] AllocatorTest.CustomTypes (0 ms)
+[----------] 1 test from AllocatorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AllocatorTest.CustomTypes" end time: Jan 14 18:13 中国标准时间
+"AllocatorTest.CustomTypes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/76 Testing: AllocatorTest.ConstructDestroy
+15/76 Test: AllocatorTest.ConstructDestroy
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AllocatorTest.ConstructDestroy" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AllocatorTest.ConstructDestroy" start time: Jan 11 18:04 中国标准时间
+"AllocatorTest.ConstructDestroy" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -344,18 +533,18 @@ Note: Google Test filter = AllocatorTest.ConstructDestroy
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AllocatorTest.ConstructDestroy" end time: Jan 11 18:04 中国标准时间
+"AllocatorTest.ConstructDestroy" end time: Jan 14 18:13 中国标准时间
 "AllocatorTest.ConstructDestroy" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-14/44 Testing: AllocatorTest.ComplexTypeAllocation
-14/44 Test: AllocatorTest.ComplexTypeAllocation
+16/76 Testing: AllocatorTest.ComplexTypeAllocation
+16/76 Test: AllocatorTest.ComplexTypeAllocation
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AllocatorTest.ComplexTypeAllocation" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AllocatorTest.ComplexTypeAllocation" start time: Jan 11 18:04 中国标准时间
+"AllocatorTest.ComplexTypeAllocation" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -371,18 +560,18 @@ Note: Google Test filter = AllocatorTest.ComplexTypeAllocation
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AllocatorTest.ComplexTypeAllocation" end time: Jan 11 18:04 中国标准时间
+"AllocatorTest.ComplexTypeAllocation" end time: Jan 14 18:13 中国标准时间
 "AllocatorTest.ComplexTypeAllocation" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-15/44 Testing: AllocatorTest.ExceptionCases
-15/44 Test: AllocatorTest.ExceptionCases
+17/76 Testing: AllocatorTest.ExceptionCases
+17/76 Test: AllocatorTest.ExceptionCases
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AllocatorTest.ExceptionCases" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AllocatorTest.ExceptionCases" start time: Jan 11 18:04 中国标准时间
+"AllocatorTest.ExceptionCases" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -398,18 +587,18 @@ Note: Google Test filter = AllocatorTest.ExceptionCases
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AllocatorTest.ExceptionCases" end time: Jan 11 18:04 中国标准时间
+"AllocatorTest.ExceptionCases" end time: Jan 14 18:13 中国标准时间
 "AllocatorTest.ExceptionCases" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-16/44 Testing: AllocatorTest.DifferentTypes
-16/44 Test: AllocatorTest.DifferentTypes
+18/76 Testing: AllocatorTest.DifferentTypes
+18/76 Test: AllocatorTest.DifferentTypes
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AllocatorTest.DifferentTypes" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AllocatorTest.DifferentTypes" start time: Jan 11 18:04 中国标准时间
+"AllocatorTest.DifferentTypes" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -428,69 +617,15 @@ Note: Google Test filter = AllocatorTest.DifferentTypes
 Test time =   0.09 sec
 ----------------------------------------------------------
 Test Passed.
-"AllocatorTest.DifferentTypes" end time: Jan 11 18:04 中国标准时间
+"AllocatorTest.DifferentTypes" end time: Jan 14 18:13 中国标准时间
 "AllocatorTest.DifferentTypes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-17/44 Testing: IteratorTest.HasIteratorType
-17/44 Test: IteratorTest.HasIteratorType
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.HasIteratorType" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"IteratorTest.HasIteratorType" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = IteratorTest.HasIteratorType
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from IteratorTest
-[ RUN      ] IteratorTest.HasIteratorType
-[       OK ] IteratorTest.HasIteratorType (0 ms)
-[----------] 1 test from IteratorTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"IteratorTest.HasIteratorType" end time: Jan 11 18:04 中国标准时间
-"IteratorTest.HasIteratorType" time elapsed: 00:00:00
-----------------------------------------------------------
-
-18/44 Testing: IteratorTest.IteratorCategory
-18/44 Test: IteratorTest.IteratorCategory
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.IteratorCategory" "--gtest_also_run_disabled_tests"
-Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"IteratorTest.IteratorCategory" start time: Jan 11 18:04 中国标准时间
-Output:
-----------------------------------------------------------
-Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = IteratorTest.IteratorCategory
-[==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
-[----------] 1 test from IteratorTest
-[ RUN      ] IteratorTest.IteratorCategory
-[       OK ] IteratorTest.IteratorCategory (0 ms)
-[----------] 1 test from IteratorTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
-[  PASSED  ] 1 test.
-<end of output>
-Test time =   0.09 sec
-----------------------------------------------------------
-Test Passed.
-"IteratorTest.IteratorCategory" end time: Jan 11 18:04 中国标准时间
-"IteratorTest.IteratorCategory" time elapsed: 00:00:00
-----------------------------------------------------------
-
-19/44 Testing: IteratorTest.IteratorTraits
-19/44 Test: IteratorTest.IteratorTraits
+19/76 Testing: IteratorTest.IteratorTraits
+19/76 Test: IteratorTest.IteratorTraits
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.IteratorTraits" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"IteratorTest.IteratorTraits" start time: Jan 11 18:04 中国标准时间
+"IteratorTest.IteratorTraits" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -506,126 +641,180 @@ Note: Google Test filter = IteratorTest.IteratorTraits
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"IteratorTest.IteratorTraits" end time: Jan 11 18:04 中国标准时间
+"IteratorTest.IteratorTraits" end time: Jan 14 18:13 中国标准时间
 "IteratorTest.IteratorTraits" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-20/44 Testing: IteratorTest.Advance
-20/44 Test: IteratorTest.Advance
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.Advance" "--gtest_also_run_disabled_tests"
+20/76 Testing: IteratorTest.IteratorOperations
+20/76 Test: IteratorTest.IteratorOperations
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.IteratorOperations" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"IteratorTest.Advance" start time: Jan 11 18:04 中国标准时间
+"IteratorTest.IteratorOperations" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = IteratorTest.Advance
+Note: Google Test filter = IteratorTest.IteratorOperations
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from IteratorTest
-[ RUN      ] IteratorTest.Advance
-[       OK ] IteratorTest.Advance (0 ms)
+[ RUN      ] IteratorTest.IteratorOperations
+[       OK ] IteratorTest.IteratorOperations (0 ms)
 [----------] 1 test from IteratorTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"IteratorTest.Advance" end time: Jan 11 18:04 中国标准时间
-"IteratorTest.Advance" time elapsed: 00:00:00
+"IteratorTest.IteratorOperations" end time: Jan 14 18:13 中国标准时间
+"IteratorTest.IteratorOperations" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-21/44 Testing: IteratorTest.Distance
-21/44 Test: IteratorTest.Distance
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.Distance" "--gtest_also_run_disabled_tests"
+21/76 Testing: IteratorTest.DifferentIterators
+21/76 Test: IteratorTest.DifferentIterators
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.DifferentIterators" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"IteratorTest.Distance" start time: Jan 11 18:04 中国标准时间
+"IteratorTest.DifferentIterators" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = IteratorTest.Distance
+Note: Google Test filter = IteratorTest.DifferentIterators
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from IteratorTest
-[ RUN      ] IteratorTest.Distance
-[       OK ] IteratorTest.Distance (0 ms)
+[ RUN      ] IteratorTest.DifferentIterators
+[       OK ] IteratorTest.DifferentIterators (0 ms)
 [----------] 1 test from IteratorTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"IteratorTest.Distance" end time: Jan 11 18:04 中国标准时间
-"IteratorTest.Distance" time elapsed: 00:00:00
+"IteratorTest.DifferentIterators" end time: Jan 14 18:13 中国标准时间
+"IteratorTest.DifferentIterators" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-22/44 Testing: IteratorTest.ReverseIterator
-22/44 Test: IteratorTest.ReverseIterator
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.ReverseIterator" "--gtest_also_run_disabled_tests"
+22/76 Testing: IteratorTest.IteratorAdapters
+22/76 Test: IteratorTest.IteratorAdapters
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.IteratorAdapters" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"IteratorTest.ReverseIterator" start time: Jan 11 18:04 中国标准时间
+"IteratorTest.IteratorAdapters" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = IteratorTest.ReverseIterator
+Note: Google Test filter = IteratorTest.IteratorAdapters
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from IteratorTest
-[ RUN      ] IteratorTest.ReverseIterator
-[       OK ] IteratorTest.ReverseIterator (0 ms)
+[ RUN      ] IteratorTest.IteratorAdapters
+[       OK ] IteratorTest.IteratorAdapters (0 ms)
 [----------] 1 test from IteratorTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"IteratorTest.ReverseIterator" end time: Jan 11 18:04 中国标准时间
-"IteratorTest.ReverseIterator" time elapsed: 00:00:00
+"IteratorTest.IteratorAdapters" end time: Jan 14 18:13 中国标准时间
+"IteratorTest.IteratorAdapters" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-23/44 Testing: IteratorTest.ReverseIteratorArithmetic
-23/44 Test: IteratorTest.ReverseIteratorArithmetic
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.ReverseIteratorArithmetic" "--gtest_also_run_disabled_tests"
+23/76 Testing: IteratorTest.IteratorHelpers
+23/76 Test: IteratorTest.IteratorHelpers
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.IteratorHelpers" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"IteratorTest.ReverseIteratorArithmetic" start time: Jan 11 18:04 中国标准时间
+"IteratorTest.IteratorHelpers" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = IteratorTest.ReverseIteratorArithmetic
+Note: Google Test filter = IteratorTest.IteratorHelpers
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from IteratorTest
-[ RUN      ] IteratorTest.ReverseIteratorArithmetic
-[       OK ] IteratorTest.ReverseIteratorArithmetic (0 ms)
+[ RUN      ] IteratorTest.IteratorHelpers
+[       OK ] IteratorTest.IteratorHelpers (0 ms)
 [----------] 1 test from IteratorTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"IteratorTest.ReverseIteratorArithmetic" end time: Jan 11 18:04 中国标准时间
-"IteratorTest.ReverseIteratorArithmetic" time elapsed: 00:00:00
+"IteratorTest.IteratorHelpers" end time: Jan 14 18:13 中国标准时间
+"IteratorTest.IteratorHelpers" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-24/44 Testing: AlgorithmTest.Find
-24/44 Test: AlgorithmTest.Find
+24/76 Testing: IteratorTest.EdgeCases
+24/76 Test: IteratorTest.EdgeCases
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.EdgeCases" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"IteratorTest.EdgeCases" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = IteratorTest.EdgeCases
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IteratorTest
+[ RUN      ] IteratorTest.EdgeCases
+[       OK ] IteratorTest.EdgeCases (0 ms)
+[----------] 1 test from IteratorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"IteratorTest.EdgeCases" end time: Jan 14 18:13 中国标准时间
+"IteratorTest.EdgeCases" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/76 Testing: IteratorTest.CustomTypes
+25/76 Test: IteratorTest.CustomTypes
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=IteratorTest.CustomTypes" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"IteratorTest.CustomTypes" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = IteratorTest.CustomTypes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from IteratorTest
+[ RUN      ] IteratorTest.CustomTypes
+[       OK ] IteratorTest.CustomTypes (0 ms)
+[----------] 1 test from IteratorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"IteratorTest.CustomTypes" end time: Jan 14 18:13 中国标准时间
+"IteratorTest.CustomTypes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/76 Testing: AlgorithmTest.Find
+26/76 Test: AlgorithmTest.Find
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Find" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmTest.Find" start time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.Find" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -641,18 +830,18 @@ Note: Google Test filter = AlgorithmTest.Find
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmTest.Find" end time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.Find" end time: Jan 14 18:13 中国标准时间
 "AlgorithmTest.Find" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-25/44 Testing: AlgorithmTest.FindIf
-25/44 Test: AlgorithmTest.FindIf
+27/76 Testing: AlgorithmTest.FindIf
+27/76 Test: AlgorithmTest.FindIf
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.FindIf" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmTest.FindIf" start time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.FindIf" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -668,18 +857,18 @@ Note: Google Test filter = AlgorithmTest.FindIf
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmTest.FindIf" end time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.FindIf" end time: Jan 14 18:13 中国标准时间
 "AlgorithmTest.FindIf" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-26/44 Testing: AlgorithmTest.FindIfNot
-26/44 Test: AlgorithmTest.FindIfNot
+28/76 Testing: AlgorithmTest.FindIfNot
+28/76 Test: AlgorithmTest.FindIfNot
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.FindIfNot" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmTest.FindIfNot" start time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.FindIfNot" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -695,18 +884,18 @@ Note: Google Test filter = AlgorithmTest.FindIfNot
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmTest.FindIfNot" end time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.FindIfNot" end time: Jan 14 18:13 中国标准时间
 "AlgorithmTest.FindIfNot" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-27/44 Testing: AlgorithmTest.FindFirstOf
-27/44 Test: AlgorithmTest.FindFirstOf
+29/76 Testing: AlgorithmTest.FindFirstOf
+29/76 Test: AlgorithmTest.FindFirstOf
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.FindFirstOf" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmTest.FindFirstOf" start time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.FindFirstOf" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -722,18 +911,18 @@ Note: Google Test filter = AlgorithmTest.FindFirstOf
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmTest.FindFirstOf" end time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.FindFirstOf" end time: Jan 14 18:13 中国标准时间
 "AlgorithmTest.FindFirstOf" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-28/44 Testing: AlgorithmTest.AdjacentFind
-28/44 Test: AlgorithmTest.AdjacentFind
+30/76 Testing: AlgorithmTest.AdjacentFind
+30/76 Test: AlgorithmTest.AdjacentFind
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.AdjacentFind" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmTest.AdjacentFind" start time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.AdjacentFind" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -749,18 +938,18 @@ Note: Google Test filter = AlgorithmTest.AdjacentFind
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmTest.AdjacentFind" end time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.AdjacentFind" end time: Jan 14 18:13 中国标准时间
 "AlgorithmTest.AdjacentFind" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-29/44 Testing: AlgorithmTest.EmptyContainer
-29/44 Test: AlgorithmTest.EmptyContainer
+31/76 Testing: AlgorithmTest.EmptyContainer
+31/76 Test: AlgorithmTest.EmptyContainer
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.EmptyContainer" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"AlgorithmTest.EmptyContainer" start time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.EmptyContainer" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -776,18 +965,774 @@ Note: Google Test filter = AlgorithmTest.EmptyContainer
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"AlgorithmTest.EmptyContainer" end time: Jan 11 18:04 中国标准时间
+"AlgorithmTest.EmptyContainer" end time: Jan 14 18:13 中国标准时间
 "AlgorithmTest.EmptyContainer" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-30/44 Testing: VectorTest.Constructor
-30/44 Test: VectorTest.Constructor
+32/76 Testing: AlgorithmTest.Count
+32/76 Test: AlgorithmTest.Count
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Count" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Count" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Count
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Count
+[       OK ] AlgorithmTest.Count (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Count" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Count" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/76 Testing: AlgorithmTest.CountIf
+33/76 Test: AlgorithmTest.CountIf
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.CountIf" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.CountIf" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.CountIf
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.CountIf
+[       OK ] AlgorithmTest.CountIf (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.CountIf" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.CountIf" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/76 Testing: AlgorithmTest.Search
+34/76 Test: AlgorithmTest.Search
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Search" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Search" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Search
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Search
+[       OK ] AlgorithmTest.Search (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Search" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Search" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/76 Testing: AlgorithmTest.SearchN
+35/76 Test: AlgorithmTest.SearchN
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.SearchN" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.SearchN" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.SearchN
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.SearchN
+[       OK ] AlgorithmTest.SearchN (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.SearchN" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.SearchN" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/76 Testing: AlgorithmTest.Replace
+36/76 Test: AlgorithmTest.Replace
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Replace" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Replace" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Replace
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Replace
+[       OK ] AlgorithmTest.Replace (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Replace" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Replace" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/76 Testing: AlgorithmTest.ReplaceIf
+37/76 Test: AlgorithmTest.ReplaceIf
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.ReplaceIf" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.ReplaceIf" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.ReplaceIf
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.ReplaceIf
+[       OK ] AlgorithmTest.ReplaceIf (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.ReplaceIf" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.ReplaceIf" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/76 Testing: AlgorithmTest.ReplaceCopy
+38/76 Test: AlgorithmTest.ReplaceCopy
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.ReplaceCopy" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.ReplaceCopy" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.ReplaceCopy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.ReplaceCopy
+[       OK ] AlgorithmTest.ReplaceCopy (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.ReplaceCopy" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.ReplaceCopy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/76 Testing: AlgorithmTest.ReplaceCopyIf
+39/76 Test: AlgorithmTest.ReplaceCopyIf
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.ReplaceCopyIf" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.ReplaceCopyIf" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.ReplaceCopyIf
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.ReplaceCopyIf
+[       OK ] AlgorithmTest.ReplaceCopyIf (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.ReplaceCopyIf" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.ReplaceCopyIf" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/76 Testing: AlgorithmTest.Remove
+40/76 Test: AlgorithmTest.Remove
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Remove" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Remove" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Remove
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Remove
+[       OK ] AlgorithmTest.Remove (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Remove" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Remove" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/76 Testing: AlgorithmTest.RemoveIf
+41/76 Test: AlgorithmTest.RemoveIf
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.RemoveIf" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.RemoveIf" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.RemoveIf
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.RemoveIf
+[       OK ] AlgorithmTest.RemoveIf (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.RemoveIf" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.RemoveIf" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/76 Testing: AlgorithmTest.RemoveCopy
+42/76 Test: AlgorithmTest.RemoveCopy
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.RemoveCopy" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.RemoveCopy" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.RemoveCopy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.RemoveCopy
+[       OK ] AlgorithmTest.RemoveCopy (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.RemoveCopy" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.RemoveCopy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/76 Testing: AlgorithmTest.RemoveCopyIf
+43/76 Test: AlgorithmTest.RemoveCopyIf
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.RemoveCopyIf" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.RemoveCopyIf" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.RemoveCopyIf
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.RemoveCopyIf
+[       OK ] AlgorithmTest.RemoveCopyIf (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.RemoveCopyIf" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.RemoveCopyIf" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/76 Testing: AlgorithmTest.Unique
+44/76 Test: AlgorithmTest.Unique
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Unique" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Unique" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Unique
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Unique
+[       OK ] AlgorithmTest.Unique (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Unique" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Unique" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/76 Testing: AlgorithmTest.UniqueCopy
+45/76 Test: AlgorithmTest.UniqueCopy
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.UniqueCopy" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.UniqueCopy" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.UniqueCopy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.UniqueCopy
+[       OK ] AlgorithmTest.UniqueCopy (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.UniqueCopy" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.UniqueCopy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/76 Testing: AlgorithmTest.Reverse
+46/76 Test: AlgorithmTest.Reverse
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Reverse" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Reverse" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Reverse
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Reverse
+[       OK ] AlgorithmTest.Reverse (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Reverse" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Reverse" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/76 Testing: AlgorithmTest.ReverseCopy
+47/76 Test: AlgorithmTest.ReverseCopy
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.ReverseCopy" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.ReverseCopy" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.ReverseCopy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.ReverseCopy
+[       OK ] AlgorithmTest.ReverseCopy (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.ReverseCopy" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.ReverseCopy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/76 Testing: AlgorithmTest.Rotate
+48/76 Test: AlgorithmTest.Rotate
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Rotate" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Rotate" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Rotate
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Rotate
+[       OK ] AlgorithmTest.Rotate (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Rotate" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Rotate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/76 Testing: AlgorithmTest.RotateCopy
+49/76 Test: AlgorithmTest.RotateCopy
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.RotateCopy" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.RotateCopy" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.RotateCopy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.RotateCopy
+[       OK ] AlgorithmTest.RotateCopy (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.RotateCopy" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.RotateCopy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/76 Testing: AlgorithmTest.RandomShuffle
+50/76 Test: AlgorithmTest.RandomShuffle
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.RandomShuffle" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.RandomShuffle" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.RandomShuffle
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.RandomShuffle
+[       OK ] AlgorithmTest.RandomShuffle (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.RandomShuffle" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.RandomShuffle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/76 Testing: AlgorithmTest.Sort
+51/76 Test: AlgorithmTest.Sort
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Sort" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Sort" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Sort
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Sort
+[       OK ] AlgorithmTest.Sort (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Sort" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Sort" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/76 Testing: AlgorithmTest.SortingAlgorithms
+52/76 Test: AlgorithmTest.SortingAlgorithms
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.SortingAlgorithms" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.SortingAlgorithms" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.SortingAlgorithms
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.SortingAlgorithms
+[       OK ] AlgorithmTest.SortingAlgorithms (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.SortingAlgorithms" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.SortingAlgorithms" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/76 Testing: AlgorithmTest.SortStability
+53/76 Test: AlgorithmTest.SortStability
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.SortStability" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.SortStability" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.SortStability
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.SortStability
+[       OK ] AlgorithmTest.SortStability (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.SortStability" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.SortStability" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/76 Testing: AlgorithmTest.IsSorted
+54/76 Test: AlgorithmTest.IsSorted
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.IsSorted" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.IsSorted" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.IsSorted
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.IsSorted
+[       OK ] AlgorithmTest.IsSorted (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.IsSorted" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.IsSorted" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/76 Testing: AlgorithmTest.BinarySearch
+55/76 Test: AlgorithmTest.BinarySearch
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.BinarySearch" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.BinarySearch" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.BinarySearch
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.BinarySearch
+[       OK ] AlgorithmTest.BinarySearch (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.BinarySearch" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.BinarySearch" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/76 Testing: AlgorithmTest.Partition
+56/76 Test: AlgorithmTest.Partition
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Partition" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Partition" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Partition
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Partition
+[       OK ] AlgorithmTest.Partition (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Partition" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Partition" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/76 Testing: AlgorithmTest.Permutation
+57/76 Test: AlgorithmTest.Permutation
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.Permutation" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.Permutation" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.Permutation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.Permutation
+[       OK ] AlgorithmTest.Permutation (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.Permutation" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.Permutation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/76 Testing: AlgorithmTest.SetOperations
+58/76 Test: AlgorithmTest.SetOperations
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.SetOperations" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.SetOperations" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.SetOperations
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.SetOperations
+[       OK ] AlgorithmTest.SetOperations (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.SetOperations" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.SetOperations" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/76 Testing: AlgorithmTest.NumericOperations
+59/76 Test: AlgorithmTest.NumericOperations
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=AlgorithmTest.NumericOperations" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"AlgorithmTest.NumericOperations" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = AlgorithmTest.NumericOperations
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmTest
+[ RUN      ] AlgorithmTest.NumericOperations
+[       OK ] AlgorithmTest.NumericOperations (0 ms)
+[----------] 1 test from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest.NumericOperations" end time: Jan 14 18:13 中国标准时间
+"AlgorithmTest.NumericOperations" time elapsed: 00:00:00
+----------------------------------------------------------
+
+60/76 Testing: VectorTest.Constructor
+60/76 Test: VectorTest.Constructor
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.Constructor" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.Constructor" start time: Jan 11 18:04 中国标准时间
+"VectorTest.Constructor" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -803,18 +1748,18 @@ Note: Google Test filter = VectorTest.Constructor
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.Constructor" end time: Jan 11 18:04 中国标准时间
+"VectorTest.Constructor" end time: Jan 14 18:13 中国标准时间
 "VectorTest.Constructor" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-31/44 Testing: VectorTest.Assignment
-31/44 Test: VectorTest.Assignment
+61/76 Testing: VectorTest.Assignment
+61/76 Test: VectorTest.Assignment
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.Assignment" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.Assignment" start time: Jan 11 18:04 中国标准时间
+"VectorTest.Assignment" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -830,18 +1775,18 @@ Note: Google Test filter = VectorTest.Assignment
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.Assignment" end time: Jan 11 18:04 中国标准时间
+"VectorTest.Assignment" end time: Jan 14 18:13 中国标准时间
 "VectorTest.Assignment" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-32/44 Testing: VectorTest.ElementAccess
-32/44 Test: VectorTest.ElementAccess
+62/76 Testing: VectorTest.ElementAccess
+62/76 Test: VectorTest.ElementAccess
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.ElementAccess" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.ElementAccess" start time: Jan 11 18:04 中国标准时间
+"VectorTest.ElementAccess" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -857,18 +1802,18 @@ Note: Google Test filter = VectorTest.ElementAccess
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.ElementAccess" end time: Jan 11 18:04 中国标准时间
+"VectorTest.ElementAccess" end time: Jan 14 18:13 中国标准时间
 "VectorTest.ElementAccess" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-33/44 Testing: VectorTest.Iterators
-33/44 Test: VectorTest.Iterators
+63/76 Testing: VectorTest.Iterators
+63/76 Test: VectorTest.Iterators
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.Iterators" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.Iterators" start time: Jan 11 18:04 中国标准时间
+"VectorTest.Iterators" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -884,18 +1829,18 @@ Note: Google Test filter = VectorTest.Iterators
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.Iterators" end time: Jan 11 18:04 中国标准时间
+"VectorTest.Iterators" end time: Jan 14 18:13 中国标准时间
 "VectorTest.Iterators" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-34/44 Testing: VectorTest.Capacity
-34/44 Test: VectorTest.Capacity
+64/76 Testing: VectorTest.Capacity
+64/76 Test: VectorTest.Capacity
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.Capacity" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.Capacity" start time: Jan 11 18:04 中国标准时间
+"VectorTest.Capacity" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -911,18 +1856,18 @@ Note: Google Test filter = VectorTest.Capacity
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.Capacity" end time: Jan 11 18:04 中国标准时间
+"VectorTest.Capacity" end time: Jan 14 18:13 中国标准时间
 "VectorTest.Capacity" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-35/44 Testing: VectorTest.Modifiers
-35/44 Test: VectorTest.Modifiers
+65/76 Testing: VectorTest.Modifiers
+65/76 Test: VectorTest.Modifiers
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.Modifiers" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.Modifiers" start time: Jan 11 18:04 中国标准时间
+"VectorTest.Modifiers" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -938,18 +1883,18 @@ Note: Google Test filter = VectorTest.Modifiers
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.Modifiers" end time: Jan 11 18:04 中国标准时间
+"VectorTest.Modifiers" end time: Jan 14 18:13 中国标准时间
 "VectorTest.Modifiers" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-36/44 Testing: VectorTest.Comparison
-36/44 Test: VectorTest.Comparison
+66/76 Testing: VectorTest.Comparison
+66/76 Test: VectorTest.Comparison
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.Comparison" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.Comparison" start time: Jan 11 18:04 中国标准时间
+"VectorTest.Comparison" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -965,45 +1910,45 @@ Note: Google Test filter = VectorTest.Comparison
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.10 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.Comparison" end time: Jan 11 18:04 中国标准时间
+"VectorTest.Comparison" end time: Jan 14 18:13 中国标准时间
 "VectorTest.Comparison" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-37/44 Testing: VectorTest.ExceptionSafety
-37/44 Test: VectorTest.ExceptionSafety
-Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.ExceptionSafety" "--gtest_also_run_disabled_tests"
+67/76 Testing: VectorTest.VectorExceptionSafety
+67/76 Test: VectorTest.VectorExceptionSafety
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.VectorExceptionSafety" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.ExceptionSafety" start time: Jan 11 18:04 中国标准时间
+"VectorTest.VectorExceptionSafety" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
-Note: Google Test filter = VectorTest.ExceptionSafety
+Note: Google Test filter = VectorTest.VectorExceptionSafety
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
 [----------] 1 test from VectorTest
-[ RUN      ] VectorTest.ExceptionSafety
-[       OK ] VectorTest.ExceptionSafety (0 ms)
+[ RUN      ] VectorTest.VectorExceptionSafety
+[       OK ] VectorTest.VectorExceptionSafety (0 ms)
 [----------] 1 test from VectorTest (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.ExceptionSafety" end time: Jan 11 18:04 中国标准时间
-"VectorTest.ExceptionSafety" time elapsed: 00:00:00
+"VectorTest.VectorExceptionSafety" end time: Jan 14 18:13 中国标准时间
+"VectorTest.VectorExceptionSafety" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-38/44 Testing: VectorTest.InsertExceptionSafety
-38/44 Test: VectorTest.InsertExceptionSafety
+68/76 Testing: VectorTest.InsertExceptionSafety
+68/76 Test: VectorTest.InsertExceptionSafety
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.InsertExceptionSafety" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.InsertExceptionSafety" start time: Jan 11 18:04 中国标准时间
+"VectorTest.InsertExceptionSafety" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -1019,18 +1964,18 @@ Note: Google Test filter = VectorTest.InsertExceptionSafety
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.InsertExceptionSafety" end time: Jan 11 18:04 中国标准时间
+"VectorTest.InsertExceptionSafety" end time: Jan 14 18:13 中国标准时间
 "VectorTest.InsertExceptionSafety" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-39/44 Testing: VectorTest.EmplaceExceptionSafety
-39/44 Test: VectorTest.EmplaceExceptionSafety
+69/76 Testing: VectorTest.EmplaceExceptionSafety
+69/76 Test: VectorTest.EmplaceExceptionSafety
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.EmplaceExceptionSafety" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.EmplaceExceptionSafety" start time: Jan 11 18:04 中国标准时间
+"VectorTest.EmplaceExceptionSafety" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -1046,18 +1991,18 @@ Note: Google Test filter = VectorTest.EmplaceExceptionSafety
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.11 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.EmplaceExceptionSafety" end time: Jan 11 18:04 中国标准时间
+"VectorTest.EmplaceExceptionSafety" end time: Jan 14 18:13 中国标准时间
 "VectorTest.EmplaceExceptionSafety" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-40/44 Testing: VectorTest.InsertSelfReference
-40/44 Test: VectorTest.InsertSelfReference
+70/76 Testing: VectorTest.InsertSelfReference
+70/76 Test: VectorTest.InsertSelfReference
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.InsertSelfReference" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.InsertSelfReference" start time: Jan 11 18:04 中国标准时间
+"VectorTest.InsertSelfReference" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -1073,18 +2018,18 @@ Note: Google Test filter = VectorTest.InsertSelfReference
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.10 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.InsertSelfReference" end time: Jan 11 18:04 中国标准时间
+"VectorTest.InsertSelfReference" end time: Jan 14 18:13 中国标准时间
 "VectorTest.InsertSelfReference" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-41/44 Testing: VectorTest.MoveExceptionSafety
-41/44 Test: VectorTest.MoveExceptionSafety
+71/76 Testing: VectorTest.MoveExceptionSafety
+71/76 Test: VectorTest.MoveExceptionSafety
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.MoveExceptionSafety" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.MoveExceptionSafety" start time: Jan 11 18:04 中国标准时间
+"VectorTest.MoveExceptionSafety" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -1100,18 +2045,18 @@ Note: Google Test filter = VectorTest.MoveExceptionSafety
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.10 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.MoveExceptionSafety" end time: Jan 11 18:04 中国标准时间
+"VectorTest.MoveExceptionSafety" end time: Jan 14 18:13 中国标准时间
 "VectorTest.MoveExceptionSafety" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-42/44 Testing: VectorTest.ReserveExceptionSafety
-42/44 Test: VectorTest.ReserveExceptionSafety
+72/76 Testing: VectorTest.ReserveExceptionSafety
+72/76 Test: VectorTest.ReserveExceptionSafety
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.ReserveExceptionSafety" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.ReserveExceptionSafety" start time: Jan 11 18:04 中国标准时间
+"VectorTest.ReserveExceptionSafety" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -1127,18 +2072,18 @@ Note: Google Test filter = VectorTest.ReserveExceptionSafety
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.10 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.ReserveExceptionSafety" end time: Jan 11 18:04 中国标准时间
+"VectorTest.ReserveExceptionSafety" end time: Jan 14 18:13 中国标准时间
 "VectorTest.ReserveExceptionSafety" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-43/44 Testing: VectorTest.ResizeExceptionSafety
-43/44 Test: VectorTest.ResizeExceptionSafety
+73/76 Testing: VectorTest.ResizeExceptionSafety
+73/76 Test: VectorTest.ResizeExceptionSafety
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.ResizeExceptionSafety" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.ResizeExceptionSafety" start time: Jan 11 18:04 中国标准时间
+"VectorTest.ResizeExceptionSafety" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -1154,18 +2099,18 @@ Note: Google Test filter = VectorTest.ResizeExceptionSafety
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.10 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.ResizeExceptionSafety" end time: Jan 11 18:04 中国标准时间
+"VectorTest.ResizeExceptionSafety" end time: Jan 14 18:13 中国标准时间
 "VectorTest.ResizeExceptionSafety" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-44/44 Testing: VectorTest.AssignExceptionSafety
-44/44 Test: VectorTest.AssignExceptionSafety
+74/76 Testing: VectorTest.AssignExceptionSafety
+74/76 Test: VectorTest.AssignExceptionSafety
 Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.AssignExceptionSafety" "--gtest_also_run_disabled_tests"
 Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
-"VectorTest.AssignExceptionSafety" start time: Jan 11 18:04 中国标准时间
+"VectorTest.AssignExceptionSafety" start time: Jan 14 18:13 中国标准时间
 Output:
 ----------------------------------------------------------
 Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
@@ -1181,11 +2126,65 @@ Note: Google Test filter = VectorTest.AssignExceptionSafety
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"VectorTest.AssignExceptionSafety" end time: Jan 11 18:04 中国标准时间
+"VectorTest.AssignExceptionSafety" end time: Jan 14 18:13 中国标准时间
 "VectorTest.AssignExceptionSafety" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jan 11 18:04 中国标准时间
+75/76 Testing: VectorTest.IteratorInvalidation
+75/76 Test: VectorTest.IteratorInvalidation
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.IteratorInvalidation" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"VectorTest.IteratorInvalidation" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = VectorTest.IteratorInvalidation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorTest
+[ RUN      ] VectorTest.IteratorInvalidation
+[       OK ] VectorTest.IteratorInvalidation (0 ms)
+[----------] 1 test from VectorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"VectorTest.IteratorInvalidation" end time: Jan 14 18:13 中国标准时间
+"VectorTest.IteratorInvalidation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+76/76 Testing: VectorTest.Alignment
+76/76 Test: VectorTest.Alignment
+Command: "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe" "--gtest_filter=VectorTest.Alignment" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test
+"VectorTest.Alignment" start time: Jan 14 18:13 中国标准时间
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\IMikoto\Documents\vscode_files\c++\googletest\googletest\src\gtest_main.cc
+Note: Google Test filter = VectorTest.Alignment
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorTest
+[ RUN      ] VectorTest.Alignment
+[       OK ] VectorTest.Alignment (0 ms)
+[----------] 1 test from VectorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"VectorTest.Alignment" end time: Jan 14 18:13 中国标准时间
+"VectorTest.Alignment" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jan 14 18:13 中国标准时间

@@ -256,6 +256,30 @@ allocator_test.cpp.s:
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/allocator_test.cpp.s
 .PHONY : allocator_test.cpp.s
 
+deque_test.obj: deque_test.cpp.obj
+.PHONY : deque_test.obj
+
+# target to build an object file
+deque_test.cpp.obj:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/deque_test.cpp.obj
+.PHONY : deque_test.cpp.obj
+
+deque_test.i: deque_test.cpp.i
+.PHONY : deque_test.i
+
+# target to preprocess a source file
+deque_test.cpp.i:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/deque_test.cpp.i
+.PHONY : deque_test.cpp.i
+
+deque_test.s: deque_test.cpp.s
+.PHONY : deque_test.s
+
+# target to generate assembly for a file
+deque_test.cpp.s:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/deque_test.cpp.s
+.PHONY : deque_test.cpp.s
+
 iterator_test.obj: iterator_test.cpp.obj
 .PHONY : iterator_test.obj
 
@@ -351,6 +375,9 @@ help:
 	@echo ... allocator_test.obj
 	@echo ... allocator_test.i
 	@echo ... allocator_test.s
+	@echo ... deque_test.obj
+	@echo ... deque_test.i
+	@echo ... deque_test.s
 	@echo ... iterator_test.obj
 	@echo ... iterator_test.i
 	@echo ... iterator_test.s

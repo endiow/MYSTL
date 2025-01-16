@@ -5,6 +5,7 @@
 #include <new>      // for bad_alloc
 #include "expectdef.hpp"
 #include "util.hpp"
+#include "algorithm.hpp"
 
 namespace mystl 
 {
@@ -204,17 +205,6 @@ namespace mystl
         // 允许从其他类型的分配器构造
         template<typename U>
         constexpr allocator(const allocator<U>&) noexcept {}
-
-        // 获取地址
-        static pointer address(reference x) noexcept 
-        { 
-            return &x; 
-        }
-
-        static const_pointer address(const_reference x) noexcept 
-        { 
-            return &x; 
-        }
 
         // 比较操作
         template <class U>

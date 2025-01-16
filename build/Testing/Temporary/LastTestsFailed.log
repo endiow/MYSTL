@@ -1,2 +1,3 @@
-27:AlgorithmTest.FindFirstOf
-28:AlgorithmTest.AdjacentFind
+1:ListTest.ConstructorAndAssignment
+2:ListTest.ElementAccess
+6:ListTest.Operations
