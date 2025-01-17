@@ -7,6 +7,7 @@
 #include "iterator.hpp"
 #include "uninitialized.hpp"    
 #include "algorithm.hpp"
+#include "vector.hpp"
 
 namespace mystl 
 {
@@ -45,8 +46,8 @@ namespace mystl
         deque_iterator() noexcept
             : cur(nullptr), first(nullptr), last(nullptr), node(nullptr) {}
 
-        deque_iterator(pointer c, map_pointer n) noexcept
-            : cur(c), first(*n), last(*n + buffer_size()), node(n) {}
+        deque_iterator(pointer c, pointer f, pointer l, map_pointer n) noexcept
+            : cur(c), first(f), last(l), node(n) {}
 
         deque_iterator(const deque_iterator& rhs) noexcept
             : cur(rhs.cur), first(rhs.first), last(rhs.last), node(rhs.node) {}
@@ -66,8 +67,19 @@ namespace mystl
         // 转换为const迭代器
         operator deque_iterator<const T>() const noexcept
         {
-            return deque_iterator<const T>(static_cast<const T*>(cur), const_cast<const_map_pointer>(node));
+            return deque_iterator<const T>(static_cast<const T*>(cur), 
+                                           static_cast<const T*>(first),
+                                           static_cast<const T*>(last),
+                                           const_cast<const_map_pointer>(node));
         }
+
+        // 从const_iterator到iterator的隐式转换
+        template <class U>
+        deque_iterator(const deque_iterator<U>& other, typename enable_if<is_same<U, const T>::value>::type* = nullptr)
+            : cur(const_cast<pointer>(other.cur)), 
+              first(const_cast<pointer>(other.first)),
+              last(const_cast<pointer>(other.last)),
+              node(const_cast<map_pointer>(other.node)) {}
 
         // base() 函数
         pointer base() const noexcept
@@ -198,8 +210,6 @@ namespace mystl
             return !(*this < rhs);
         }
 
-        
-
     private:
         // map_(控制中心)
         //   │
@@ -290,7 +300,8 @@ namespace mystl
                 // 清理已分配的资源
                 for (map_pointer cur = start_.node; cur <= finish_.node; ++cur)
                 {
-                    alloc_.deallocate(*cur, buffer_size());
+                    if (*cur != nullptr)
+                        alloc_.deallocate(*cur, buffer_size());
                 }
                 map_alloc_.deallocate(map_, map_size_);
                 throw;
@@ -647,30 +658,59 @@ namespace mystl
 
         
 
-        // 在pos之前插入一个元素(拷贝版本)
-        iterator insert(const_iterator pos, const T& value) 
+        // 在pos位置插入元素
+        template <class V>
+        iterator insert(const_iterator pos, V&& value)
         {
-            const size_type elems_before = pos - start_;
+            // 在头部插入
+            if (pos.cur == start_.cur)
+            {
+                push_front_aux(mystl::forward<V>(value));
+                return start_;
+            }
+            // 在尾部插入
+            else if (pos.cur == finish_.cur)
+            {
+                push_back_aux(mystl::forward<V>(value));
+                iterator tmp = finish_;
+                --tmp;
+                return tmp;
+            }
+            // 在中间插入
+            return insert_aux(pos, mystl::forward<V>(value));
+        }
+
+
+
+        // 在pos位置插入n个元素
+        iterator insert(iterator pos, size_type n, const T& value)
+        {
+            if (n == 0) return pos;
             
+            const size_type elems_before = pos - start_;
             if (elems_before < size() / 2)
             {
                 // 在前半段插入
-                iterator new_start = reserve_elements_at_front(1);
+                iterator new_start = reserve_elements_at_front(n);
+                iterator old_start = start_;
                 
                 try 
                 {
-                    // 先构造新元素
-                    mystl::construct(new_start.cur, value);
-                    
+                    // 先复制原有元素
+                    mystl::uninitialized_copy(old_start, pos, new_start);
                     try 
                     {
-                        // 再复制原有元素
-                        mystl::uninitialized_copy(start_, iterator(pos), new_start + 1);
-                        start_ = new_start;  // 更新start_
+                        // 再填充新元素
+                        mystl::fill_n(new_start + elems_before, n, value);
                     }
                     catch (...) 
                     {
-                        mystl::destroy_at(new_start.cur);
+                        // 如果填充失败：
+                        // 把原始数据写回原来的位置
+                        mystl::copy(new_start, new_start + elems_before, old_start);
+                        // 销毁新位置的数据
+                        mystl::destroy(new_start, new_start + elems_before);
+                        // 释放新分配的内存
                         destroy_nodes_at_front(new_start);
                         throw;
                     }
@@ -680,30 +720,31 @@ namespace mystl
                     destroy_nodes_at_front(new_start);
                     throw;
                 }
+                start_ = new_start;  // 所有操作都成功后才更新start_
             }
             else 
             {
                 // 在后半段插入
-                iterator new_finish = reserve_elements_at_back(1);
+                iterator new_finish = reserve_elements_at_back(n);
+                iterator old_finish = finish_;
                 
                 try 
                 {
-                    // 先在新位置构造最后一个元素
-                    mystl::construct(finish_.cur, back());
-                    
+                    // 先移动后面的元素
+                    mystl::uninitialized_copy(pos, old_finish, finish_ + n);
                     try 
                     {
-                        // 移动元素
-                        mystl::uninitialized_move_backward(iterator(pos), finish_ - 1, finish_);
-                        
-                        // 在pos位置构造新元素
-                        mystl::construct(start_ + elems_before, value);
-                        
-                        ++finish_;     // 更新finish_
+                        // 再填充新元素
+                        mystl::fill_n(pos, n, value);
                     }
                     catch (...) 
                     {
-                        mystl::destroy_at(finish_.cur);
+                        // 如果填充失败：
+                        // 把原始数据写回原来的位置
+                        mystl::copy(finish_ + n, finish_ + n + (old_finish - pos), iterator(pos));
+                        // 销毁新位置的数据
+                        mystl::destroy(finish_ + n, finish_ + n + (old_finish - pos));
+                        // 释放新分配的内存
                         destroy_nodes_at_back(new_finish);
                         throw;
                     }
@@ -713,32 +754,97 @@ namespace mystl
                     destroy_nodes_at_back(new_finish);
                     throw;
                 }
+                
+                finish_ = finish_ + n;  // 所有操作都成功后才更新finish_
             }
+            
             return start_ + elems_before;
-        }
-
-        // 在pos之前插入一个元素(移动版本)
-        iterator insert(const_iterator pos, T&& value)
-        {
-            
-        }
-
-        // 在pos之前插入n个元素
-        iterator insert(const_iterator pos, size_type n, const T& value)
-        {
-            
         }
 
         // 在pos之前插入[first, last)范围内的元素
         template <class InputIt>
-        iterator insert(const_iterator pos, InputIt first, InputIt last,
+        iterator insert(iterator pos, InputIt first, InputIt last,
                         typename enable_if<!is_integral<InputIt>::value>::type* = nullptr)
         {
+            if (first == last) return pos;
             
+            const size_type n = mystl::distance(first, last);
+            const size_type elems_before = pos - start_;
+            
+            if (elems_before < size() / 2)
+            {
+                // 在前半段插入
+                iterator new_start = reserve_elements_at_front(n);
+                iterator old_start = start_;
+                
+                try 
+                {
+                    // 先复制原有元素
+                    mystl::uninitialized_copy(old_start, pos, new_start);
+                    try 
+                    {
+                        // 再插入新元素
+                        mystl::uninitialized_copy(first, last, new_start + elems_before);
+                    }
+                    catch (...) 
+                    {
+                        // 把原始数据写回原来的位置
+                        mystl::copy(new_start, new_start + elems_before, old_start);
+                        // 销毁新位置的数据
+                        mystl::destroy(new_start, new_start + elems_before);
+                        // 释放新分配的内存
+                        destroy_nodes_at_front(new_start);
+                        throw;
+                    }
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_front(new_start);
+                    throw;
+                }
+                
+                start_ = new_start;  // 所有操作都成功后才更新start_
+            }
+            else 
+            {
+                // 在后半段插入
+                iterator new_finish = reserve_elements_at_back(n);
+                iterator old_finish = finish_;
+                
+                try 
+                {
+                    // 先移动后面的元素
+                    mystl::uninitialized_copy(pos, old_finish, finish_ + n);
+                    try 
+                    {
+                        // 再插入新元素
+                        mystl::uninitialized_copy(first, last, pos);
+                    }
+                    catch (...) 
+                    {
+                        // 把原始数据写回原来的位置
+                        mystl::copy(finish_ + n, finish_ + n + (old_finish - pos), pos);
+                        // 销毁新位置的数据
+                        mystl::destroy(finish_ + n, finish_ + n + (old_finish - pos));
+                        // 释放新分配的内存
+                        destroy_nodes_at_back(new_finish);
+                        throw;
+                    }
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_back(new_finish);
+                    throw;
+                }
+                
+                finish_ = finish_ + n;  // 所有操作都成功后才更新finish_
+            }
+            
+            return start_ + elems_before;
         }
 
         // 在pos之前插入初始化列表中的元素
-        iterator insert(const_iterator pos, std::initializer_list<T> ilist)
+        iterator insert(iterator pos, std::initializer_list<T> ilist)
         {
             return insert(pos, ilist.begin(), ilist.end());
         }
@@ -746,55 +852,286 @@ namespace mystl
 
         // 在指定位置就地构造元素
         template <class... Args>
-        iterator emplace(const_iterator pos, Args&&... args)
+        iterator emplace(iterator pos, Args&&... args)
         {
+            const size_type elems_before = pos - start_;
+            if (elems_before < size() / 2)
+            {
+                // 在前半段插入
+                iterator new_start = reserve_elements_at_front(1);
+                iterator old_start = start_;
+                
+                try 
+                {
+                    // 先复制原有元素
+                    mystl::uninitialized_copy(old_start, pos, new_start);
+                    try 
+                    {
+                        // 直接在位置构造新元素
+                        mystl::construct(new_start.cur + elems_before, mystl::forward<Args>(args)...);
+                    }
+                    catch (...) 
+                    {
+                        // 把原始数据写回原来的位置
+                        mystl::copy(new_start, new_start + elems_before, old_start);
+                        // 销毁新位置的数据
+                        mystl::destroy(new_start, new_start + elems_before);
+                        // 释放新分配的内存
+                        destroy_nodes_at_front(new_start);
+                        throw;
+                    }
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_front(new_start);
+                    throw;
+                }
+                
+                start_ = new_start;  // 所有操作都成功后才更新start_
+            }
+            else 
+            {
+                // 在后半段插入
+                iterator new_finish = reserve_elements_at_back(1);
+                iterator old_finish = finish_;
+                
+                try 
+                {
+                    // 先移动后面的元素
+                    mystl::uninitialized_copy(pos, old_finish, finish_ + 1);
+                    try 
+                    {
+                        // 直接在位置构造新元素
+                        mystl::construct(pos.cur, mystl::forward<Args>(args)...);
+                    }
+                    catch (...) 
+                    {
+                        // 把原始数据写回原来的位置
+                        mystl::copy(finish_ + 1, finish_ + 1 + (old_finish - pos), pos);
+                        // 销毁新位置的数据
+                        mystl::destroy(finish_ + 1, finish_ + 1 + (old_finish - pos));
+                        // 释放新分配的内存
+                        destroy_nodes_at_back(new_finish);
+                        throw;
+                    }
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_back(new_finish);
+                    throw;
+                }
+                
+                finish_ = finish_ + 1;  // 所有操作都成功后才更新finish_
+            }
             
-        }
-
-        // 在头部就地构造元素
-        template <class... Args>
-        void emplace_front(Args&&... args)
-        {
-            
+            return start_ + elems_before;
         }
 
         // 在尾部就地构造元素
         template <class... Args>
-        void emplace_back(Args&&... args)
+        iterator emplace_back(Args&&... args)
         {
-            
+            if (empty())
+                return emplace(begin(), mystl::forward<Args>(args)...);
+            else
+                return emplace(end(), mystl::forward<Args>(args)...);
         }
 
-        void push_back(const T& value) 
+
+        // 在头部就地构造元素
+        template <class... Args>
+        iterator emplace_front(Args&&... args)
         {
-            
+            return emplace(begin(), mystl::forward<Args>(args)...);
         }
-        
-        void push_front(const T& value)
+
+        // 在头部添加元素
+        template <class V>
+        void push_front(V&& value)
         {
-            
+            push_front_aux(mystl::forward<V>(value));
         }
-        
+
+        // 在尾部添加元素
+        template <class V>
+        void push_back(V&& value)
+        {
+            push_back_aux(mystl::forward<V>(value));
+        }
+
+        // 删除尾部元素
         void pop_back() 
         {
+            if (empty()) return;
             
+            --finish_.cur;
+            mystl::destroy_at(finish_.cur);
+            
+            // 如果当前缓冲区为空，需要释放
+            if (finish_.cur == finish_.first) 
+            {
+                alloc_.deallocate(finish_.first, buffer_size());
+                finish_.set_node(finish_.node - 1);
+                finish_.cur = finish_.last;
+            }
         }
-        
+
+        // 删除头部元素
         void pop_front() 
         {
+            if (empty()) return;
             
+            mystl::destroy_at(start_.cur);
+            ++start_.cur;
+            
+            // 如果当前缓冲区为空，需要释放
+            if (start_.cur == start_.last) 
+            {
+                alloc_.deallocate(start_.first, buffer_size());
+                start_.set_node(start_.node + 1);
+                start_.cur = start_.first;
+            }
         }
         
 
-        iterator erase(const_iterator pos) 
+        iterator erase(iterator pos)
         {
+            iterator next = pos + 1;
+            const size_type elems_before = pos - start_;
             
+            if (elems_before < size() / 2)
+            {
+                // 先保存要删除的元素
+                value_type tmp = mystl::move(*pos);
+                
+                try 
+                {
+                    // 移动元素
+                    mystl::copy_backward(start_, pos, next);
+                }
+                catch (...) 
+                {
+                    // 如果移动失败，恢复被删除的元素
+                    mystl::construct(pos.cur, mystl::move(tmp));
+                    throw;
+                }
+                
+                // 销毁临时元素
+                mystl::destroy_at(mystl::addressof(tmp));
+                
+                // 所有操作成功后才更新迭代器
+                ++start_.cur;
+                if (start_.cur == start_.last) 
+                {
+                    alloc_.deallocate(start_.first, buffer_size());
+                    start_.set_node(start_.node + 1);
+                    start_.cur = start_.first;
+                }
+            }
+            else
+            {
+                // 先保存要删除的元素
+                value_type tmp = mystl::move(*pos);
+                
+                try 
+                {
+                    // 移动元素
+                    mystl::copy(next, finish_, pos);
+                }
+                catch (...) 
+                {
+                    // 如果移动失败，恢复被删除的元素
+                    mystl::construct(pos.cur, mystl::move(tmp));
+                    throw;
+                }
+                
+                // 销毁临时元素
+                mystl::destroy_at(mystl::addressof(tmp));
+                
+                // 所有操作成功后才更新迭代器
+                --finish_.cur;
+                if (finish_.cur == finish_.first) 
+                {
+                    alloc_.deallocate(finish_.first, buffer_size());
+                    finish_.set_node(finish_.node - 1);
+                    finish_.cur = finish_.last;
+                }
+            }
+            
+            return start_ + elems_before;
         }
 
         // 添加范围删除
-        iterator erase(const_iterator first, const_iterator last) 
+        iterator erase(iterator first, iterator last)
         {
-            
+            if (first == last)
+                return first;
+        
+            const size_type elems_before = first - start_;
+            const size_type n = last - first;
+        
+            if (elems_before < (size() - n) / 2)
+            {
+                // 先保存要删除的元素
+                mystl::vector<value_type> tmp(first - n, first);
+        
+                try 
+                {
+                    // 移动前面的元素
+                    mystl::copy_backward(start_, first, last);
+                }
+                catch (...) 
+                {
+                    // 如果移动失败，恢复被删除的元素
+                    mystl::uninitialized_copy(tmp.begin(), tmp.end(), first - n);
+                    throw;
+                }
+        
+                // 销毁前面的元素
+                for (auto it = start_; it != start_ + n; ++it)
+                    mystl::destroy_at(it.cur);
+        
+                // 所有操作成功后才更新迭代器
+                start_ = start_ + n;
+                if (start_.cur == start_.last)
+                {
+                    alloc_.deallocate(start_.first, buffer_size());
+                    start_.set_node(start_.node + 1);
+                    start_.cur = start_.first;
+                }
+            }
+            else
+            {
+                // 先保存要删除的元素
+                mystl::vector<value_type> tmp(last, last + n);
+        
+                try 
+                {
+                    // 移动后面的元素
+                    mystl::copy(last, finish_, first);
+                }
+                catch (...) 
+                {
+                    // 如果移动失败，恢复被删除的元素
+                    mystl::uninitialized_copy(tmp.begin(), tmp.end(), last);
+                    throw;
+                }
+        
+                // 销毁后面的元素
+                for (auto it = finish_ - n; it != finish_; ++it)
+                    mystl::destroy_at(it.cur);
+        
+                // 所有操作成功后才更新迭代器
+                finish_ = finish_ - n;
+                if (finish_.cur == finish_.first)
+                {
+                    alloc_.deallocate(finish_.first, buffer_size());
+                    finish_.set_node(finish_.node - 1);
+                    finish_.cur = finish_.last;
+                }
+            }
+        
+            return start_ + elems_before;
         }
 
         
@@ -831,7 +1168,7 @@ namespace mystl
             map_size_ = mystl::max(size_type(8), num_nodes + 2);
             map_ = map_alloc_.allocate(map_size_);
             
-            // 让 nstart 和 nfinish 都指向 map_ 最中央的区域
+            // 让 nstart 和 nfinish 都指向 map_ 的中间位置
             map_pointer nstart = map_ + (map_size_ - num_nodes) / 2;
             map_pointer nfinish = nstart + num_nodes - 1;
             
@@ -851,13 +1188,10 @@ namespace mystl
             }
             
             // 设置迭代器
-            start_.node = nstart;
-            finish_.node = nfinish;
-            start_.cur = start_.first = *nstart;
-            start_.last = start_.first + buffer_size();
-            finish_.first = *nfinish;
-            finish_.last = finish_.first + buffer_size();
-            finish_.cur = finish_.first;
+            start_.set_node(nstart);
+            finish_.set_node(nfinish);
+            start_.cur = start_.first;
+            finish_.cur = start_.first + num_elements;  // 修改这里：直接设置为起始位置加上元素个数
         }
 
 
@@ -908,7 +1242,7 @@ namespace mystl
                 }
             }
             else
-                return iterator(start_.cur - n, start_.node);
+                return iterator(start_.cur - n, start_.first, start_.last, start_.node);
         }
 
         // 在后端预留n个元素的空间
@@ -945,7 +1279,7 @@ namespace mystl
                         throw;
                     }
                     
-                    return finish_ + n;  // 返回新的结束位置
+                    return iterator(finish_.cur + n, finish_.first, finish_.last, finish_.node);  // 返回新的结束位置
                 }
                 catch (...)
                 {
@@ -954,7 +1288,7 @@ namespace mystl
                     throw;
                 }
             }
-            return finish_ + n;  // 当前缓冲区空间足够
+            return iterator(finish_.cur + n, finish_.first, finish_.last, finish_.node);  // 当前缓冲区空间足够
         }
 
         // 确保map后端有足够空间
@@ -1066,7 +1400,133 @@ namespace mystl
             }
         }
 
-        
+        // 在pos位置插入元素的辅助函数
+        template <class V>  // V可以是T&或T&&
+        iterator insert_aux(iterator pos, V&& value)
+        {
+            const size_type elems_before = pos - start_;
+            
+            if (elems_before < size() / 2)
+            {
+                // 在前半段插入
+                iterator new_start = reserve_elements_at_front(1);
+                
+                try 
+                {
+                    // 先构造新元素
+                    mystl::construct(new_start.cur, mystl::forward<V>(value));
+                    
+                    try 
+                    {
+                        // 再复制原有元素
+                        mystl::uninitialized_copy(start_, pos, new_start + 1);
+                        start_ = new_start;  // 更新start_
+                    }
+                    catch (...) 
+                    {
+                        mystl::destroy_at(new_start.cur);
+                        destroy_nodes_at_front(new_start);
+                        throw;
+                    }
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_front(new_start);
+                    throw;
+                }
+            }
+            else 
+            {
+                // 在后半段插入
+                iterator new_finish = reserve_elements_at_back(1);
+                
+                try 
+                {
+                    // 先在新位置构造最后一个元素
+                    mystl::construct(finish_.cur, back());
+                    
+                    try 
+                    {
+                        // 移动元素
+                        mystl::uninitialized_move_backward(pos, finish_ - 1, finish_);
+                        
+                        // 在pos位置构造新元素
+                        mystl::construct(start_ + elems_before, mystl::forward<V>(value));
+                        
+                        ++finish_;     // 更新finish_
+                    }
+                    catch (...) 
+                    {
+                        mystl::destroy_at(finish_.cur);
+                        destroy_nodes_at_back(new_finish);
+                        throw;
+                    }
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_back(new_finish);
+                    throw;
+                }
+            }
+            return start_ + elems_before;
+        }
+
+
+        // 在头部添加元素
+        template <class V>
+        void push_front_aux(V&& value)
+        {
+            if (start_.cur != start_.first) 
+            {
+                // 缓冲区还有空间
+                mystl::construct(start_.cur - 1, mystl::forward<V>(value));
+                --start_.cur;
+            }
+            else 
+            {
+                // 需要新的缓冲区
+                iterator new_start = reserve_elements_at_front(1);
+                try 
+                {
+                    mystl::construct(new_start.cur, mystl::forward<V>(value));
+                    start_ = new_start;
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_front(new_start);
+                    throw;
+                }
+            }
+        }
+
+        // 在尾部添加元素
+        template <class V>
+        void push_back_aux(V&& value)
+        {
+            if (finish_.cur != finish_.last - 1) 
+            {
+                // 缓冲区还有空间
+                mystl::construct(finish_.cur, mystl::forward<V>(value));
+                ++finish_.cur;
+            }
+            else 
+            {
+                // 需要新的缓冲区
+                iterator new_finish = reserve_elements_at_back(1);
+                try 
+                {
+                    mystl::construct(finish_.cur, mystl::forward<V>(value));
+                    ++finish_;
+                }
+                catch (...) 
+                {
+                    destroy_nodes_at_back(new_finish);
+                    throw;
+                }
+            }
+        }
+
+
     };
 
     

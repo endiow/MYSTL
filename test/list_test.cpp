@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/mystl/list.hpp"
+#include "mystl/list.hpp"
 #include <stdexcept>
 
 
@@ -49,7 +49,7 @@ TEST(ListTest, Constructor)
     EXPECT_EQ(lst6, lst5);
 
     // 移动构造函数
-    mystl::list<int> lst7(std::move(lst6));
+    mystl::list<int> lst7(mystl::move(lst6));
     EXPECT_TRUE(lst6.empty());
     EXPECT_EQ(lst7, lst5);
 }
@@ -66,7 +66,7 @@ TEST(ListTest, Assignment)
 
     // 移动赋值
     mystl::list<int> lst3;
-    lst3 = std::move(lst2);
+    lst3 = mystl::move(lst2);
     EXPECT_TRUE(lst2.empty());
     EXPECT_EQ(lst3, lst1);
 
@@ -203,48 +203,93 @@ TEST(ListTest, Modifiers)
 // 链表操作测试
 TEST(ListTest, Operations) 
 {
-    // splice
-    mystl::list<int> lst1{1, 2, 3};
-    mystl::list<int> lst2{4, 5, 6};
-    
-    lst1.splice(lst1.end(), lst2);
-    EXPECT_TRUE(lst2.empty());
-    mystl::list<int> expected1{1, 2, 3, 4, 5, 6};
-    EXPECT_EQ(lst1, expected1);
+    // splice 测试
+    {
+        // 整个链表的 splice
+        {
+            mystl::list<int> lst1{1, 2, 3};
+            mystl::list<int> lst2{4, 5, 6};
+            lst1.splice(lst1.end(), lst2);
+            EXPECT_TRUE(lst2.empty());
+            mystl::list<int> expected1{1, 2, 3, 4, 5, 6};
+            EXPECT_EQ(lst1, expected1);
+        }
 
-    // remove/remove_if
-    lst1.remove(3);
-    mystl::list<int> expected2{1, 2, 4, 5, 6};
-    EXPECT_EQ(lst1, expected2);
+        // 单个节点的 splice
+        {
+            mystl::list<int> lst1{1, 2, 3};
+            mystl::list<int> lst2{4, 5, 6};
+            lst1.splice(lst1.begin(), lst2, lst2.begin());
+            mystl::list<int> expected1{4, 1, 2, 3};
+            mystl::list<int> expected2{5, 6};
+            EXPECT_EQ(lst1, expected1);
+            EXPECT_EQ(lst2, expected2);
+        }
 
-    lst1.remove_if([](int n) { return n % 2 == 0; });
-    mystl::list<int> expected3{1, 5};
-    EXPECT_EQ(lst1, expected3);
+        // 范围的 splice
+        {
+            mystl::list<int> lst1{1, 2, 3};
+            mystl::list<int> lst2{4, 5, 6, 7, 8};
+            auto first = ++lst2.begin();  // 指向5
+            auto last = --lst2.end();     // 指向8
+            lst1.splice(++lst1.begin(), lst2, first, last);
+            mystl::list<int> expected1{1, 5, 6, 7, 2, 3};
+            mystl::list<int> expected2{4, 8};
+            EXPECT_EQ(lst1, expected1);
+            EXPECT_EQ(lst2, expected2);
+        }
+    }
 
-    // unique
-    mystl::list<int> lst3{1, 1, 2, 2, 2, 3, 3};
-    lst3.unique();
-    mystl::list<int> expected4{1, 2, 3};
-    EXPECT_EQ(lst3, expected4);
+    // remove/remove_if 测试
+    {
+        mystl::list<int> lst{1, 2, 3, 2, 4, 2, 5};
+        lst.remove(2);
+        mystl::list<int> expected1{1, 3, 4, 5};
+        EXPECT_EQ(lst, expected1);
 
-    // merge
-    mystl::list<int> lst4{1, 3, 5};
-    mystl::list<int> lst5{2, 4, 6};
-    lst4.merge(lst5);
-    mystl::list<int> expected5{1, 2, 3, 4, 5, 6};
-    EXPECT_EQ(lst4, expected5);
-    EXPECT_TRUE(lst5.empty());
+        lst.remove_if([](int n) { return n > 3; });
+        mystl::list<int> expected2{1, 3};
+        EXPECT_EQ(lst, expected2);
+    }
 
-    // sort
-    mystl::list<int> lst6{3, 1, 4, 1, 5, 9, 2, 6};
-    lst6.sort();
-    mystl::list<int> expected6{1, 1, 2, 3, 4, 5, 6, 9};
-    EXPECT_EQ(lst6, expected6);
+    // unique 测试
+    {
+        mystl::list<int> lst{1, 1, 2, 2, 2, 3, 3, 2, 2, 1};
+        lst.unique();
+        mystl::list<int> expected{1, 2, 3, 2, 1};
+        EXPECT_EQ(lst, expected);
+    }
 
-    // reverse
-    lst6.reverse();
-    mystl::list<int> expected7{9, 6, 5, 4, 3, 2, 1, 1};
-    EXPECT_EQ(lst6, expected7);
+    // merge 测试
+    {
+        mystl::list<int> lst1{1, 3, 5, 7};
+        mystl::list<int> lst2{2, 4, 6, 8};
+        lst1.merge(lst2);
+        EXPECT_TRUE(lst2.empty());
+        mystl::list<int> expected{1, 2, 3, 4, 5, 6, 7, 8};
+        EXPECT_EQ(lst1, expected);
+    }
+
+    // sort 测试
+    {
+        mystl::list<int> lst{4, 1, 3, 2, 6, 5, 8, 7};
+        lst.sort();
+        mystl::list<int> expected{1, 2, 3, 4, 5, 6, 7, 8};
+        EXPECT_EQ(lst, expected);
+
+        // 自定义比较器
+        lst.sort(std::greater<int>());
+        mystl::list<int> expected2{8, 7, 6, 5, 4, 3, 2, 1};
+        EXPECT_EQ(lst, expected2);
+    }
+
+    // reverse 测试
+    {
+        mystl::list<int> lst{1, 2, 3, 4, 5};
+        lst.reverse();
+        mystl::list<int> expected{5, 4, 3, 2, 1};
+        EXPECT_EQ(lst, expected);
+    }
 }
 
 
@@ -260,9 +305,28 @@ public:
     
     ThrowOnCopy(const ThrowOnCopy& other) 
     {
-        if (should_throw) throw std::runtime_error("Copy failed");
+        if (should_throw) 
+            throw std::runtime_error("Copy failed");
         value = other.value;
         ++copy_count;
+    }
+
+    ThrowOnCopy& operator=(const ThrowOnCopy& other)
+    {
+        if (should_throw)
+            throw std::runtime_error("Copy failed");
+        value = other.value;
+        ++copy_count;
+        return *this;
+    }
+
+    ThrowOnCopy(ThrowOnCopy&& other) noexcept
+        : value(other.value) {}
+
+    ThrowOnCopy& operator=(ThrowOnCopy&& other) noexcept
+    {
+        value = other.value;
+        return *this;
     }
     
     bool operator==(const ThrowOnCopy& other) const 
@@ -283,72 +347,179 @@ int ThrowOnCopy::copy_count = 0;
 // 异常安全性测试
 TEST(ListTest, ExceptionSafety) 
 {
-    mystl::list<ThrowOnCopy> lst;
-    ThrowOnCopy::reset();
-
-    // 插入时的异常安全性
-    lst.push_back(ThrowOnCopy(1));
-    lst.push_back(ThrowOnCopy(2));
-    
-    ThrowOnCopy value(3);
-    ThrowOnCopy::should_throw = true;
-    
-    try 
+    // emplace 的异常安全性
     {
-        lst.insert(lst.begin(), value);
-        FAIL() << "Expected std::runtime_error";
-    }
-    catch (const std::runtime_error&) 
-    {
+        mystl::list<ThrowOnCopy> lst;
+        lst.push_back(ThrowOnCopy(1));
+        lst.push_back(ThrowOnCopy(2));
         EXPECT_EQ(lst.size(), 2);
+
+        ThrowOnCopy::reset();
+        ThrowOnCopy::should_throw = true;
+        size_t old_size = lst.size();
+        
+        try 
+        {
+            // 尝试在开头emplace一个新元素，通过拷贝构造触发异常
+            ThrowOnCopy value(3);
+            lst.emplace(lst.begin(), value);  // 这里会触发拷贝构造
+            FAIL() << "Expected std::runtime_error";
+        }
+        catch (const std::runtime_error&) 
+        {
+            // 验证链表状态保持不变
+            EXPECT_EQ(lst.size(), old_size);
+            auto it = lst.begin();
+            EXPECT_EQ(it->value, 1);
+            ++it;
+            EXPECT_EQ(it->value, 2);
+        }
+
+        // 测试直接构造的情况（不应该抛出异常）
+        ThrowOnCopy::reset();
+        lst.emplace(lst.begin(), 3);  // 直接构造，不会触发拷贝
+        EXPECT_EQ(lst.size(), 3);
+        EXPECT_EQ(lst.front().value, 3);
+    }
+
+    // insert 单个元素的异常安全性
+    {
+        mystl::list<ThrowOnCopy> lst;
+        lst.push_back(ThrowOnCopy(1));
+        lst.push_back(ThrowOnCopy(2));
+        
+        ThrowOnCopy::reset();
+        ThrowOnCopy value(3);
+        ThrowOnCopy::should_throw = true;
+        
+        try 
+        {
+            lst.insert(lst.begin(), value);
+            FAIL() << "Expected std::runtime_error";
+        }
+        catch (const std::runtime_error&) 
+        {
+            EXPECT_EQ(lst.size(), 2);
+            auto it = lst.begin();
+            EXPECT_EQ(it->value, 1);
+            ++it;
+            EXPECT_EQ(it->value, 2);
+        }
+    }
+
+    // insert 多个相同元素的异常安全性
+    {
+        mystl::list<ThrowOnCopy> lst;
+        lst.push_back(ThrowOnCopy(1));
+        lst.push_back(ThrowOnCopy(2));
+        EXPECT_EQ(lst.size(), 2);
+
+        ThrowOnCopy::reset();
+        ThrowOnCopy value(3);
+        ThrowOnCopy::should_throw = true;
+        size_t old_size = lst.size();
+        
+        try 
+        {
+            // 尝试在开头插入3个相同的元素
+            lst.insert(lst.begin(), 3, value);
+            FAIL() << "Expected std::runtime_error";
+        }
+        catch (const std::runtime_error&) 
+        {
+            // 验证链表状态保持不变
+            EXPECT_EQ(lst.size(), old_size);
+            auto it = lst.begin();
+            EXPECT_EQ(it->value, 1);
+            ++it;
+            EXPECT_EQ(it->value, 2);
+        }
+    }
+
+    // insert 范围的异常安全性
+    {
+        mystl::list<ThrowOnCopy> lst;
+        lst.push_back(ThrowOnCopy(1));
+        
+        mystl::list<ThrowOnCopy> other;
+        other.push_back(ThrowOnCopy(2));
+        other.push_back(ThrowOnCopy(3));
+        
+        ThrowOnCopy::reset();
+        ThrowOnCopy::should_throw = true;
+        
+        try 
+        {
+            lst.insert(lst.begin(), other.begin(), other.end());
+            FAIL() << "Expected std::runtime_error";
+        }
+        catch (const std::runtime_error&) 
+        {
+            EXPECT_EQ(lst.size(), 1);
+            EXPECT_EQ(lst.front().value, 1);
+        }
+    }
+
+    // insert 初始化列表的异常安全性
+    {
+        mystl::list<ThrowOnCopy> lst;
+        lst.push_back(ThrowOnCopy(1));
+        
+        ThrowOnCopy::reset();
+        ThrowOnCopy::should_throw = true;
+        
+        try 
+        {
+            lst.insert(lst.begin(), {ThrowOnCopy(2), ThrowOnCopy(3)});
+            FAIL() << "Expected std::runtime_error";
+        }
+        catch (const std::runtime_error&) 
+        {
+            EXPECT_EQ(lst.size(), 1);
+            EXPECT_EQ(lst.front().value, 1);
+        }
+    }
+
+    // resize 的异常安全性
+    {
+        mystl::list<ThrowOnCopy> lst;
+        lst.push_back(ThrowOnCopy(1));
+        lst.push_back(ThrowOnCopy(2));
+        EXPECT_EQ(lst.size(), 2);
+
+        // 测试缩小大小（不应该抛出异常）
+        lst.resize(1);
+        EXPECT_EQ(lst.size(), 1);
+        EXPECT_EQ(lst.front().value, 1);
+
+        // 测试使用值扩大大小时的异常
+        ThrowOnCopy::reset();
+        ThrowOnCopy value(3);
+        ThrowOnCopy::should_throw = true;
+        size_t old_size = lst.size();
+        
+        try 
+        {
+            lst.resize(3, value);  // 尝试用value扩大到3个元素
+            FAIL() << "Expected std::runtime_error";
+        }
+        catch (const std::runtime_error&) 
+        {
+            // 验证链表状态保持不变
+            EXPECT_EQ(lst.size(), old_size);
+            EXPECT_EQ(lst.front().value, 1);
+        }
+
+        // 测试默认构造扩大大小（不应该抛出异常）
+        ThrowOnCopy::reset();
+        lst.resize(3);  // 使用默认构造函数扩大到3个元素
+        EXPECT_EQ(lst.size(), 3);
         auto it = lst.begin();
         EXPECT_EQ(it->value, 1);
         ++it;
-        EXPECT_EQ(it->value, 2);
-    }
-
-    // emplace时的异常安全性
-    ThrowOnCopy::reset();
-    mystl::list<ThrowOnCopy> lst3;
-    lst3.push_back(ThrowOnCopy(1));
-    lst3.push_back(ThrowOnCopy(2));
-
-    ThrowOnCopy::should_throw = true;
-
-    try 
-    {
-        lst3.emplace(lst3.begin(), 3);  // 尝试在开头emplace一个新元素
-        FAIL() << "Expected std::runtime_error";
-    }
-    catch (const std::runtime_error&) 
-    {
-        EXPECT_EQ(lst3.size(), 2);  // 大小应该保持不变
-        auto it = lst3.begin();
-        EXPECT_EQ(it->value, 1);  // 第一个元素应该还是1
+        EXPECT_EQ(it->value, 0);  // 默认构造的值
         ++it;
-        EXPECT_EQ(it->value, 2);  // 第二个元素应该还是2
-    }
-
-    // assign时的异常安全性
-    ThrowOnCopy::reset();
-    mystl::list<ThrowOnCopy> lst2;
-    lst2.push_back(ThrowOnCopy(4));
-    lst2.push_back(ThrowOnCopy(5));
-    
-    ThrowOnCopy::should_throw = true;
-    
-    try 
-    {
-        lst.assign(lst2.begin(), lst2.end());
-        FAIL() << "Expected std::runtime_error";
-    }
-    catch (const std::runtime_error&) 
-    {
-        EXPECT_EQ(lst.size(), 2);
-        auto it = lst.begin();
-        EXPECT_EQ(it->value, 1);
-        ++it;
-        EXPECT_EQ(it->value, 2);
+        EXPECT_EQ(it->value, 0);
     }
 }
 
@@ -380,4 +551,5 @@ TEST(ListTest, EdgeCases)
     lst.push_back(1);
     EXPECT_EQ(lst.size(), 1);
     EXPECT_EQ(lst.front(), 1);
-} 
+}
+

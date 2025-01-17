@@ -75,13 +75,13 @@ namespace mystl
         // 从非const迭代器到const迭代器的隐式转换
         operator list_iterator<const T>() const noexcept
         { 
-            return list_iterator<const T>(get_node());
+            return list_iterator<const T>(static_cast<const node_ptr>(get_node()));
         }
 
         // 返回底层指针 (reverse_iterator 需要使用此函数)
-        pointer base() const noexcept
+        node_ptr base() const noexcept
         {
-            return &(get_node()->data);
+            return get_node();
         }
 
         // 获取当前节点
@@ -172,8 +172,14 @@ namespace mystl
         size_type size_;      // 大小
         node_allocator alloc_;// 节点分配器
 
-        // 将 node_base* 转换为 node_type*
-        node_type* as_node(node_base* ptr) const noexcept
+        // 处理 const node_base* 的版本
+        node_type* as_node(const node_base* ptr) const noexcept
+        {
+            return static_cast<node_type*>(const_cast<node_base*>(ptr));
+        }
+
+        // 处理 node_base* 的版本
+        node_type* as_node(node_base* ptr) noexcept
         {
             return static_cast<node_type*>(ptr);
         }
@@ -287,9 +293,14 @@ namespace mystl
         }
 
         list(list&& other) noexcept
-            : node_(other.node_), size_(other.size_)
+            : node_(other.node_), 
+              size_(other.size_),
+              alloc_(mystl::move(other.alloc_))  // 移动分配器
         {
-            other.node_ = nullptr;
+            // 创建一个空节点给 other
+            other.node_ = other.alloc_.allocate(1);
+            other.node_->next = other.node_;
+            other.node_->prev = other.node_;
             other.size_ = 0;
         }
 
@@ -461,10 +472,19 @@ namespace mystl
         {
             if (this != &other)
             {
+                // 清理当前资源
                 clear();
+                alloc_.deallocate(node_, 1);
+
+                // 移动资源
                 node_ = other.node_;
                 size_ = other.size_;
-                other.node_ = nullptr;
+                alloc_ = mystl::move(other.alloc_);
+
+                // 重置 other
+                other.node_ = other.alloc_.allocate(1);
+                other.node_->next = other.node_;
+                other.node_->prev = other.node_;
                 other.size_ = 0;
             }
             return *this;
@@ -473,19 +493,7 @@ namespace mystl
         void assign(size_type count, const T& value)
         {
             clear();
-            try 
-            {
-                for (size_type i = 0; i < count; ++i)
-                {
-                    node_type* new_node = create_node(value);
-                    link_node_at_back(new_node);
-                }
-            }
-            catch (...)
-            {
-                clear();
-                throw;
-            }
+            insert(begin(), count, value);
         }
 
         template <class InputIt>
@@ -493,37 +501,13 @@ namespace mystl
                    typename enable_if<!is_integral<InputIt>::value>::type* = nullptr)
         {
             clear();
-            try 
-            {
-                for (; first != last; ++first)
-                {
-                    node_type* new_node = create_node(*first);
-                    link_node_at_back(new_node);
-                }
-            }
-            catch (...)
-            {
-                clear();
-                throw;
-            }
+            insert(begin(), first, last);
         }
 
         void assign(std::initializer_list<T> ilist)
         {
             clear();
-            try 
-            {
-                for (const auto& value : ilist)
-                {
-                    node_type* new_node = create_node(value);
-                    link_node_at_back(new_node);
-                }
-            }
-            catch (...)
-            {
-                clear();
-                throw;
-            }
+            insert(begin(), ilist);
         }
 
 
@@ -563,53 +547,53 @@ namespace mystl
             return iterator(p);
         }
 
-        // 在pos之前插入n个元素
-        iterator insert(const_iterator pos, size_type n, const T& value)
+        // 在pos位置插入 n 个值为 value 的元素
+        iterator insert(const_iterator pos, size_type n, const value_type& value)
         {
             if (n == 0)
-                return iterator(pos.get_node());
-            
-            list tmp;  // 创建临时链表
+                return iterator(as_node(pos.node));
+
+            // 先创建一个临时链表存储所有新节点
+            list tmp;
             try 
             {
-                // 先在临时链表中构造所有新节点
                 for (size_type i = 0; i < n; ++i)
                 {
-                    tmp.push_back(value);
+                    tmp.push_back(value);  // 可能抛出异常
                 }
-                // 如果全部构造成功，再将临时链表拼接到指定位置
-                iterator result(pos.get_node());
-                tmp.transfer(tmp.begin(), tmp.end(), pos);
+                // 如果全部创建成功，再一次性插入
+                iterator result = iterator(as_node(pos.node));
+                splice(pos, tmp);
                 return result;
             }
-            catch (...) 
+            catch (...)
             {
-                // tmp 的析构函数会自动清理已构造的节点
+                // tmp 会自动析构，清理所有已创建的节点
                 throw;
             }
         }
 
         // 在pos之前插入[first, last)范围内的元素
         template <class InputIt>
-        iterator insert(const_iterator pos, InputIt first, InputIt last, 
+        iterator insert(const_iterator pos, InputIt first, InputIt last,
                         typename enable_if<!is_integral<InputIt>::value>::type* = nullptr)
         {
-            list tmp;  // 创建临时链表
+            // 先创建一个临时链表存储所有新节点
+            list tmp;
             try 
             {
-                // 先在临时链表中构造所有新节点
                 for (; first != last; ++first)
                 {
-                    tmp.push_back(*first);
+                    tmp.push_back(*first);  // 可能抛出异常
                 }
-                // 如果全部构造成功，再将临时链表拼接到指定位置
-                iterator result(pos.get_node());
-                tmp.transfer(tmp.begin(), tmp.end(), pos);
+                // 如果全部创建成功，再一次性插入
+                iterator result = iterator(as_node(pos.node));
+                splice(pos, tmp);
                 return result;
             }
-            catch (...) 
+            catch (...)
             {
-                // tmp 的析构函数会自动清理已构造的节点
+                // tmp 会自动析构，清理所有已创建的节点
                 throw;
             }
         }
@@ -625,14 +609,16 @@ namespace mystl
         template <class... Args>
         iterator emplace(const_iterator pos, Args&&... args)
         {
-            // 创建一个临时节点
             node_type* new_node = nullptr;
             try 
             {
-                // 先创建并构造新节点
-                new_node = create_node(mystl::forward<Args>(args)...);
+                // 先分配内存
+                new_node = alloc_.allocate(1);
                 
-                // 如果节点创建成功，将其插入到链表中
+                // 在已分配的内存上构造对象，这里可能会抛出异常
+                mystl::construct(&new_node->data, mystl::forward<Args>(args)...);
+                
+                // 如果构造成功，再进行指针操作
                 new_node->next = pos.node;
                 new_node->prev = pos.node->prev;
                 pos.node->prev->next = new_node;
@@ -641,14 +627,14 @@ namespace mystl
                 
                 return iterator(new_node);
             }
-            catch (...) 
+            catch (...)
             {
-                // 如果发生异常，清理已分配的资源
+                // 如果发生异常，清理已分配的内存
                 if (new_node)
                 {
-                    destroy_node(new_node);
+                    alloc_.deallocate(new_node, 1);
                 }
-                throw;
+                throw;  // 重新抛出异常
             }
         }
 
@@ -761,30 +747,46 @@ namespace mystl
         template <class Compare>
         void merge(list& other, Compare comp)
         {
-            if (this != &other) 
+            if (this != &other)
             {
                 iterator first1 = begin();
                 iterator last1 = end();
                 iterator first2 = other.begin();
                 iterator last2 = other.end();
 
-                while (first1 != last1 && first2 != last2) 
+                while (first1 != last1 && first2 != last2)
                 {
-                    if (comp(*first2, *first1)) 
+                    if (comp(*first2, *first1))  // 使用比较器
                     {
                         iterator next = first2;
-                        transfer(first1, first2, ++next);
+                        ++next;
+                        // 移动一个节点
+                        node_base* tmp = first2.node;
+                        // 从other中断开
+                        tmp->prev->next = tmp->next;
+                        tmp->next->prev = tmp->prev;
+                        // 插入到当前位置
+                        node_base* pos = first1.node;
+                        tmp->next = pos;
+                        tmp->prev = pos->prev;
+                        pos->prev->next = tmp;
+                        pos->prev = tmp;
+                        
                         first2 = next;
+                        ++size_;
+                        --other.size_;
                     }
                     else
+                    {
                         ++first1;
+                    }
                 }
 
+                // 如果other还有剩余节点，全部接到末尾
                 if (first2 != last2)
-                    transfer(last1, first2, last2);
-
-                size_ += other.size_;
-                other.size_ = 0;
+                {
+                    splice(end(), other);
+                }
             }
         }
 
@@ -793,19 +795,30 @@ namespace mystl
             merge(other, mystl::less<T>());
         }
 
-
         // 反转链表
         void reverse() noexcept
         {
-            if (size_ <= 1) return;
-            iterator first = begin();
-            ++first;
-            while (first != end()) 
+            if (size_ <= 1)
+                return;
+
+            // 从第一个节点开始，依次反转指针
+            node_base* curr = node_->next;
+            node_base* temp = node_;  // 保存头节点
+            
+            while (curr != node_)
             {
-                iterator old = first;
-                ++first;
-                transfer(begin(), old, first);
+                node_base* next = curr->next;
+                // 交换前后指针
+                curr->next = temp;
+                curr->prev = next;
+                // 移动到下一个节点
+                temp = curr;
+                curr = next;
             }
+
+            // 更新头节点的指针
+            node_->next = temp;
+            node_->prev = curr->prev;
         }
 
         
@@ -858,27 +871,29 @@ namespace mystl
         
         // 排序
         template <class Compare>
-        void sort(Compare comp) 
+        void sort(Compare comp)
         {
-            if (size_ <= 1) return;
-            list carry;
-            list counter[64];
-            int fill = 0;
-            while (!empty()) 
-            {
-                carry.splice(carry.begin(), *this, begin());
-                int i = 0;
-                while (i < fill && !counter[i].empty()) 
-                {
-                    counter[i].merge(carry, comp);
-                    carry.swap(counter[i++]);
-                }
-                carry.swap(counter[i]);
-                if (i == fill) ++fill;
-            }
-            for (int i = 1; i < fill; ++i)
-                counter[i].merge(counter[i-1], comp);
-            swap(counter[fill-1]);
+            if (size_ <= 1)
+                return;
+
+            // 将链表分成两半
+            list left;
+            list right;
+            iterator mid = begin();
+            for (size_type i = 0; i < size_ / 2; ++i)
+                ++mid;
+
+            // 分割链表
+            left.splice(left.begin(), *this, begin(), mid);
+            right.splice(right.begin(), *this);
+
+            // 递归排序
+            left.sort(comp);
+            right.sort(comp);
+
+            // 合并有序链表
+            merge(left, comp);
+            merge(right, comp);
         }
 
         void sort() 
@@ -887,37 +902,81 @@ namespace mystl
         }
 
 
-        // 拼接
-        void splice(const_iterator pos, list& other) 
+        // 将整个链表移动
+        void splice(const_iterator pos, list& other)
         {
-            if (!other.empty()) 
+            if (this != &other && !other.empty())
             {
-                transfer(pos, other.begin(), other.end());
                 size_ += other.size_;
+                node_base* first = other.node_->next;
+                node_base* last = other.node_->prev;
+                
+                other.node_->next = other.node_;
+                other.node_->prev = other.node_;
                 other.size_ = 0;
+
+                node_base* pos_prev = pos.node->prev;
+                first->prev = pos_prev;
+                pos_prev->next = first;
+                last->next = pos.node;
+                pos.node->prev = last;
             }
         }
 
-        void splice(const_iterator pos, list& other, const_iterator it) 
+        // 移动单个节点
+        void splice(const_iterator pos, list& other, const_iterator it)
         {
-            const_iterator next = it;
-            ++next;
-            if (pos != it && pos != next) 
+            if (pos != it && (this != &other || pos != ++const_iterator(it)))
             {
-                transfer(pos, it, next);
-                ++size_;
+                node_base* node = it.node;
+                node->prev->next = node->next;
+                node->next->prev = node->prev;
                 --other.size_;
+
+                node_base* pos_prev = pos.node->prev;
+                node->prev = pos_prev;
+                node->next = pos.node;
+                pos_prev->next = node;
+                pos.node->prev = node;
+                ++size_;
             }
         }
 
-        void splice(const_iterator pos, list& other, const_iterator first, const_iterator last) 
+        // 移动范围
+        void splice(const_iterator pos, list& other, const_iterator first, const_iterator last)
         {
-            if (first != last) 
+            if (first == last || (this == &other && pos == last))
+                return;
+
+            // 计算节点数量
+            size_type n = 0;
+            const_iterator it = first;
+            while (it != last)
             {
-                size_ += mystl::distance(first, last);
-                other.size_ -= mystl::distance(first, last);
-                transfer(pos, first, last);
+                ++n;
+                ++it;
             }
+
+            // 从源链表断开
+            node_base* begin = first.node;
+            node_base* end = last.node;
+            node_base* before_first = begin->prev;
+            node_base* last_node = end->prev;
+
+            // 更新源链表的连接
+            before_first->next = end;
+            end->prev = before_first;
+            other.size_ -= n;
+
+            // 插入到目标位置
+            node_base* pos_prev = pos.node->prev;
+
+            // 更新目标链表的连接
+            begin->prev = pos_prev;
+            pos_prev->next = begin;
+            last_node->next = pos.node;
+            pos.node->prev = last_node;
+            size_ += n;
         }
 
 
