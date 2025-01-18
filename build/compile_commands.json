@@ -64,5 +64,11 @@
   "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\deque_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\deque_test.cpp",
   "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/deque_test.cpp",
   "output": "test/CMakeFiles/mystl_test.dir/deque_test.cpp.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\queue_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\queue_test.cpp",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/queue_test.cpp",
+  "output": "test/CMakeFiles/mystl_test.dir/queue_test.cpp.obj"
 }
 ]

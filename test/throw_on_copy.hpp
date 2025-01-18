@@ -41,6 +41,11 @@ public:
     {
         return value == other.value;
     }
+
+    bool operator<(const ThrowOnCopy& other) const 
+    {
+        return value < other.value;
+    }
     
     static void reset() 
     {

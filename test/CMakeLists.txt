@@ -7,6 +7,7 @@ add_executable(mystl_test
     algorithm_base_test.cpp
     list_test.cpp
     deque_test.cpp
+    queue_test.cpp
 )
 
 # 链接 Google Test 和我们的库
