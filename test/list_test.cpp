@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "mystl/list.hpp"
+#include "throw_on_copy.hpp"
 #include <stdexcept>
-
 
 // 构造函数测试
 TEST(ListTest, Constructor) 
@@ -291,58 +291,6 @@ TEST(ListTest, Operations)
         EXPECT_EQ(lst, expected);
     }
 }
-
-
-// 用于测试异常安全的类
-class ThrowOnCopy 
-{
-public:
-    static bool should_throw;
-    static int copy_count;
-    int value;
-    
-    ThrowOnCopy(int v = 0) noexcept : value(v) {}
-    
-    ThrowOnCopy(const ThrowOnCopy& other) 
-    {
-        if (should_throw) 
-            throw std::runtime_error("Copy failed");
-        value = other.value;
-        ++copy_count;
-    }
-
-    ThrowOnCopy& operator=(const ThrowOnCopy& other)
-    {
-        if (should_throw)
-            throw std::runtime_error("Copy failed");
-        value = other.value;
-        ++copy_count;
-        return *this;
-    }
-
-    ThrowOnCopy(ThrowOnCopy&& other) noexcept
-        : value(other.value) {}
-
-    ThrowOnCopy& operator=(ThrowOnCopy&& other) noexcept
-    {
-        value = other.value;
-        return *this;
-    }
-    
-    bool operator==(const ThrowOnCopy& other) const 
-    {
-        return value == other.value;
-    }
-    
-    static void reset() 
-    {
-        should_throw = false;
-        copy_count = 0;
-    }
-};
-
-bool ThrowOnCopy::should_throw = false;
-int ThrowOnCopy::copy_count = 0;
 
 // 异常安全性测试
 TEST(ListTest, ExceptionSafety) 

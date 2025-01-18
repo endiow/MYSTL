@@ -274,4 +274,5 @@ test/CMakeFiles/mystl_test.dir/list_test.cpp.obj: \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/numeric.hpp \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/functional.hpp \
  C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/construct.hpp \
- C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp
+ C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/include/mystl/memory.hpp \
+ C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\throw_on_copy.hpp

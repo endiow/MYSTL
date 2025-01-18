@@ -7,7 +7,6 @@
 #include "iterator.hpp"
 #include "uninitialized.hpp"    
 #include "algorithm.hpp"
-#include "vector.hpp"
 
 namespace mystl 
 {
@@ -964,16 +963,21 @@ namespace mystl
         {
             if (empty()) return;
             
-            --finish_.cur;
-            mystl::destroy_at(finish_.cur);
+            // 销毁最后一个元素
+            mystl::destroy_at(finish_.cur-1);
             
-            // 如果当前缓冲区为空，需要释放
-            if (finish_.cur == finish_.first) 
+            // 如果当前缓冲区为空，需要释放它
+            if (finish_.cur == finish_.first)
             {
+                // 释放缓冲区
                 alloc_.deallocate(finish_.first, buffer_size());
+                // 移动到前一个缓冲区
                 finish_.set_node(finish_.node - 1);
                 finish_.cur = finish_.last;
             }
+            
+            // 这里需要先判断是否为空，再--finish_.cur
+            --finish_.cur;
         }
 
         // 删除头部元素
@@ -982,6 +986,7 @@ namespace mystl
             if (empty()) return;
             
             mystl::destroy_at(start_.cur);
+            //这里需要先++start_.cur，再判断是否为空
             ++start_.cur;
             
             // 如果当前缓冲区为空，需要释放
@@ -990,148 +995,63 @@ namespace mystl
                 alloc_.deallocate(start_.first, buffer_size());
                 start_.set_node(start_.node + 1);
                 start_.cur = start_.first;
-            }
+            } 
         }
         
 
+        // 删除pos位置的元素
         iterator erase(iterator pos)
         {
-            iterator next = pos + 1;
-            const size_type elems_before = pos - start_;
+            iterator next = pos;
+            ++next;
             
-            if (elems_before < size() / 2)
+            difference_type elems_after = end() - next;
+            if (elems_after > 0)
             {
-                // 先保存要删除的元素
-                value_type tmp = mystl::move(*pos);
-                
-                try 
+                // 如果不是最后一个元素，需要逐个移动后面的元素
+                for (iterator curr = pos; curr != end() - 1; ++curr)
                 {
-                    // 移动元素
-                    mystl::copy_backward(start_, pos, next);
-                }
-                catch (...) 
-                {
-                    // 如果移动失败，恢复被删除的元素
-                    mystl::construct(pos.cur, mystl::move(tmp));
-                    throw;
-                }
-                
-                // 销毁临时元素
-                mystl::destroy_at(mystl::addressof(tmp));
-                
-                // 所有操作成功后才更新迭代器
-                ++start_.cur;
-                if (start_.cur == start_.last) 
-                {
-                    alloc_.deallocate(start_.first, buffer_size());
-                    start_.set_node(start_.node + 1);
-                    start_.cur = start_.first;
-                }
-            }
-            else
-            {
-                // 先保存要删除的元素
-                value_type tmp = mystl::move(*pos);
-                
-                try 
-                {
-                    // 移动元素
-                    mystl::copy(next, finish_, pos);
-                }
-                catch (...) 
-                {
-                    // 如果移动失败，恢复被删除的元素
-                    mystl::construct(pos.cur, mystl::move(tmp));
-                    throw;
-                }
-                
-                // 销毁临时元素
-                mystl::destroy_at(mystl::addressof(tmp));
-                
-                // 所有操作成功后才更新迭代器
-                --finish_.cur;
-                if (finish_.cur == finish_.first) 
-                {
-                    alloc_.deallocate(finish_.first, buffer_size());
-                    finish_.set_node(finish_.node - 1);
-                    finish_.cur = finish_.last;
+                    *curr = mystl::move(*(curr + 1));
                 }
             }
             
-            return start_ + elems_before;
+            // 销毁最后一个元素
+            mystl::destroy_at(finish_.cur - 1);
+            --finish_;
+            
+            return next == end() ? end() : pos;  // 如果删除的是最后一个元素，返回end()，否则返回pos
         }
 
-        // 添加范围删除
+        // 删除[first, last)范围内的元素
         iterator erase(iterator first, iterator last)
         {
             if (first == last)
                 return first;
-        
-            const size_type elems_before = first - start_;
-            const size_type n = last - first;
-        
-            if (elems_before < (size() - n) / 2)
+
+            // 计算要移动的元素个数和要删除的元素个数
+            difference_type elems_after = end() - last;
+            difference_type n = last - first;
+            iterator new_finish = first + elems_after;
+            
+            if (elems_after > 0)
             {
-                // 先保存要删除的元素
-                mystl::vector<value_type> tmp(first - n, first);
-        
-                try 
+                // 如果last后还有元素，需要逐个移动它们
+                for (iterator curr = first; curr != first + elems_after; ++curr)
                 {
-                    // 移动前面的元素
-                    mystl::copy_backward(start_, first, last);
-                }
-                catch (...) 
-                {
-                    // 如果移动失败，恢复被删除的元素
-                    mystl::uninitialized_copy(tmp.begin(), tmp.end(), first - n);
-                    throw;
-                }
-        
-                // 销毁前面的元素
-                for (auto it = start_; it != start_ + n; ++it)
-                    mystl::destroy_at(it.cur);
-        
-                // 所有操作成功后才更新迭代器
-                start_ = start_ + n;
-                if (start_.cur == start_.last)
-                {
-                    alloc_.deallocate(start_.first, buffer_size());
-                    start_.set_node(start_.node + 1);
-                    start_.cur = start_.first;
+                    *curr = mystl::move(*(curr + n));
                 }
             }
-            else
+            
+            // 销毁多余元素
+            for (iterator it = new_finish; it != end(); ++it)
             {
-                // 先保存要删除的元素
-                mystl::vector<value_type> tmp(last, last + n);
-        
-                try 
-                {
-                    // 移动后面的元素
-                    mystl::copy(last, finish_, first);
-                }
-                catch (...) 
-                {
-                    // 如果移动失败，恢复被删除的元素
-                    mystl::uninitialized_copy(tmp.begin(), tmp.end(), last);
-                    throw;
-                }
-        
-                // 销毁后面的元素
-                for (auto it = finish_ - n; it != finish_; ++it)
-                    mystl::destroy_at(it.cur);
-        
-                // 所有操作成功后才更新迭代器
-                finish_ = finish_ - n;
-                if (finish_.cur == finish_.first)
-                {
-                    alloc_.deallocate(finish_.first, buffer_size());
-                    finish_.set_node(finish_.node - 1);
-                    finish_.cur = finish_.last;
-                }
+                mystl::destroy_at(it.cur);
             }
-        
-            return start_ + elems_before;
+            
+            // 更新finish_位置
+            finish_ = new_finish;
+            
+            return first;  // 返回被删除范围的起始位置
         }
 
         
@@ -1579,3 +1499,4 @@ namespace mystl
     }
 
 } // namespace mystl 
+
