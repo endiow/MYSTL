@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/mystl_test.dir/list_test.cpp.obj.d"
   "CMakeFiles/mystl_test.dir/queue_test.cpp.obj"
   "CMakeFiles/mystl_test.dir/queue_test.cpp.obj.d"
+  "CMakeFiles/mystl_test.dir/rb_tree_test.cpp.obj"
+  "CMakeFiles/mystl_test.dir/rb_tree_test.cpp.obj.d"
   "CMakeFiles/mystl_test.dir/vector_test.cpp.obj"
   "CMakeFiles/mystl_test.dir/vector_test.cpp.obj.d"
   "mystl_test[1]_tests.cmake"

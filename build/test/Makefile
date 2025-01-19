@@ -352,6 +352,30 @@ queue_test.cpp.s:
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/queue_test.cpp.s
 .PHONY : queue_test.cpp.s
 
+rb_tree_test.obj: rb_tree_test.cpp.obj
+.PHONY : rb_tree_test.obj
+
+# target to build an object file
+rb_tree_test.cpp.obj:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/rb_tree_test.cpp.obj
+.PHONY : rb_tree_test.cpp.obj
+
+rb_tree_test.i: rb_tree_test.cpp.i
+.PHONY : rb_tree_test.i
+
+# target to preprocess a source file
+rb_tree_test.cpp.i:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/rb_tree_test.cpp.i
+.PHONY : rb_tree_test.cpp.i
+
+rb_tree_test.s: rb_tree_test.cpp.s
+.PHONY : rb_tree_test.s
+
+# target to generate assembly for a file
+rb_tree_test.cpp.s:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/rb_tree_test.cpp.s
+.PHONY : rb_tree_test.cpp.s
+
 vector_test.obj: vector_test.cpp.obj
 .PHONY : vector_test.obj
 
@@ -411,6 +435,9 @@ help:
 	@echo ... queue_test.obj
 	@echo ... queue_test.i
 	@echo ... queue_test.s
+	@echo ... rb_tree_test.obj
+	@echo ... rb_tree_test.i
+	@echo ... rb_tree_test.s
 	@echo ... vector_test.obj
 	@echo ... vector_test.i
 	@echo ... vector_test.s

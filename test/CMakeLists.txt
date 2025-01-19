@@ -8,6 +8,7 @@ add_executable(mystl_test
     list_test.cpp
     deque_test.cpp
     queue_test.cpp
+    rb_tree_test.cpp
 )
 
 # 链接 Google Test 和我们的库
