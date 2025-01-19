@@ -44,7 +44,12 @@ namespace mystl
         bool operator>=(const queue& rhs) const { return c >= rhs.c; }
     };
 
+
+    
+
+    //---------------------------------------------------------------------------------------------
     // 优先队列
+    //--------------------------------------------------------------------------------------------- 
     template <class T, class Container = mystl::deque<T>, 
             class Compare = mystl::less<typename Container::value_type>>
     class priority_queue 
