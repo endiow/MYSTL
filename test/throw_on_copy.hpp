@@ -52,4 +52,16 @@ public:
         should_throw = false;
         copy_count = 0;
     }
-}; 
+};
+
+namespace mystl 
+{
+    template <>
+    struct hash<ThrowOnCopy>
+    {
+        size_t operator()(const ThrowOnCopy& x) const 
+        { 
+            return hash<int>()(x.value); 
+        }
+    };
+} 

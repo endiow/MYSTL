@@ -280,6 +280,30 @@ deque_test.cpp.s:
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/deque_test.cpp.s
 .PHONY : deque_test.cpp.s
 
+hashtable_test.obj: hashtable_test.cpp.obj
+.PHONY : hashtable_test.obj
+
+# target to build an object file
+hashtable_test.cpp.obj:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/hashtable_test.cpp.obj
+.PHONY : hashtable_test.cpp.obj
+
+hashtable_test.i: hashtable_test.cpp.i
+.PHONY : hashtable_test.i
+
+# target to preprocess a source file
+hashtable_test.cpp.i:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/hashtable_test.cpp.i
+.PHONY : hashtable_test.cpp.i
+
+hashtable_test.s: hashtable_test.cpp.s
+.PHONY : hashtable_test.s
+
+# target to generate assembly for a file
+hashtable_test.cpp.s:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/hashtable_test.cpp.s
+.PHONY : hashtable_test.cpp.s
+
 iterator_test.obj: iterator_test.cpp.obj
 .PHONY : iterator_test.obj
 
@@ -426,6 +450,9 @@ help:
 	@echo ... deque_test.obj
 	@echo ... deque_test.i
 	@echo ... deque_test.s
+	@echo ... hashtable_test.obj
+	@echo ... hashtable_test.i
+	@echo ... hashtable_test.s
 	@echo ... iterator_test.obj
 	@echo ... iterator_test.i
 	@echo ... iterator_test.s

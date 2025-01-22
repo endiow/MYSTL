@@ -231,4 +231,26 @@ namespace mystl
         Arg2 operator()(const Arg1&, const Arg2& y) const { return y; }
     };
 
+    // 添加基础类型的哈希函数
+    template <class Key>
+    struct hash {};
+
+    template <>
+    struct hash<int>
+    {
+        size_t operator()(int x) const { return x; }
+    };
+
+    template <>
+    struct hash<long>
+    {
+        size_t operator()(long x) const { return x; }
+    };
+
+    template <>
+    struct hash<size_t>
+    {
+        size_t operator()(size_t x) const { return x; }
+    };
+
 } // namespace mystl

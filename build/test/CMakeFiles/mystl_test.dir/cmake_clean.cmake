@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/mystl_test.dir/allocator_test.cpp.obj.d"
   "CMakeFiles/mystl_test.dir/deque_test.cpp.obj"
   "CMakeFiles/mystl_test.dir/deque_test.cpp.obj.d"
+  "CMakeFiles/mystl_test.dir/hashtable_test.cpp.obj"
+  "CMakeFiles/mystl_test.dir/hashtable_test.cpp.obj.d"
   "CMakeFiles/mystl_test.dir/iterator_test.cpp.obj"
   "CMakeFiles/mystl_test.dir/iterator_test.cpp.obj.d"
   "CMakeFiles/mystl_test.dir/list_test.cpp.obj"
