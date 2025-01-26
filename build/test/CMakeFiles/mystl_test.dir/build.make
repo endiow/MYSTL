@@ -218,6 +218,21 @@ test/CMakeFiles/mystl_test.dir/hashtable_test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mystl_test.dir/hashtable_test.cpp.s"
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\test && C:\software\msys2\MSYS\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\hashtable_test.cpp -o CMakeFiles\mystl_test.dir\hashtable_test.cpp.s
 
+test/CMakeFiles/mystl_test.dir/string_test.cpp.obj: test/CMakeFiles/mystl_test.dir/flags.make
+test/CMakeFiles/mystl_test.dir/string_test.cpp.obj: test/CMakeFiles/mystl_test.dir/includes_CXX.rsp
+test/CMakeFiles/mystl_test.dir/string_test.cpp.obj: C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/string_test.cpp
+test/CMakeFiles/mystl_test.dir/string_test.cpp.obj: test/CMakeFiles/mystl_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object test/CMakeFiles/mystl_test.dir/string_test.cpp.obj"
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\test && C:\software\msys2\MSYS\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/mystl_test.dir/string_test.cpp.obj -MF CMakeFiles\mystl_test.dir\string_test.cpp.obj.d -o CMakeFiles\mystl_test.dir\string_test.cpp.obj -c C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\string_test.cpp
+
+test/CMakeFiles/mystl_test.dir/string_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mystl_test.dir/string_test.cpp.i"
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\test && C:\software\msys2\MSYS\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\string_test.cpp > CMakeFiles\mystl_test.dir\string_test.cpp.i
+
+test/CMakeFiles/mystl_test.dir/string_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mystl_test.dir/string_test.cpp.s"
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\test && C:\software\msys2\MSYS\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\test\string_test.cpp -o CMakeFiles\mystl_test.dir\string_test.cpp.s
+
 # Object files for target mystl_test
 mystl_test_OBJECTS = \
 "CMakeFiles/mystl_test.dir/vector_test.cpp.obj" \
@@ -229,7 +244,8 @@ mystl_test_OBJECTS = \
 "CMakeFiles/mystl_test.dir/deque_test.cpp.obj" \
 "CMakeFiles/mystl_test.dir/queue_test.cpp.obj" \
 "CMakeFiles/mystl_test.dir/rb_tree_test.cpp.obj" \
-"CMakeFiles/mystl_test.dir/hashtable_test.cpp.obj"
+"CMakeFiles/mystl_test.dir/hashtable_test.cpp.obj" \
+"CMakeFiles/mystl_test.dir/string_test.cpp.obj"
 
 # External object files for target mystl_test
 mystl_test_EXTERNAL_OBJECTS =
@@ -244,13 +260,14 @@ bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/deque_test.cpp.obj
 bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/queue_test.cpp.obj
 bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/rb_tree_test.cpp.obj
 bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/hashtable_test.cpp.obj
+bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/string_test.cpp.obj
 bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/build.make
 bin/mystl_test.exe: lib/libgtest_main.a
 bin/mystl_test.exe: lib/libgtest.a
 bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/linkLibs.rsp
 bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/objects1.rsp
 bin/mystl_test.exe: test/CMakeFiles/mystl_test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable ..\bin\mystl_test.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable ..\bin\mystl_test.exe"
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\mystl_test.dir\link.txt --verbose=$(VERBOSE)
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build\test && C:\software\CMake\ccmake\bin\cmake.exe -D TEST_TARGET=mystl_test -D TEST_EXECUTABLE=C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/bin/mystl_test.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=mystl_test_TESTS -D CTEST_FILE=C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test/mystl_test[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P C:/software/CMake/ccmake/share/cmake-3.30/Modules/GoogleTestAddTests.cmake
 

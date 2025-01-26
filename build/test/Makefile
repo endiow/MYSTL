@@ -400,6 +400,30 @@ rb_tree_test.cpp.s:
 	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/rb_tree_test.cpp.s
 .PHONY : rb_tree_test.cpp.s
 
+string_test.obj: string_test.cpp.obj
+.PHONY : string_test.obj
+
+# target to build an object file
+string_test.cpp.obj:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/string_test.cpp.obj
+.PHONY : string_test.cpp.obj
+
+string_test.i: string_test.cpp.i
+.PHONY : string_test.i
+
+# target to preprocess a source file
+string_test.cpp.i:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/string_test.cpp.i
+.PHONY : string_test.cpp.i
+
+string_test.s: string_test.cpp.s
+.PHONY : string_test.s
+
+# target to generate assembly for a file
+string_test.cpp.s:
+	cd /d C:\Users\IMikoto\Documents\vscode_files\c++\MYSTL\build && $(MAKE) $(MAKESILENT) -f test\CMakeFiles\mystl_test.dir\build.make test/CMakeFiles/mystl_test.dir/string_test.cpp.s
+.PHONY : string_test.cpp.s
+
 vector_test.obj: vector_test.cpp.obj
 .PHONY : vector_test.obj
 
@@ -465,6 +489,9 @@ help:
 	@echo ... rb_tree_test.obj
 	@echo ... rb_tree_test.i
 	@echo ... rb_tree_test.s
+	@echo ... string_test.obj
+	@echo ... string_test.i
+	@echo ... string_test.s
 	@echo ... vector_test.obj
 	@echo ... vector_test.i
 	@echo ... vector_test.s

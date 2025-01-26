@@ -10,6 +10,7 @@ add_executable(mystl_test
     queue_test.cpp
     rb_tree_test.cpp
     hashtable_test.cpp
+    string_test.cpp
 )
 
 # 链接 Google Test 和我们的库

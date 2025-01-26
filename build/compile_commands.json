@@ -82,5 +82,11 @@
   "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\hashtable_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\hashtable_test.cpp",
   "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/hashtable_test.cpp",
   "output": "test/CMakeFiles/mystl_test.dir/hashtable_test.cpp.obj"
+},
+{
+  "directory": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/build/test",
+  "command": "C:\\software\\msys2\\MSYS\\ucrt64\\bin\\g++.exe  @CMakeFiles/mystl_test.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\mystl_test.dir\\string_test.cpp.obj -c C:\\Users\\IMikoto\\Documents\\vscode_files\\c++\\MYSTL\\test\\string_test.cpp",
+  "file": "C:/Users/IMikoto/Documents/vscode_files/c++/MYSTL/test/string_test.cpp",
+  "output": "test/CMakeFiles/mystl_test.dir/string_test.cpp.obj"
 }
 ]
